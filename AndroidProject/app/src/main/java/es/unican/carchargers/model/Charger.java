@@ -11,7 +11,7 @@ import org.parceler.Parcel;
  * Currently it only includes a sub-set of the complete model returned by OpenChargeMap
  */
 @Parcel
-public class Charger {
+public class Charger implements Comparable<Charger> {
     
     @SerializedName("ID")                   public String id;
     @SerializedName("NumberOfPoints")       public int numberOfPoints;
@@ -22,6 +22,10 @@ public class Charger {
     public Charger() {
         this.operator = new Operator();
         this.address = new Address();
+    }
+    @Override
+    public int compareTo(Charger other) {
+        return this.address.title.compareTo(other.address.title);
     }
 
 }

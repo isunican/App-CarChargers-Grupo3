@@ -2,5 +2,30 @@
     <string name="app_name">Car Chargers</string>
     <string name="info">Info</string>
     <string name="title_activity_info">InfoActivity</string>
-    <string name="info_text">Aplicación creada para el Proyecto Integrado Curso 2023-2024</string>
+    <string name="info_text"> "\nBienvenido a la aplicación CarChargers!\n"
+                "\n"
+                "Esta aplicación te permite explorar estaciones de carga para vehículos eléctricos en tu área y obtener información importante sobre ellas. A continuación, te explicamos cómo utilizar esta aplicación:\n"
+                "\n"
+                "1. Búsqueda de estaciones de carga:\n"
+                "   - Utiliza la barra de búsqueda en la página principal para buscar estaciones de carga cercanas.\n"
+                "   - Puedes buscar por dirección, ciudad, provincia o cualquier otro criterio relevante.\n"
+                "   - La aplicación te mostrará una lista de estaciones de carga que coincidan con tu búsqueda.\n"
+                "\n"
+                "2. Detalles de la estación de carga:\n"
+                "   - Toca una estación de carga en la lista para ver detalles más específicos.\n"
+                "   - Obtendrás información sobre la ubicación, el operador, el número de puntos de conexión y el precio por carga (si está disponible).\n"
+                "\n"
+                "3. Mapa interactivo:\n"
+                "   - Puedes ver la ubicación exacta de la estación de carga en un mapa interactivo.\n"
+                "   - Esto te ayudará a navegar fácilmente hasta la estación si decides cargar tu vehículo allí.\n"
+                "\n"
+                "4. Más información:\n"
+                "   - Si deseas obtener más información sobre el operador de la estación de carga, puedes visitar su página web desde la aplicación.\n"
+                "\n"
+                "¡Disfruta de tu experiencia de carga de vehículos eléctricos con CarChargers! Si tienes alguna pregunta o comentario, no dudes en contactarnos.\n"
+                "\n"
+                "Creado por Mario Herrero, Luis Álvarez, Yago Nava, Diego Montes, Jorge Garrido y Valvanuz García.\n"
+                "\n"
+                "Gracias por usar nuestra aplicación."
+</string>
 </resources>
