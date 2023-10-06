@@ -1,6 +1,7 @@
 package es.unican.carchargers.activities.main;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -33,6 +35,7 @@ import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.info.InfoActivity;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
+import pl.droidsonroids.gif.GifImageView;
 
 @AndroidEntryPoint
 public class MainView extends AppCompatActivity implements IMainContract.View {
@@ -42,6 +45,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     /** presenter that controls this view */
     IMainContract.Presenter presenter;
+
+    GifImageView loading;
+
+    ImageView logo;
 
     //adaptador de la lista de cargadores
     private ChargersArrayAdapter adapterChargers;
@@ -60,10 +67,17 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         presenter = new MainPresenter();
         presenter.init(this);
 
+        loading = findViewById(R.id.imgLoading);
+        loading.setVisibility(View.VISIBLE);
+
+        logo = findViewById(R.id.imgLogo);
+        logo.setVisibility(View.INVISIBLE);
+
+
         spinner = findViewById(R.id.spnSort);
         spinner.setVisibility(View.INVISIBLE);
         // Define la lista de valores
-         valores = new ArrayList<>(Arrays.asList("Ordena por:","Localizacion A-Z ↑", "Localizacion Z-A ↓","Empresa A-Z ↑", "Empresa Z-A ↓"));
+        valores = new ArrayList<>(Arrays.asList("Ordena por:","Localizacion A-Z ↑", "Localizacion Z-A ↓","Empresa A-Z ↑", "Empresa Z-A ↓"));
 
 
         // Configura el adaptador para el Spinner
@@ -172,6 +186,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         ListView listView = findViewById(R.id.lvChargers);
         listView.setAdapter(adapterChargers);
         spinner.setVisibility(View.VISIBLE);
+        logo.setVisibility(View.VISIBLE);
+        loading.setVisibility(View.INVISIBLE);
 
     }
 

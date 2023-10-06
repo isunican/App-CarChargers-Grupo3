@@ -1,7 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.CarChargers" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.CarChargers" parent="Theme.Material3.DayNight">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#8CC63F</item>
+        <item name="colorPrimaryDark">#8CC63F</item>
+        <item name="colorAccent">#FF9800</item>
+
     </style>
 </resources>

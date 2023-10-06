@@ -2,9 +2,9 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.CarChargers" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">#8CC63F</item>
+        <item name="colorPrimaryDark">#8CC63F</item>
+        <item name="colorAccent">#FF9800</item>
 
     </style>
 
