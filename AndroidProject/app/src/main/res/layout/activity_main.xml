@@ -50,6 +50,34 @@
                 android:textAlignment="viewEnd"
                 app:srcCompat="@drawable/open_charge_map" />
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvInfoUbi"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="bottom|center_horizontal"
+                    android:onClick="pulsaUbicacion"
+                    android:text="Ubicación"
+                    android:textColor="#8BC34A" />
+
+                <TextView
+                    android:id="@+id/tvUbi"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:gravity="center_horizontal|top"
+                    android:onClick="pulsaUbicacion"
+                    android:text="no disponible"
+                    android:textColor="#8BC34A"
+                    tools:text="0.0\n0.0" />
+            </LinearLayout>
+
             <Spinner
                 android:id="@+id/spnSort"
                 android:layout_width="0dp"
