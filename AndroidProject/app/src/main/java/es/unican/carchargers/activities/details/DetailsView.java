@@ -28,8 +28,6 @@ import es.unican.carchargers.model.Charger;
 public class DetailsView extends AppCompatActivity  {
 
     public static final String INTENT_CHARGER = "INTENT_CHARGER";
-    public static final String INTENT_USER_LAT = "INTENT_USER_LAT";
-    public static final String INTENT_USER_LON = "INTENT_USER_LON";
 
     double lat, lon;
 
@@ -50,44 +48,6 @@ public class DetailsView extends AppCompatActivity  {
         //Web que muestra el mapa
         WebView webview = findViewById(R.id.web);
         webview.getSettings().setJavaScriptEnabled(true);
-
-
-
-        double userLat = getIntent().getDoubleExtra(INTENT_USER_LAT, 0.0);
-        double userLon = getIntent().getDoubleExtra(INTENT_USER_LON, 0.0);
-
-        if (INTENT_CHARGER == "null"){
-            Toast.makeText(DetailsView.this, "Es user!!!!", Toast.LENGTH_SHORT).show();
-
-            if (userLat != 0.0 || userLon != 0.0){
-
-                // Mostrar el mapa de ubicación en el WebView usando userLat y userLon
-
-                tvDireccion.setText("Usuario");
-                tvTitle.setText("Usted se encuentra aquí");
-                tvInfo.setText("");
-                tvId.setText("");
-                tvId.setText("");
-                ivLogo.setImageResource(R.drawable.user);
-                tvWeb.setText("https://moodle.unican.es/");
-
-
-
-
-                String html1 = "https://maps.google.com/maps?q=";
-                String coma = ",";
-                String html2 = "&hl=es&z=14&amp;output=embed";
-                String web = "<iframe src=\"" + html1 + userLat + coma + userLon + html2 + "\" width=\"100%\" height=\"100%\" style=\"border: 0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>";
-                String webConfig = "<style>html{background-color: #f0f0f0;}</style>";
-                webview.loadData(web + webConfig, "text/html", null);
-
-                return;
-            }else{
-                Toast.makeText(DetailsView.this, "ubi mal: " + userLat +"\n" + userLon , Toast.LENGTH_SHORT).show();
-
-            }
-        }
-
 
 
 

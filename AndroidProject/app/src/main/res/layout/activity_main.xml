@@ -78,12 +78,6 @@
                     tools:text="0.0\n0.0" />
             </LinearLayout>
 
-            <Spinner
-                android:id="@+id/spnSort"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="7" />
-
         </LinearLayout>
 
         <ListView
