@@ -1,5 +1,10 @@
 package es.unican.carchargers.activities.main;
 
+import android.content.Intent;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import es.unican.carchargers.model.Charger;
@@ -37,6 +42,7 @@ public interface IMainContract {
          */
         public void onMenuInfoClicked();
 
+        void recibeUbi(double userLat, double userLon);
     }
 
     /**

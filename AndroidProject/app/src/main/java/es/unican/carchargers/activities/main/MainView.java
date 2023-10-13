@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,6 +34,7 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -49,10 +51,15 @@ import pl.droidsonroids.gif.GifImageView;
 @AndroidEntryPoint
 public class MainView extends AppCompatActivity implements IMainContract.View {
 
-    /** repository is injected with Hilt */
-    @Inject IRepository repository;
+    /**
+     * repository is injected with Hilt
+     */
+    @Inject
+    IRepository repository;
 
-    /** presenter that controls this view */
+    /**
+     * presenter that controls this view
+     */
     IMainContract.Presenter presenter;
     private GifImageView loading;
     private ImageView logo;
@@ -88,8 +95,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         logo.setVisibility(View.INVISIBLE);
 
 
-
-
         fusedLocationClient = new FusedLocationProviderClient(this);
 
         infoUbi.setVisibility(View.INVISIBLE);
@@ -97,18 +102,17 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
 
         filtros = new String[EOperator.values().length];
-        for (int i = 0; i < EOperator.values().length; i++){
+        for (int i = 0; i < EOperator.values().length; i++) {
             filtros[i] = EOperator.values()[i].toString();
         }
-
-
-
 
 
         //Pide permisos
         if (checkLocationPermission()) {
             // Ya tienes permisos de ubicación, puedes solicitar la ubicación.
             obtenerUbicacion();
+            infoUbi.setText("Ubicación ✓");
+
 
         } else {
             // Si no tienes permisos, solicítalos al usuario.
@@ -119,14 +123,16 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
 
 
-
+        /* Creo que no hace falta
         infoUbi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                obtenerUbicacion();
+                obtenerUbicacion(fusedLocationClient);
             }
         });
+
+         */
 
 
     }
@@ -173,7 +179,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     @Override
     public void showChargers(List<Charger> chargers) {
         adapterChargers = new ChargersArrayAdapter(this, chargers);
-        listaChargers = chargers;
 
         ListView listView = findViewById(R.id.lvChargers);
         listView.setAdapter(adapterChargers);
@@ -181,11 +186,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         loading.setVisibility(View.INVISIBLE);
         infoUbi.setVisibility(View.VISIBLE);
         ubi.setVisibility(View.VISIBLE);
+        /*
         if (userLat != 0.0 && userLon != 0.0){
             ordenaPorUbi(0);
         }
-
-
+        */
 
 
     }
@@ -215,9 +220,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
 
-
-
-
     private boolean checkLocationPermission() {
         int result = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         if (result == PackageManager.PERMISSION_GRANTED) return true;
@@ -230,8 +232,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1
         );
     }
-
-
 
 
     public void obtenerUbicacion() {
@@ -251,12 +251,13 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                                 //Toast.makeText(MainView.this, "Latitud: " + latitude + ", Longitud: " + longitude, Toast.LENGTH_SHORT).show();
                                 userLat = latitude;
                                 userLon = longitude;
+                                Log.d("[DEBUG]", "Latitud: " + userLat + "Longitud: " + userLon);
                                 infoUbi.setText("Ubicación ✓");
                                 ubi.setText(userLat + "\n" + userLon);
+                                presenter.recibeUbi(userLat, userLon);
 
                             } else {
                                 // ubicación no disponible
-                                Toast.makeText(MainView.this, "No se pudo obtener la ubicación", Toast.LENGTH_SHORT).show();
                                 requestLocationPermission();
                                 mostrarDialogoUbicacion();
 
@@ -268,6 +269,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         }
 
     }
+
 
     private void mostrarDialogoUbicacion() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -285,7 +287,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
 
-
+    /*
     public void ordenaPorUbi(int modo){
         //modo 0 = sort de cerca a lejos
         //modo 1 = sort de lejos a cerca
@@ -327,6 +329,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         adapterChargers.notifyDataSetChanged();
     }
 
+     */
+
 
     private void mostrarDialogoFiltros() {
         //En filtros contenemos todas las empresas
@@ -334,22 +338,22 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Filtros Aplicables")
                 .setMultiChoiceItems(filtros, null, new DialogInterface.OnMultiChoiceClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int index,
-                                                boolean isChecked) {
+                    @Override
+                    public void onClick(DialogInterface dialog, int index,
+                                        boolean isChecked) {
 
 
-                                String filtro = filtros[index];
+                        String filtro = filtros[index];
 
-                                if (isChecked) {
-                                    // If the user checked the item, add it to the selected items
-                                    filtrosSeleccionados.add(filtro);
-                                } else if (filtrosSeleccionados.contains(filtro)) {
-                                    // Else, if the item is already in the array, remove it
-                                    filtrosSeleccionados.remove(filtro);
-                                }
-                            }
-                        });
+                        if (isChecked) {
+                            // If the user checked the item, add it to the selected items
+                            filtrosSeleccionados.add(filtro);
+                        } else if (filtrosSeleccionados.contains(filtro)) {
+                            // Else, if the item is already in the array, remove it
+                            filtrosSeleccionados.remove(filtro);
+                        }
+                    }
+                });
 
         for (String elemento : filtrosSeleccionados) {
             Toast.makeText(MainView.this, elemento, Toast.LENGTH_SHORT).show();
@@ -359,10 +363,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         builder.setPositiveButton("Aplicar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                for (String elemento : filtrosSeleccionados) {
-                    Toast.makeText(MainView.this, elemento, Toast.LENGTH_SHORT).show();
-                }
-                aplicarFiltro(filtrosSeleccionados);
+                //aplicarFiltro(filtrosSeleccionados);
 
 
             }
@@ -374,16 +375,28 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
 
-
+    /*
     //ESTO FALLA!!!
     public void aplicarFiltro(ArrayList<String> filtrosAplicados) {
 
 
-        for (Charger c : listaChargers) {
-            if (!filtrosAplicados.contains(c.operator.title)) {
-                listaChargers.remove(c);
+        try {
+            Iterator<Charger> iterator = listaChargers.iterator();
+            while (iterator.hasNext()) {
+                Charger c = iterator.next();
+                Toast.makeText(this, "[Fuera del IF]: " + c.id + " " + c.operator.title, Toast.LENGTH_SHORT).show();
+                if (!filtrosAplicados.contains(c.operator.title)) {
+                    Toast.makeText(this, "[Dentro del IF]: " + c.id + " " + c.operator.title, Toast.LENGTH_SHORT).show();
+                    iterator.remove(); // Eliminar utilizando el iterador
+                }
             }
+        } catch (Exception e){
+
         }
+
+        Toast.makeText(this, "Lista con elementos ya borrados", Toast.LENGTH_SHORT).show();
+        //showChargers(listaChargers);
+
 
         adapterChargers = new ChargersArrayAdapter(this, listaChargers);
 
@@ -398,20 +411,13 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         }
 
         for (Charger c : listaChargers) {
-           Toast.makeText(MainView.this,listaChargers.size(),Toast.LENGTH_SHORT).show();
+           Toast.makeText(MainView.this,String.valueOf(listaChargers.size()),Toast.LENGTH_SHORT).show();
         }
 
+
+
     }
-
-
-
-
-
-
-
-
-
-
+    */
 
 
 }
