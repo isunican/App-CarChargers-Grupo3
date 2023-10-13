@@ -7,6 +7,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
 
@@ -42,7 +43,10 @@ public interface IMainContract {
          */
         public void onMenuInfoClicked();
 
-        void recibeUbi(double userLat, double userLon);
+        public void recibeUbi(double userLat, double userLon);
+
+        public void loadConFiltrosEmpresas(List<EOperator> filtrosSeleccionados);
+
     }
 
     /**

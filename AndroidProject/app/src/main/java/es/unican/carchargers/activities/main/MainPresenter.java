@@ -2,13 +2,17 @@ package es.unican.carchargers.activities.main;
 
 
 
+import static es.unican.carchargers.constants.EOperator.fromId;
+
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import es.unican.carchargers.common.LocationComparator;
+import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.constants.ECountry;
 import es.unican.carchargers.constants.ELocation;
@@ -86,30 +90,46 @@ public class MainPresenter implements IMainContract.Presenter {
 
 
 
-    private void loadConFiltrosEmpresas(List<String> filtrosSeleccionados) {
+    public void loadConFiltrosEmpresas(List<EOperator> filtrosSeleccionados) {
         IRepository repository = view.getRepository();
 
         // set API arguments to retrieve charging stations that match some criteria
-        APIArguments args;
-        if(userLat != 0.0 || userLon != 0.0){ // tenemos ubicacion
-            args = APIArguments.builder()
-                    .setCountryCode(ECountry.SPAIN.code)
-                    .setLocation(userLat, userLon)
-                    .setMaxResults(50);
-        }else { // no tenemos ubicacion
-            args = APIArguments.builder()
-                    .setCountryCode(ECountry.SPAIN.code)
-                    .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
-                    .setMaxResults(50);
+        APIArguments args = APIArguments.builder()
+                .setCountryCode(ECountry.SPAIN.code)
+                .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
+                .setMaxResults(50);
+
+        Log.d("[DEBUG EN PRESENTER]","Los filtros son:");
+        for(EOperator e: filtrosSeleccionados){
+            Log.d("[DEBUG EN PRESENTER]",e.toString());
         }
+
 
         ICallBack callback = new ICallBack() {
             @Override
             public void onSuccess(List<Charger> chargers) {
                 MainPresenter.this.shownChargers =
                         chargers != null ? chargers : Collections.emptyList();
-                view.showChargers(MainPresenter.this.shownChargers);
-                view.showLoadCorrect(MainPresenter.this.shownChargers.size());
+                List<Charger> chargerResultado = new ArrayList<>();
+
+                Log.d("[DEBUG EN PRESENTER]", "En la lista hubo " + chargers.size() + "elementos");
+
+
+                    for(Charger c: chargers){
+
+                        EOperator e = fromId(c.operator.id);
+                        if (filtrosSeleccionados.contains(e)) {
+                            chargerResultado.add(c);
+                        }
+                    }
+
+
+                Log.d("[DEBUG EN PRESENTER]","En la lista hay actualmente "+chargerResultado.size()+"elementos");
+                if(userLat != null && userLon != null) {
+                Collections.sort(chargers, new LocationComparator(userLat, userLon));
+                }
+                view.showChargers(chargerResultado);
+                view.showLoadCorrect(chargerResultado.size());
             }
 
             @Override

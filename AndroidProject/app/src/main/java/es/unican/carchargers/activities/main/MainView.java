@@ -36,6 +36,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -72,7 +73,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     private double userLat, userLon;
     private TextView ubi;
     private TextView infoUbi;
-    private String[] filtros;
+    private EOperator[] filtros;
 
 
     @Override
@@ -101,10 +102,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         ubi.setVisibility(View.INVISIBLE);
 
 
-        filtros = new String[EOperator.values().length];
-        for (int i = 0; i < EOperator.values().length; i++) {
-            filtros[i] = EOperator.values()[i].toString();
-        }
+        filtros = EOperator.values();
 
 
         //Pide permisos
@@ -334,16 +332,23 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     private void mostrarDialogoFiltros() {
         //En filtros contenemos todas las empresas
-        ArrayList<String> filtrosSeleccionados = new ArrayList<>();
+        ArrayList<EOperator> filtrosSeleccionados = new ArrayList<>();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        String[] filtrosStrings = new String[EOperator.values().length];
+        for ( int i = 0; i < EOperator.values().length; i++){
+            filtrosStrings[i] = EOperator.values()[i].toString();
+
+        }
+
+
         builder.setTitle("Filtros Aplicables")
-                .setMultiChoiceItems(filtros, null, new DialogInterface.OnMultiChoiceClickListener() {
+                .setMultiChoiceItems(filtrosStrings, null, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int index,
                                         boolean isChecked) {
 
 
-                        String filtro = filtros[index];
+                        EOperator filtro = EOperator.valueOf(filtrosStrings[index]);
 
                         if (isChecked) {
                             // If the user checked the item, add it to the selected items
@@ -355,15 +360,12 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                     }
                 });
 
-        for (String elemento : filtrosSeleccionados) {
-            Toast.makeText(MainView.this, elemento, Toast.LENGTH_SHORT).show();
-        }
-
 
         builder.setPositiveButton("Aplicar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //aplicarFiltro(filtrosSeleccionados);
+                loading.setVisibility(View.VISIBLE);
+                presenter.loadConFiltrosEmpresas(filtrosSeleccionados);
 
 
             }
