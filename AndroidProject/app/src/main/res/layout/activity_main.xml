@@ -61,19 +61,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="bottom|center_horizontal"
+                    android:gravity="center"
                     android:text="Ubicación"
-                    android:textColor="#8BC34A" />
-
-                <TextView
-                    android:id="@+id/tvUbi"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:gravity="center_horizontal|top"
-                    android:text="no disponible"
                     android:textColor="#8BC34A"
-                    tools:text="0.0\n0.0" />
+                    android:textSize="18sp" />
+
             </LinearLayout>
 
         </LinearLayout>

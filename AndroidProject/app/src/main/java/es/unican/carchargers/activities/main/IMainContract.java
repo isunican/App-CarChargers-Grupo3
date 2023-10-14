@@ -1,10 +1,5 @@
 package es.unican.carchargers.activities.main;
 
-import android.content.Intent;
-
-import com.google.android.gms.location.FusedLocationProviderClient;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import es.unican.carchargers.constants.EOperator;
@@ -43,8 +38,9 @@ public interface IMainContract {
          */
         public void onMenuInfoClicked();
 
-        public void recibeUbi(double userLat, double userLon);
+        public void obtainUbi(double userLat, double userLon);
 
+        public void resetButton();
         public void loadConFiltrosEmpresas(List<EOperator> filtrosSeleccionados);
 
     }

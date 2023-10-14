@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,11 +31,7 @@ import com.google.android.gms.tasks.Task;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -64,16 +59,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     IMainContract.Presenter presenter;
     private GifImageView loading;
     private ImageView logo;
-    private ChargersArrayAdapter adapterChargers;
-    private List<Charger> listaChargers;
-    private ArrayAdapter<String> adapterSPN;
-    private List<String> valores;
-    private FusedLocationProviderClient fusedLocationClient;
 
+    private FusedLocationProviderClient fusedLocationClient;
     private double userLat, userLon;
-    private TextView ubi;
     private TextView infoUbi;
-    private EOperator[] filtros;
+    private boolean[] checked;
 
 
     @Override
@@ -86,7 +76,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         presenter = new MainPresenter();
         presenter.init(this);
 
-        ubi = findViewById(R.id.tvUbi);
         infoUbi = findViewById(R.id.tvInfoUbi);
 
         loading = findViewById(R.id.imgLoading);
@@ -99,19 +88,19 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         fusedLocationClient = new FusedLocationProviderClient(this);
 
         infoUbi.setVisibility(View.INVISIBLE);
-        ubi.setVisibility(View.INVISIBLE);
 
 
-        filtros = EOperator.values();
+        EOperator[] filtros = EOperator.values();
+
+        infoUbi.setText("Ubicación ☒");
+
+        checked = new boolean[EOperator.values().length];
 
 
         //Pide permisos
         if (checkLocationPermission()) {
             // Ya tienes permisos de ubicación, puedes solicitar la ubicación.
             obtenerUbicacion();
-            infoUbi.setText("Ubicación ✓");
-
-
         } else {
             // Si no tienes permisos, solicítalos al usuario.
             requestLocationPermission();
@@ -121,16 +110,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
 
 
-        /* Creo que no hace falta
-        infoUbi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                obtenerUbicacion(fusedLocationClient);
-            }
-        });
-
-         */
 
 
     }
@@ -176,14 +156,13 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     @Override
     public void showChargers(List<Charger> chargers) {
-        adapterChargers = new ChargersArrayAdapter(this, chargers);
+        ChargersArrayAdapter adapterChargers = new ChargersArrayAdapter(this, chargers);
 
         ListView listView = findViewById(R.id.lvChargers);
         listView.setAdapter(adapterChargers);
         logo.setVisibility(View.VISIBLE);
         loading.setVisibility(View.INVISIBLE);
         infoUbi.setVisibility(View.VISIBLE);
-        ubi.setVisibility(View.VISIBLE);
         /*
         if (userLat != 0.0 && userLon != 0.0){
             ordenaPorUbi(0);
@@ -250,9 +229,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                                 userLat = latitude;
                                 userLon = longitude;
                                 Log.d("[DEBUG]", "Latitud: " + userLat + "Longitud: " + userLon);
-                                infoUbi.setText("Ubicación ✓");
-                                ubi.setText(userLat + "\n" + userLon);
-                                presenter.recibeUbi(userLat, userLon);
+                                infoUbi.setText("Ubicación ☑");
+                                presenter.obtainUbi(userLat, userLon);
 
                             } else {
                                 // ubicación no disponible
@@ -285,49 +263,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
 
-    /*
-    public void ordenaPorUbi(int modo){
-        //modo 0 = sort de cerca a lejos
-        //modo 1 = sort de lejos a cerca
-        listaChargers.sort(new Comparator<Charger>() {
-            @Override
-            public int compare(Charger o1, Charger o2) {
-                double lat1 = Double.parseDouble(o1.address.latitude);
-                double lon1 = Double.parseDouble(o1.address.longitude);
-                double lat2 = Double.parseDouble(o2.address.latitude);
-                double lon2 = Double.parseDouble(o2.address.longitude);
-
-                final int R = 6371; // Radius of the earth
-
-                double latDistance = Math.toRadians(lat1 - userLat);
-                double lonDistance = Math.toRadians(lon1 - userLon);
-                double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                        + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(userLat))
-                        * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-                double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                double distanceO1 = R * c * 1000; // convert to meters
-                distanceO1 = Math.pow(distanceO1, 2);
-
-                latDistance = Math.toRadians(lat2 - userLat);
-                lonDistance = Math.toRadians(lon2 - userLon);
-                a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                        + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(userLat))
-                        * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-                c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                double distanceO2 = R * c * 1000; // convert to meters
-                distanceO2 = Math.pow(distanceO2, 2);
-
-                if (modo == 0){
-                    return  Double.compare(distanceO1,distanceO2);
-                }else{
-                    return  Double.compare(distanceO2,distanceO1);
-                }
-            }
-        });
-        adapterChargers.notifyDataSetChanged();
-    }
-
-     */
 
 
     private void mostrarDialogoFiltros() {
@@ -341,8 +276,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         }
 
 
-        builder.setTitle("Filtros Aplicables")
-                .setMultiChoiceItems(filtrosStrings, null, new DialogInterface.OnMultiChoiceClickListener() {
+        builder.setTitle("Filtros de ubicación:")
+                .setMultiChoiceItems(filtrosStrings, checked, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int index,
                                         boolean isChecked) {
@@ -351,14 +286,18 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                         EOperator filtro = EOperator.valueOf(filtrosStrings[index]);
 
                         if (isChecked) {
+                            checked[index] = true;
                             // If the user checked the item, add it to the selected items
                             filtrosSeleccionados.add(filtro);
                         } else if (filtrosSeleccionados.contains(filtro)) {
                             // Else, if the item is already in the array, remove it
+                            checked[index] = false;
                             filtrosSeleccionados.remove(filtro);
                         }
                     }
                 });
+
+
 
 
         builder.setPositiveButton("Aplicar", new DialogInterface.OnClickListener() {
@@ -369,7 +308,21 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
 
             }
+
+
         });
+        builder.setNegativeButton("Reset", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                loading.setVisibility(View.VISIBLE);
+                presenter.resetButton();
+
+
+            }
+
+
+        });
+
 
 
         builder.show();
@@ -377,49 +330,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
 
-    /*
-    //ESTO FALLA!!!
-    public void aplicarFiltro(ArrayList<String> filtrosAplicados) {
 
-
-        try {
-            Iterator<Charger> iterator = listaChargers.iterator();
-            while (iterator.hasNext()) {
-                Charger c = iterator.next();
-                Toast.makeText(this, "[Fuera del IF]: " + c.id + " " + c.operator.title, Toast.LENGTH_SHORT).show();
-                if (!filtrosAplicados.contains(c.operator.title)) {
-                    Toast.makeText(this, "[Dentro del IF]: " + c.id + " " + c.operator.title, Toast.LENGTH_SHORT).show();
-                    iterator.remove(); // Eliminar utilizando el iterador
-                }
-            }
-        } catch (Exception e){
-
-        }
-
-        Toast.makeText(this, "Lista con elementos ya borrados", Toast.LENGTH_SHORT).show();
-        //showChargers(listaChargers);
-
-
-        adapterChargers = new ChargersArrayAdapter(this, listaChargers);
-
-
-        ListView listView = findViewById(R.id.lvChargers);
-        listView.setAdapter(adapterChargers);
-
-
-        // Notifica al adaptador personalizado que los datos han cambiado
-        if (adapterChargers != null) {
-            adapterChargers.notifyDataSetChanged();
-        }
-
-        for (Charger c : listaChargers) {
-           Toast.makeText(MainView.this,String.valueOf(listaChargers.size()),Toast.LENGTH_SHORT).show();
-        }
-
-
-
-    }
-    */
 
 
 }

@@ -143,10 +143,14 @@ public class MainPresenter implements IMainContract.Presenter {
 
     }
 
-    public void recibeUbi(double uLat, double uLon){
+    public void obtainUbi(double uLat, double uLon){
         userLat = uLat;
         userLon = uLon;
         Log.d("[DEBUG EN PRESENTER]","Tenemos ubi:" + userLat+ " " + userLon);
+        load();
+
+    }
+    public void resetButton (){
         load();
 
     }
