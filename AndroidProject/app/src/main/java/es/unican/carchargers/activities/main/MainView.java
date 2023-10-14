@@ -105,21 +105,16 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         filtros = EOperator.values();
 
 
-        //Pide permisos
+        //Comprobar permisos de locaclización de usuario
+        //Si no los tiene, se solicitan al usuario
         if (checkLocationPermission()) {
             // Ya tienes permisos de ubicación, puedes solicitar la ubicación.
             obtenerUbicacion();
             infoUbi.setText("Ubicación ✓");
-
-
         } else {
             // Si no tienes permisos, solicítalos al usuario.
             requestLocationPermission();
         }
-
-
-
-
 
         /* Creo que no hace falta
         infoUbi.setOnClickListener(new View.OnClickListener() {
@@ -131,8 +126,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         });
 
          */
-
-
     }
 
     @Override
@@ -142,6 +135,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         return true;
     }
 
+    /*
+    Menú superior de la pantalla
+    Opción 1: vista información
+    Opción 2: menú de filtros
+    */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -151,7 +149,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             case R.id.menuItemFiltro:
                 mostrarDialogoFiltros();
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -174,6 +171,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         return repository;
     }
 
+    /*
+    Método que muestra la lista de cargadores disponibles
+    */
     @Override
     public void showChargers(List<Charger> chargers) {
         adapterChargers = new ChargersArrayAdapter(this, chargers);
@@ -189,8 +189,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             ordenaPorUbi(0);
         }
         */
-
-
     }
 
     @Override
@@ -217,13 +215,18 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         startActivity(intent);
     }
 
-
+    /*
+    Método que comprueba que la app posea los permisos de ubicación
+     */
     private boolean checkLocationPermission() {
         int result = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         if (result == PackageManager.PERMISSION_GRANTED) return true;
         else return false;
     }
 
+    /*
+    Método que solicita los permisos de ubicación
+     */
     private void requestLocationPermission() {
         ActivityCompat.requestPermissions(
                 this,
@@ -231,34 +234,32 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         );
     }
 
-
+    /*
+    Método que obtiene la ubicación del usuario
+     */
     public void obtenerUbicacion() {
         //Toast.makeText(MainView.this, "Obtener ubicacion ejecutado", Toast.LENGTH_SHORT).show();
-
+        //Comprueba los permisos de ubicación
         if (checkLocationPermission()) {
-            fusedLocationClient.getLastLocation()
-                    .addOnCompleteListener(this, new OnCompleteListener<Location>() {
+            //Obtiene la ultima ubicación del usuario
+            fusedLocationClient.getLastLocation().addOnCompleteListener(this, new OnCompleteListener<Location>() {
+                        //
                         @Override
                         public void onComplete(@NonNull Task<Location> task) {
                             if (task.isSuccessful() && task.getResult() != null) {
                                 Location location = task.getResult();
-                                double latitude = location.getLatitude();
-                                double longitude = location.getLongitude();
-
-
                                 //Toast.makeText(MainView.this, "Latitud: " + latitude + ", Longitud: " + longitude, Toast.LENGTH_SHORT).show();
-                                userLat = latitude;
-                                userLon = longitude;
+                                userLat = location.getLatitude();
+                                userLon = location.getLongitude();
                                 Log.d("[DEBUG]", "Latitud: " + userLat + "Longitud: " + userLon);
                                 infoUbi.setText("Ubicación ✓");
                                 ubi.setText(userLat + "\n" + userLon);
                                 presenter.recibeUbi(userLat, userLon);
 
                             } else {
-                                // ubicación no disponible
+                                // ubicación no disponible, se vuelve a pedir permiso
                                 requestLocationPermission();
                                 mostrarDialogoUbicacion();
-
                             }
                         }
                     });
@@ -268,7 +269,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     }
 
-
+    /*
+    Método que solicita la ubicación en el caso de que no esté disponible
+     */
     private void mostrarDialogoUbicacion() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Ubicación desactivada o no alcanzable");
@@ -284,70 +287,27 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         builder.show();
     }
 
-
     /*
-    public void ordenaPorUbi(int modo){
-        //modo 0 = sort de cerca a lejos
-        //modo 1 = sort de lejos a cerca
-        listaChargers.sort(new Comparator<Charger>() {
-            @Override
-            public int compare(Charger o1, Charger o2) {
-                double lat1 = Double.parseDouble(o1.address.latitude);
-                double lon1 = Double.parseDouble(o1.address.longitude);
-                double lat2 = Double.parseDouble(o2.address.latitude);
-                double lon2 = Double.parseDouble(o2.address.longitude);
-
-                final int R = 6371; // Radius of the earth
-
-                double latDistance = Math.toRadians(lat1 - userLat);
-                double lonDistance = Math.toRadians(lon1 - userLon);
-                double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                        + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(userLat))
-                        * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-                double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                double distanceO1 = R * c * 1000; // convert to meters
-                distanceO1 = Math.pow(distanceO1, 2);
-
-                latDistance = Math.toRadians(lat2 - userLat);
-                lonDistance = Math.toRadians(lon2 - userLon);
-                a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                        + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(userLat))
-                        * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-                c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                double distanceO2 = R * c * 1000; // convert to meters
-                distanceO2 = Math.pow(distanceO2, 2);
-
-                if (modo == 0){
-                    return  Double.compare(distanceO1,distanceO2);
-                }else{
-                    return  Double.compare(distanceO2,distanceO1);
-                }
-            }
-        });
-        adapterChargers.notifyDataSetChanged();
-    }
-
+    Método que muestra el menú desplegable de filtros
      */
-
-
     private void mostrarDialogoFiltros() {
         //En filtros contenemos todas las empresas
         ArrayList<EOperator> filtrosSeleccionados = new ArrayList<>();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //Strings de elementos seleccionados en el filtro
         String[] filtrosStrings = new String[EOperator.values().length];
+        //Definición de elementos disponibles para elegir en el filtro
         for ( int i = 0; i < EOperator.values().length; i++){
             filtrosStrings[i] = EOperator.values()[i].toString();
-
         }
 
-
+        //Define los valores de las empresas que se encuentran disponibles en el filtro
         builder.setTitle("Filtros Aplicables")
                 .setMultiChoiceItems(filtrosStrings, null, new DialogInterface.OnMultiChoiceClickListener() {
+                    //Listener que define las compañías seleccionadas al aplicar el filtro
                     @Override
                     public void onClick(DialogInterface dialog, int index,
                                         boolean isChecked) {
-
-
                         EOperator filtro = EOperator.valueOf(filtrosStrings[index]);
 
                         if (isChecked) {
@@ -360,66 +320,14 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                     }
                 });
 
-
+        //Aplica el filtro seleccionado
         builder.setPositiveButton("Aplicar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 loading.setVisibility(View.VISIBLE);
                 presenter.loadConFiltrosEmpresas(filtrosSeleccionados);
-
-
             }
         });
-
-
         builder.show();
-
     }
-
-
-    /*
-    //ESTO FALLA!!!
-    public void aplicarFiltro(ArrayList<String> filtrosAplicados) {
-
-
-        try {
-            Iterator<Charger> iterator = listaChargers.iterator();
-            while (iterator.hasNext()) {
-                Charger c = iterator.next();
-                Toast.makeText(this, "[Fuera del IF]: " + c.id + " " + c.operator.title, Toast.LENGTH_SHORT).show();
-                if (!filtrosAplicados.contains(c.operator.title)) {
-                    Toast.makeText(this, "[Dentro del IF]: " + c.id + " " + c.operator.title, Toast.LENGTH_SHORT).show();
-                    iterator.remove(); // Eliminar utilizando el iterador
-                }
-            }
-        } catch (Exception e){
-
-        }
-
-        Toast.makeText(this, "Lista con elementos ya borrados", Toast.LENGTH_SHORT).show();
-        //showChargers(listaChargers);
-
-
-        adapterChargers = new ChargersArrayAdapter(this, listaChargers);
-
-
-        ListView listView = findViewById(R.id.lvChargers);
-        listView.setAdapter(adapterChargers);
-
-
-        // Notifica al adaptador personalizado que los datos han cambiado
-        if (adapterChargers != null) {
-            adapterChargers.notifyDataSetChanged();
-        }
-
-        for (Charger c : listaChargers) {
-           Toast.makeText(MainView.this,String.valueOf(listaChargers.size()),Toast.LENGTH_SHORT).show();
-        }
-
-
-
-    }
-    */
-
-
 }
