@@ -122,8 +122,6 @@ public class MainPresenter implements IMainContract.Presenter {
                             chargerResultado.add(c);
                         }
                     }
-
-
                 Log.d("[DEBUG EN PRESENTER]","En la lista hay actualmente "+chargerResultado.size()+"elementos");
                 if(userLat != null && userLon != null) {
                 Collections.sort(chargers, new LocationComparator(userLat, userLon));

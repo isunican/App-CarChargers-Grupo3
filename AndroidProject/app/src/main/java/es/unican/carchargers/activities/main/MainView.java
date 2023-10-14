@@ -316,17 +316,14 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             public void onClick(DialogInterface dialog, int which) {
                 loading.setVisibility(View.VISIBLE);
                 presenter.resetButton();
-
+                for (int i = 0; i < checked.length; i++){
+                    checked[i] = false;
+                }
 
             }
 
-
         });
-
-
-
         builder.show();
-
     }
 
 
