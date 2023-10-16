@@ -57,6 +57,14 @@ img {
     height: auto;
     display: block;
 }
+.recurso {
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+
+
+
 .btn-volver {
     position: fixed;
     bottom: 0;
@@ -80,6 +88,7 @@ img {
     margin-right: 30%;
     
 }
+
 #pie_de_pagina{
     position: fixed;
     bottom: 0;
