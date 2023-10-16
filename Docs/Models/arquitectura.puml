@@ -1,5 +1,4 @@
-@startuml arquitectura
-
+@startuml
 skinparam linetype polyline
 skinparam arrowLollipopColor #ADD1B2
 
@@ -40,5 +39,10 @@ interface ICallBack {
     onSuccess(List<Charger> chargers)
     onFailure(Throwable e)
 }
-
+class LocationComparator {
+    userLat
+    userLon
+    calculateDistance(double lat1, double lon1, double lat2, double lon2)
+    compare(Charger o1, Charger o2)
+}
 @enduml
