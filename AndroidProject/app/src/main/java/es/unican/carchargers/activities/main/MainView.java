@@ -201,7 +201,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     public void setLocation(double uLat, double uLon) {
         Log.d("[DEBUG]", "Latitud: " + uLat + "Longitud: " + uLat);
         infoUbi.setText("Ubicación ✓");
-        ubi.setText(uLat + "\n" + uLat);
+        //ubi.setText(uLat + "\n" + uLat);
     }
 
     /*
@@ -227,7 +227,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
      */
     public void obtenerUbicacion() {
         if (ApplicationConstants.isLocationMocked()) {
-            presenter.recibeUbi(ApplicationConstants.getLatMock(), ApplicationConstants.getLonMock());
+            presenter.obtainUbi(ApplicationConstants.getLatMock(), ApplicationConstants.getLonMock());
             return;
         }
         //Toast.makeText(MainView.this, "Obtener ubicacion ejecutado", Toast.LENGTH_SHORT).show();
