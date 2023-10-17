@@ -23,6 +23,7 @@ import es.unican.carchargers.repository.service.APIArguments;
 
 public class MainPresenter implements IMainContract.Presenter {
 
+    public static final String DEBUG_PRESENTER = "[DEBUG EN PRESENTER]";
     /** the view controlled by this presenter */
     private IMainContract.View view;
 
@@ -104,9 +105,9 @@ public class MainPresenter implements IMainContract.Presenter {
                 .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
                 .setMaxResults(50);
 
-        Log.d("[DEBUG EN PRESENTER]","Los filtros son:");
+        Log.d(DEBUG_PRESENTER,"Los filtros son:");
         for(EOperator e: filtrosSeleccionados){
-            Log.d("[DEBUG EN PRESENTER]",e.toString());
+            Log.d(DEBUG_PRESENTER,e.toString());
         }
 
 
@@ -117,7 +118,7 @@ public class MainPresenter implements IMainContract.Presenter {
                         chargers != null ? chargers : Collections.emptyList();
                 List<Charger> chargerResultado = new ArrayList<>();
 
-                Log.d("[DEBUG EN PRESENTER]", "En la lista hubo " + chargers.size() + "elementos");
+                Log.d(DEBUG_PRESENTER, "En la lista hubo " + chargers.size() + "elementos");
 
 
                     for(Charger c: chargers){
@@ -127,7 +128,7 @@ public class MainPresenter implements IMainContract.Presenter {
                             chargerResultado.add(c);
                         }
                     }
-                Log.d("[DEBUG EN PRESENTER]","En la lista hay actualmente "+chargerResultado.size()+"elementos");
+                Log.d(DEBUG_PRESENTER,"En la lista hay actualmente "+chargerResultado.size()+"elementos");
                 if(userLat != null && userLon != null) {
                 Collections.sort(chargers, new LocationComparator(userLat, userLon));
                 }
@@ -148,7 +149,7 @@ public class MainPresenter implements IMainContract.Presenter {
     public void obtainUbi(double uLat, double uLon){
         userLat = uLat;
         userLon = uLon;
-        Log.d("[DEBUG EN PRESENTER]","Tenemos ubi:" + userLat+ " " + userLon);
+        Log.d(DEBUG_PRESENTER,"Tenemos ubi:" + userLat+ " " + userLon);
         load();
         view.setLocation(uLat, uLon);
     }

@@ -28,6 +28,7 @@ import es.unican.carchargers.model.Charger;
 public class DetailsView extends AppCompatActivity  {
 
     public static final String INTENT_CHARGER = "INTENT_CHARGER";
+    public static final String STR_UBI = "Ubicación: ";
 
     double lat, lon;
 
@@ -46,7 +47,7 @@ public class DetailsView extends AppCompatActivity  {
         TextView tvWeb = findViewById(R.id.tvPaginaWeb);
         //Web que muestra el mapa
         WebView webview = findViewById(R.id.web);
-        webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setJavaScriptEnabled(false);
 
         // Get Charger from the intent that triggered this activity
         charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
@@ -99,19 +100,19 @@ public class DetailsView extends AppCompatActivity  {
             if ((charger.address.town.isBlank()) && (charger.address.province.isBlank())) {
                 informacion = informacion + "Ubicación: Provincia y ciudad no disponible\n";
             } else if (charger.address.town.isBlank()) {
-                informacion = informacion + "Ubicación: " + charger.address.province + "\n";
+                informacion = informacion + STR_UBI + charger.address.province + "\n";
             } else if (charger.address.province.isBlank()) {
-                informacion = informacion + "Ubicación: " + charger.address.town + "\n";
+                informacion = informacion + STR_UBI + charger.address.town + "\n";
             } else {
-                informacion = informacion + "Ubicación: " + charger.address.town + ", " + charger.address.province + "\n";
+                informacion = informacion + STR_UBI + charger.address.town + ", " + charger.address.province + "\n";
             }
         } catch(NullPointerException e){
-            if (charger.address.province == null && charger.address.province == null){
+            if (charger.address.province == null && charger.address.town == null){
                 informacion = informacion + "Ubicación: Provincia y ciudad no disponible\n";
             } else if (charger.address.town == null){
-                informacion = informacion + "Ubicación: " + charger.address.province + "\n";
+                informacion = informacion + STR_UBI + charger.address.province + "\n";
             } else if (charger.address.province == null){
-                informacion = informacion + "Ubicación: " + charger.address.town + "\n";
+                informacion = informacion + STR_UBI + charger.address.town + "\n";
             }
 
         }
