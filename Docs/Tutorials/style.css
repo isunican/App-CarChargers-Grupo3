@@ -1,0 +1,144 @@
+body {
+    background-image: url("background.jpg");
+    background-size:cover;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+title{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+}
+
+h1 {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+section {
+    background-color: #fff;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 7%;
+}
+
+h2 {
+    color: #333;
+}
+
+p {
+    color: #666;
+}
+
+.step {
+    display: flex;
+    flex-direction: row;
+    margin: 20px 0;
+}
+
+.step-text {
+    flex: 2;
+    padding-right: 20px;
+}
+
+.step-image {
+    flex: 1;
+}
+
+img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+.recurso {
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+
+
+
+.btn-volver {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    margin-left: 10%;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.btn-volver:hover {
+    background-color: #555;
+}
+#row{
+
+    margin-left: 30%;
+    margin-right: 30%;
+    
+}
+
+#pie_de_pagina{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    padding: 0;
+    width: 100%;
+    z-index: -1; 
+}
+#index{
+    margin-left: 20%;
+    margin-right: 20%;
+    
+}
+#index li {
+    list-style-type: none; /* Quitar los marcadores de lista */
+    margin: 5px 0;
+}
+
+#index a {
+    color: #333; /* Color para los enlaces no visitados */
+    text-decoration: none; /* Quitar el subrayado de los enlaces */
+    font-weight: bold; /* Hacer que los enlaces se vean en negrita */
+}
+
+#index a:visited {
+    color: #5f5e5e; /* Color crema para los enlaces visitados */
+}
+#logo{
+    
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-top: 2%;
+    margin-left: 2%;
+    
+    
+    height:auto;
+    width: 10%;
+}
+#intro{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    padding: 2px;
+    margin-top:-2%;
+    margin-left:4%;
+    margin-bottom: 2%;
+    color: #444;
+    line-height: 1.6;
+    font-size: 16px;
+    text-align: justify;
+    
+}

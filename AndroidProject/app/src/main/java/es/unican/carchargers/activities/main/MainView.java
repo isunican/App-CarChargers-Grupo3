@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,11 +31,7 @@ import com.google.android.gms.tasks.Task;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -65,16 +60,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     IMainContract.Presenter presenter;
     private GifImageView loading;
     private ImageView logo;
-    private ChargersArrayAdapter adapterChargers;
-    private List<Charger> listaChargers;
-    private ArrayAdapter<String> adapterSPN;
-    private List<String> valores;
-    private FusedLocationProviderClient fusedLocationClient;
 
+    private FusedLocationProviderClient fusedLocationClient;
     private double userLat, userLon;
-    private TextView ubi;
     private TextView infoUbi;
-    private EOperator[] filtros;
+    private boolean[] checked;
 
 
     @Override
@@ -84,7 +74,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
 
 
-        ubi = findViewById(R.id.tvUbi);
         infoUbi = findViewById(R.id.tvInfoUbi);
 
         loading = findViewById(R.id.imgLoading);
@@ -101,10 +90,13 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         fusedLocationClient = new FusedLocationProviderClient(this);
 
         infoUbi.setVisibility(View.INVISIBLE);
-        ubi.setVisibility(View.INVISIBLE);
 
 
-        filtros = EOperator.values();
+        EOperator[] filtros = EOperator.values();
+
+        infoUbi.setText("Ubicación ☒");
+
+        checked = new boolean[EOperator.values().length];
 
 
         //Comprobar permisos de locaclización de usuario
@@ -117,17 +109,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             // Si no tienes permisos, solicítalos al usuario.
             requestLocationPermission();
         }
-
-        /* Creo que no hace falta
-        infoUbi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                obtenerUbicacion(fusedLocationClient);
-            }
-        });
-
-         */
     }
 
     @Override
@@ -178,14 +159,13 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     */
     @Override
     public void showChargers(List<Charger> chargers) {
-        adapterChargers = new ChargersArrayAdapter(this, chargers);
+        ChargersArrayAdapter adapterChargers = new ChargersArrayAdapter(this, chargers);
 
         ListView listView = findViewById(R.id.lvChargers);
         listView.setAdapter(adapterChargers);
         logo.setVisibility(View.VISIBLE);
         loading.setVisibility(View.INVISIBLE);
         infoUbi.setVisibility(View.VISIBLE);
-        ubi.setVisibility(View.VISIBLE);
         /*
         if (userLat != 0.0 && userLon != 0.0){
             ordenaPorUbi(0);
@@ -263,7 +243,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                                 //Toast.makeText(MainView.this, "Latitud: " + latitude + ", Longitud: " + longitude, Toast.LENGTH_SHORT).show();
                                 userLat = location.getLatitude();
                                 userLon = location.getLongitude();
-                                presenter.recibeUbi(userLat, userLon);
+                                presenter.obtainUbi(userLat, userLon);
                             } else {
                                 // ubicación no disponible, se vuelve a pedir permiso
                                 requestLocationPermission();
@@ -309,9 +289,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             filtrosStrings[i] = EOperator.values()[i].toString();
         }
 
-        //Define los valores de las empresas que se encuentran disponibles en el filtro
-        builder.setTitle("Filtros Aplicables")
-                .setMultiChoiceItems(filtrosStrings, null, new DialogInterface.OnMultiChoiceClickListener() {
+        builder.setTitle("Filtros de ubicación:")
+                .setMultiChoiceItems(filtrosStrings, checked, new DialogInterface.OnMultiChoiceClickListener() {
                     //Listener que define las compañías seleccionadas al aplicar el filtro
                     @Override
                     public void onClick(DialogInterface dialog, int index,
@@ -319,10 +298,12 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                         EOperator filtro = EOperator.valueOf(filtrosStrings[index]);
 
                         if (isChecked) {
+                            checked[index] = true;
                             // If the user checked the item, add it to the selected items
                             filtrosSeleccionados.add(filtro);
                         } else if (filtrosSeleccionados.contains(filtro)) {
                             // Else, if the item is already in the array, remove it
+                            checked[index] = false;
                             filtrosSeleccionados.remove(filtro);
                         }
                     }
@@ -335,6 +316,20 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 loading.setVisibility(View.VISIBLE);
                 presenter.loadConFiltrosEmpresas(filtrosSeleccionados);
             }
+
+
+        });
+        builder.setNegativeButton("Reset", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                loading.setVisibility(View.VISIBLE);
+                presenter.resetButton();
+                for (int i = 0; i < checked.length; i++){
+                    checked[i] = false;
+                }
+
+            }
+
         });
         builder.show();
     }

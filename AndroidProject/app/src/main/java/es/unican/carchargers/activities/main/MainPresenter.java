@@ -127,8 +127,6 @@ public class MainPresenter implements IMainContract.Presenter {
                             chargerResultado.add(c);
                         }
                     }
-
-
                 Log.d("[DEBUG EN PRESENTER]","En la lista hay actualmente "+chargerResultado.size()+"elementos");
                 if(userLat != null && userLon != null) {
                 Collections.sort(chargers, new LocationComparator(userLat, userLon));
@@ -147,12 +145,16 @@ public class MainPresenter implements IMainContract.Presenter {
         repository.requestChargers(args, callback);
     }
 
-    public void recibeUbi(double uLat, double uLon){
+    public void obtainUbi(double uLat, double uLon){
         userLat = uLat;
         userLon = uLon;
         Log.d("[DEBUG EN PRESENTER]","Tenemos ubi:" + userLat+ " " + userLon);
         load();
         view.setLocation(uLat, uLon);
+    }
+    public void resetButton (){
+        load();
+
     }
 
 
