@@ -67,7 +67,7 @@ public class UbicacionOkUITest {
 
     @AfterClass
     public static void teardownClass() {
-        HTTPIdlingResource.getInstance().finish();
+        //HTTPIdlingResource.getInstance().finish();
     }
 
     // inject a fake repository that loads the data from a local json file
