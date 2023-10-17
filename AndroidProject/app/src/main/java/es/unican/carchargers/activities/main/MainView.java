@@ -44,6 +44,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.info.InfoActivity;
+import es.unican.carchargers.common.ApplicationConstants;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
@@ -82,9 +83,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         setContentView(R.layout.activity_main);
 
 
-        // Initialize presenter-view connection
-        presenter = new MainPresenter();
-        presenter.init(this);
 
         ubi = findViewById(R.id.tvUbi);
         infoUbi = findViewById(R.id.tvInfoUbi);
@@ -94,6 +92,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         logo = findViewById(R.id.imgLogo);
         logo.setVisibility(View.INVISIBLE);
+
+        // Initialize presenter-view connection
+        presenter = new MainPresenter();
+        presenter.init(this);
 
 
         fusedLocationClient = new FusedLocationProviderClient(this);
@@ -215,6 +217,13 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         startActivity(intent);
     }
 
+    @Override
+    public void setLocation(double uLat, double uLon) {
+        Log.d("[DEBUG]", "Latitud: " + uLat + "Longitud: " + uLat);
+        infoUbi.setText("Ubicación ✓");
+        ubi.setText(uLat + "\n" + uLat);
+    }
+
     /*
     Método que comprueba que la app posea los permisos de ubicación
      */
@@ -230,14 +239,17 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     private void requestLocationPermission() {
         ActivityCompat.requestPermissions(
                 this,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1
-        );
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
     }
 
     /*
     Método que obtiene la ubicación del usuario
      */
     public void obtenerUbicacion() {
+        if (ApplicationConstants.isLocationMocked()) {
+            presenter.recibeUbi(ApplicationConstants.getLatMock(), ApplicationConstants.getLonMock());
+            return;
+        }
         //Toast.makeText(MainView.this, "Obtener ubicacion ejecutado", Toast.LENGTH_SHORT).show();
         //Comprueba los permisos de ubicación
         if (checkLocationPermission()) {
@@ -251,11 +263,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                                 //Toast.makeText(MainView.this, "Latitud: " + latitude + ", Longitud: " + longitude, Toast.LENGTH_SHORT).show();
                                 userLat = location.getLatitude();
                                 userLon = location.getLongitude();
-                                Log.d("[DEBUG]", "Latitud: " + userLat + "Longitud: " + userLon);
-                                infoUbi.setText("Ubicación ✓");
-                                ubi.setText(userLat + "\n" + userLon);
                                 presenter.recibeUbi(userLat, userLon);
-
                             } else {
                                 // ubicación no disponible, se vuelve a pedir permiso
                                 requestLocationPermission();

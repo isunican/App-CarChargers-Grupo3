@@ -108,5 +108,6 @@ public interface IMainContract {
          */
         public void showInfoActivity();
 
+        void setLocation(double uLat, double uLon);
     }
 }

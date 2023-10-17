@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import es.unican.carchargers.common.ApplicationConstants;
 import es.unican.carchargers.common.LocationComparator;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.repository.ICallBack;
@@ -30,6 +31,9 @@ public class MainPresenter implements IMainContract.Presenter {
     private Double userLat;
     private Double userLon;
 
+
+
+
     @Override
     public void init(IMainContract.View view) {
         this.view = view;
@@ -46,9 +50,7 @@ public class MainPresenter implements IMainContract.Presenter {
 
         // set API arguments to retrieve charging stations that match some criteria
         APIArguments args = APIArguments.builder()
-                    .setCountryCode(ECountry.SPAIN.code)
-                    .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
-                    .setMaxResults(50);
+                    .setCountryCode(ECountry.SPAIN.code).setMaxResults(50);
 
 
 
@@ -57,6 +59,7 @@ public class MainPresenter implements IMainContract.Presenter {
             public void onSuccess(List<Charger> chargers) {
                 MainPresenter.this.shownChargers =
                         chargers != null ? chargers : Collections.emptyList();
+
                 if(userLat != null && userLon != null) {
                     Collections.sort(chargers, new LocationComparator(userLat, userLon));
                 }
@@ -89,7 +92,9 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
 
-
+    /*
+    Método que carga la lista de cargadores filtrados por compañía
+     */
     public void loadConFiltrosEmpresas(List<EOperator> filtrosSeleccionados) {
         IRepository repository = view.getRepository();
 
@@ -140,7 +145,6 @@ public class MainPresenter implements IMainContract.Presenter {
         };
 
         repository.requestChargers(args, callback);
-
     }
 
     public void recibeUbi(double uLat, double uLon){
@@ -148,7 +152,7 @@ public class MainPresenter implements IMainContract.Presenter {
         userLon = uLon;
         Log.d("[DEBUG EN PRESENTER]","Tenemos ubi:" + userLat+ " " + userLon);
         load();
-
+        view.setLocation(uLat, uLon);
     }
 
 
