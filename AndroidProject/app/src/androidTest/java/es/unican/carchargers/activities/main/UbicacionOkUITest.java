@@ -7,13 +7,13 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.anything;
-import static org.hamcrest.Matchers.not;
 import static es.unican.carchargers.utils.Matchers.isNotEmpty;
 
 import android.content.Context;
 
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
 
@@ -21,6 +21,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import dagger.hilt.android.testing.BindValue;
 import dagger.hilt.android.testing.HiltAndroidRule;
@@ -40,6 +41,7 @@ import es.unican.carchargers.utils.HTTPIdlingResource;
  */
 @HiltAndroidTest
 @UninstallModules(RepositoriesModule.class)
+@RunWith(AndroidJUnit4.class)
 public class UbicacionOkUITest {
 
     @Rule(order = 0)  // the Hilt rule must execute first
@@ -58,9 +60,6 @@ public class UbicacionOkUITest {
 
     @BeforeClass
     public static void setupClass() {
-        // si usamos un repository fake que realmente no accede por HTTP, no necesitamos
-        // activar este Idling Resource. Lo dejo para tener una referencia.
-        HTTPIdlingResource.getInstance().init();
         //Se establece una ubicación del usuario simulada (Facultad de Ciencias Universidad de Cantabria)
         ApplicationConstants.setLocationMock(43.4709312, -3.8016632);
 
@@ -90,5 +89,4 @@ public class UbicacionOkUITest {
         onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(8).
                 onChildView(withId(R.id.tvAddress)).check(matches(withText("Parking Central (Andalusia)")));
     }
-
 }
