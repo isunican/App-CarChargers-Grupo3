@@ -23,12 +23,16 @@ interface IMainContract#View {
     showLoadError()
     showChargerDetails(Charger charger)
     showInfoActivity()
+    setLocation(double uLat, double uLon)
 }
 
 interface IMainContract#Presenter {
    init(View view);
    onChargerClicked(int index)
    onMenuInfoClicked();
+   obtainUbi(double userLat, double userLon)
+   resetButtonn()
+   loadConFiltrosEmpresas(List<EOperator> filtrosSeleccionados)
 }
 
 interface IRepository {
@@ -39,10 +43,66 @@ interface ICallBack {
     onSuccess(List<Charger> chargers)
     onFailure(Throwable e)
 }
+interface IOpenChargeMapAPI {
+    String COUNTRY_CODE
+    String OPERATOR_ID
+    String LATITUDE
+    String LONGITUDE
+    String MAX_RESULTS
+    
+}
 class LocationComparator {
-    userLat
-    userLon
+    double userLat
+    double userLon
+    int R
     calculateDistance(double lat1, double lon1, double lat2, double lon2)
     compare(Charger o1, Charger o2)
+}
+class MainView {
+    GifImageView loading
+    ImageView logo
+    FusedLocationProviderClient fusedLocationClient
+    double userLat
+    double userLon
+    TextView infoUbi
+    boolean[] checked
+    checkLocationPermission()
+    requestLocationPermission()
+    obtenerUbicacion()
+    mostrarDialogoUbicacion()
+    mostrarDialogoFiltros()
+}
+class MainPresenter {
+    String DEBUG_PRESENTER
+    IMainContract.View view
+    List<Charger> shownChargers
+    Double userLat
+    Double userLon
+    load()
+    loadConFiltrosEmpresas(List<EOperator> filtrosSeleccionados)
+    obtainUbi(double uLat, double uLon)
+    resetButton()
+}
+class Repository {
+    IOpenChargeMapAPI api
+    Repository(IOpenChargeMapAPI api)
+    cleanArguments(Map<String,Object> map)
+}
+class DetailsView {
+    String INTENT_CHARGER
+    String STR_UBI
+    double lat
+    double lon
+    Charger charger
+    pulsaWeb(View view)
+}
+class ApplicationConstants {
+    Double userLatSim
+    Double userLonSim
+    isLocationMocked()
+    setLocationMock(Double uLat, Double uLon)
+    getLatMock()
+    getLonMock()
+    
 }
 @enduml
