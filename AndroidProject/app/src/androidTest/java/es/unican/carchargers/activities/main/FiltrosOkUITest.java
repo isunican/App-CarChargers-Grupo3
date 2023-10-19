@@ -84,8 +84,8 @@ public class FiltrosOkUITest {
 
         //Comprobamos los elementos
         onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).
-                onChildView(withId(R.id.tvAddress)).check(matches(withText("Parking Plaza de Portugalete (Castilla y León)")));
+              onChildView(withId(R.id.tvAddress)).check(matches(withText("Parking Plaza de Portugalete (Castilla y León)")));
         onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(1).
-                onChildView(withId(R.id.tvAddress)).check(matches(withText("Parking Central (Andalusia)")));
+              onChildView(withId(R.id.tvAddress)).check(matches(withText("Parking Central (Andalusia)")));
     }
 }
