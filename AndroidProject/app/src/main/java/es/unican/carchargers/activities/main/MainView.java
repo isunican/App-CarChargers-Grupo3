@@ -39,6 +39,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.info.InfoActivity;
+import es.unican.carchargers.common.ApplicationConstants;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
@@ -71,11 +72,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        // Initialize presenter-view connection
-        presenter = new MainPresenter();
-        presenter.init(this);
-
         infoUbi = findViewById(R.id.tvInfoUbi);
 
         loading = findViewById(R.id.imgLoading);
@@ -84,6 +80,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         logo = findViewById(R.id.imgLogo);
         logo.setVisibility(View.INVISIBLE);
 
+        // Initialize presenter-view connection
+        presenter = new MainPresenter();
+        presenter.init(this);
 
         fusedLocationClient = new FusedLocationProviderClient(this);
 
@@ -213,7 +212,13 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     public void obtenerUbicacion() {
         //Toast.makeText(MainView.this, "Obtener ubicacion ejecutado", Toast.LENGTH_SHORT).show();
-
+        if (ApplicationConstants.isLocationMocked()) {
+            userLat = ApplicationConstants.getLatMock();
+            userLon = ApplicationConstants.getLonMock();
+            presenter.obtainUbi(ApplicationConstants.getLatMock(), ApplicationConstants.getLonMock());
+            //setLocation(userLat, userLon);
+            return;
+        }
         if (checkLocationPermission()) {
             fusedLocationClient.getLastLocation()
                     .addOnCompleteListener(this, new OnCompleteListener<Location>() {
@@ -221,13 +226,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                         public void onComplete(@NonNull Task<Location> task) {
                             if (task.isSuccessful() && task.getResult() != null) {
                                 Location location = task.getResult();
-                                double latitude = location.getLatitude();
-                                double longitude = location.getLongitude();
-
 
                                 //Toast.makeText(MainView.this, "Latitud: " + latitude + ", Longitud: " + longitude, Toast.LENGTH_SHORT).show();
-                                userLat = latitude;
-                                userLon = longitude;
+                                userLat = location.getLatitude();
+                                userLon = location.getLongitude();
                                 Log.d("[DEBUG]", "Latitud: " + userLat + "Longitud: " + userLon);
                                 infoUbi.setText("Ubicación ☑");
                                 presenter.obtainUbi(userLat, userLon);
