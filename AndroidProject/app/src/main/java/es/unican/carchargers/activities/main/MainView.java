@@ -1,6 +1,7 @@
 package es.unican.carchargers.activities.main;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -44,6 +46,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.info.InfoActivity;
+import es.unican.carchargers.activities.user.UserView;
 import es.unican.carchargers.common.ApplicationConstants;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
@@ -64,12 +67,13 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
      */
     IMainContract.Presenter presenter;
     private GifImageView loading;
-    private ImageView logo;
+
+
 
     private FusedLocationProviderClient fusedLocationClient;
     private double userLat, userLon;
-    private TextView infoUbi;
     private boolean[] checked;
+    private ActionBar actionBar;
 
 
     @Override
@@ -77,40 +81,46 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        infoUbi = findViewById(R.id.tvInfoUbi);
 
         loading = findViewById(R.id.imgLoading);
         loading.setVisibility(View.VISIBLE);
 
-        logo = findViewById(R.id.imgLogo);
-        logo.setVisibility(View.INVISIBLE);
 
-<<<<<<< HEAD
+
+
+
         // Initialize presenter-view connection
         presenter = new MainPresenter();
         presenter.init(this);
-=======
-        SwipeRefreshLayout swipeRefresh = findViewById(R.id.swipeRefresh);
 
->>>>>>> feature/CodigoMalComprobar
+        //SwipeRefreshLayout buttonRefresh = findViewById(R.id.swipeRefresh);
 
         fusedLocationClient = new FusedLocationProviderClient(this);
 
-        infoUbi.setVisibility(View.INVISIBLE);
+
 
 
         EOperator[] filtros = EOperator.values();
 
-        infoUbi.setText("Ubicación ☒");
+        actionBar = getSupportActionBar();
+
+        // Establece el nuevo nombre para la ActionBar
+        if (actionBar != null) {
+            actionBar.setTitle("Ubicación ☒");
+        }
+
+
 
         checked = new boolean[EOperator.values().length];
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        /*
+        buttonRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 presenter.onMenuRefreshClicked();
-                swipeRefresh.setRefreshing(false);
+                buttonRefresh.setRefreshing(false);
             }
         });
+         */
 
 
         //Pide permisos
@@ -152,6 +162,14 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             case R.id.menuItemFiltro:
                 mostrarDialogoFiltros();
                 return true;
+            case R.id.menuItemRefresh:
+                presenter.onMenuRefreshClicked();
+                return true;
+            case R.id.menuItemUser:
+                presenter.onMenuUserClicked();
+                //showUserDetails();
+
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -180,9 +198,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         ListView listView = findViewById(R.id.lvChargers);
         listView.setAdapter(adapterChargers);
-        logo.setVisibility(View.VISIBLE);
+
         loading.setVisibility(View.INVISIBLE);
-        infoUbi.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -209,6 +227,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         Intent intent = new Intent(this, InfoActivity.class);
         startActivity(intent);
     }
+    //@Override
+    public void showUserDetails() {
+        Intent intent = new Intent(this, UserView.class);
+        startActivity(intent);
+    }
 
 
     private boolean checkLocationPermission() {
@@ -226,50 +249,46 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
 
     public void obtenerUbicacion() {
-<<<<<<< HEAD
+
         //Toast.makeText(MainView.this, "Obtener ubicacion ejecutado", Toast.LENGTH_SHORT).show();
-        if (ApplicationConstants.isLocationMocked()) {
+        if (ApplicationConstants.isLocationMocked()) { // implementacion necesaria para los tests, no se ejecuta de normal
             userLat = ApplicationConstants.getLatMock();
             userLon = ApplicationConstants.getLonMock();
             presenter.obtainUbi(ApplicationConstants.getLatMock(), ApplicationConstants.getLonMock());
             //setLocation(userLat, userLon);
             return;
         }
-=======
 
->>>>>>> feature/CodigoMalComprobar
         if (checkLocationPermission()) {
             CancellationToken c = new CancellationToken() {
                 CancellationToken devolver;
+
                 @NonNull
                 @Override
                 public CancellationToken onCanceledRequested(@NonNull OnTokenCanceledListener onTokenCanceledListener) {
                     return devolver;
                 }
+
                 @Override
                 public boolean isCancellationRequested() {
                     return false;
                 }
             };
-            fusedLocationClient.getCurrentLocation(100,c)
+            fusedLocationClient.getCurrentLocation(100, c)
                     .addOnSuccessListener(this, new OnSuccessListener<>() {
                         @Override
-<<<<<<< HEAD
-                        public void onComplete(@NonNull Task<Location> task) {
-                            if (task.isSuccessful() && task.getResult() != null) {
-                                Location location = task.getResult();
-=======
                         public void onSuccess(Location location) {
                             if (location != null) {
                                 double latitude = location.getLatitude();
                                 double longitude = location.getLongitude();
->>>>>>> feature/CodigoMalComprobar
 
                                 //Toast.makeText(MainView.this, "Latitud: " + latitude + ", Longitud: " + longitude, Toast.LENGTH_SHORT).show();
                                 userLat = location.getLatitude();
                                 userLon = location.getLongitude();
                                 Log.d("[DEBUG]", "Latitud: " + userLat + "Longitud: " + userLon);
-                                infoUbi.setText("Ubicación ☑");
+                                if (actionBar != null) {
+                                    actionBar.setTitle("Ubicación ☑");
+                                }
                                 presenter.obtainUbi(userLat, userLon);
 
                             } else {
@@ -278,20 +297,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                             }
                         }
                     });
-        } else {mostrarDialogoUbicacion();}
+        } else {
+            mostrarDialogoUbicacion();
+        }
 
     }
-
-
-    /**
-    public void obtenerUbicacion() {
-        //Toast.makeText(MainView.this, "Obtener ubicacion ejecutado", Toast.LENGTH_SHORT).show();
-
-        if (checkLocationPermission()) {
-            llamadaTask();
-        } else {}
-
-    }*/
 
 
     private void mostrarDialogoUbicacion() {
@@ -373,9 +383,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     public void showLoading() {
         loading.setVisibility(View.VISIBLE);
     }
-
-
-
 
 
 }

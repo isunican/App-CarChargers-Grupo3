@@ -27,6 +27,9 @@
             android:name=".activities.details.DetailsView"
             android:exported="false" />
         <activity
+            android:name=".activities.user.UserView"
+            android:exported="false" />
+        <activity
             android:name=".activities.main.MainView"
             android:exported="true">
             <intent-filter>

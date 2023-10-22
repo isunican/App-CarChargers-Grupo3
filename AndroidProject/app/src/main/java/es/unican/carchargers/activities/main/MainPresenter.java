@@ -105,6 +105,10 @@ public class MainPresenter implements IMainContract.Presenter {
         view.showLoading();
         load();
     }
+    @Override
+    public void onMenuUserClicked() {
+        view.showUserDetails();
+    }
 
 
 

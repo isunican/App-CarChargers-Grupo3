@@ -3,10 +3,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menuItemUser"
+        android:icon="@drawable/user"
+        android:title="botonUser"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menuItemRefresh"
+        android:icon="@drawable/refresh"
+        android:title="botonRefresh"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/menuItemFiltro"
         android:icon="@drawable/filter"
         android:title="botonFiltro"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/menuItemInfo"
         android:layout_width="wrap_content"
