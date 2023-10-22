@@ -1,10 +1,18 @@
+buildscript {
+    ext {
+        agp_version = '8.1.1'
+        agp_version1 = '8.1.1'
+    }
+}
 plugins {
-    id 'com.android.application'
     id 'com.google.dagger.hilt.android'
     id "org.sonarqube" version "4.0.0.2929"
     id 'jacoco'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+    id 'com.android.application' version '8.1.1'
 }
+
+
 
 apply plugin: "jacoco"
 
@@ -79,6 +87,8 @@ android {
 }
 
 dependencies {
+    //Para refrescar al hacer swipe
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
     //Para el acceso a la ubicacion
     implementation 'com.google.android.gms:play-services-location:18.0.0'
     //Para los gifs

@@ -23,9 +23,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnTokenCanceledListener;
 import com.google.android.gms.tasks.Task;
 
 import org.parceler.Parcels;
@@ -80,9 +85,14 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         logo = findViewById(R.id.imgLogo);
         logo.setVisibility(View.INVISIBLE);
 
+<<<<<<< HEAD
         // Initialize presenter-view connection
         presenter = new MainPresenter();
         presenter.init(this);
+=======
+        SwipeRefreshLayout swipeRefresh = findViewById(R.id.swipeRefresh);
+
+>>>>>>> feature/CodigoMalComprobar
 
         fusedLocationClient = new FusedLocationProviderClient(this);
 
@@ -94,6 +104,13 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         infoUbi.setText("Ubicación ☒");
 
         checked = new boolean[EOperator.values().length];
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.onMenuRefreshClicked();
+                swipeRefresh.setRefreshing(false);
+            }
+        });
 
 
         //Pide permisos
@@ -103,14 +120,19 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         } else {
             // Si no tienes permisos, solicítalos al usuario.
             requestLocationPermission();
+            mostrarDialogoUbicacion();
         }
 
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-
-
-
-
+        // No tienes ubi
+        if (userLat == 0.0 && userLon == 0.0) {
+            obtenerUbicacion();
+        }
 
     }
 
@@ -130,7 +152,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             case R.id.menuItemFiltro:
                 mostrarDialogoFiltros();
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -162,13 +183,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         logo.setVisibility(View.VISIBLE);
         loading.setVisibility(View.INVISIBLE);
         infoUbi.setVisibility(View.VISIBLE);
-        /*
-        if (userLat != 0.0 && userLon != 0.0){
-            ordenaPorUbi(0);
-        }
-        */
-
-
     }
 
     @Override
@@ -180,6 +194,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     @Override
     public void showLoadError() {
         Toast.makeText(this, "Error cargando cargadores", Toast.LENGTH_LONG).show();
+        loading.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -211,6 +226,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
 
     public void obtenerUbicacion() {
+<<<<<<< HEAD
         //Toast.makeText(MainView.this, "Obtener ubicacion ejecutado", Toast.LENGTH_SHORT).show();
         if (ApplicationConstants.isLocationMocked()) {
             userLat = ApplicationConstants.getLatMock();
@@ -219,13 +235,35 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             //setLocation(userLat, userLon);
             return;
         }
+=======
+
+>>>>>>> feature/CodigoMalComprobar
         if (checkLocationPermission()) {
-            fusedLocationClient.getLastLocation()
-                    .addOnCompleteListener(this, new OnCompleteListener<Location>() {
+            CancellationToken c = new CancellationToken() {
+                CancellationToken devolver;
+                @NonNull
+                @Override
+                public CancellationToken onCanceledRequested(@NonNull OnTokenCanceledListener onTokenCanceledListener) {
+                    return devolver;
+                }
+                @Override
+                public boolean isCancellationRequested() {
+                    return false;
+                }
+            };
+            fusedLocationClient.getCurrentLocation(100,c)
+                    .addOnSuccessListener(this, new OnSuccessListener<>() {
                         @Override
+<<<<<<< HEAD
                         public void onComplete(@NonNull Task<Location> task) {
                             if (task.isSuccessful() && task.getResult() != null) {
                                 Location location = task.getResult();
+=======
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+                                double latitude = location.getLatitude();
+                                double longitude = location.getLongitude();
+>>>>>>> feature/CodigoMalComprobar
 
                                 //Toast.makeText(MainView.this, "Latitud: " + latitude + ", Longitud: " + longitude, Toast.LENGTH_SHORT).show();
                                 userLat = location.getLatitude();
@@ -236,23 +274,30 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
                             } else {
                                 // ubicación no disponible
-                                requestLocationPermission();
                                 mostrarDialogoUbicacion();
-
                             }
                         }
                     });
-        } else {
-
-        }
+        } else {mostrarDialogoUbicacion();}
 
     }
+
+
+    /**
+    public void obtenerUbicacion() {
+        //Toast.makeText(MainView.this, "Obtener ubicacion ejecutado", Toast.LENGTH_SHORT).show();
+
+        if (checkLocationPermission()) {
+            llamadaTask();
+        } else {}
+
+    }*/
 
 
     private void mostrarDialogoUbicacion() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Ubicación desactivada o no alcanzable");
-        builder.setMessage("Para usar esta función,por favor asegúrese de tener la ubicación habilitada en la configuración del dispositivo.");
+        builder.setMessage("Para usar esta función, por favor asegúrese de tener la ubicación habilitada en la configuración del dispositivo.");
         builder.setPositiveButton("Abrir config.", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -265,20 +310,18 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
 
-
-
     private void mostrarDialogoFiltros() {
         //En filtros contenemos todas las empresas
         ArrayList<EOperator> filtrosSeleccionados = new ArrayList<>();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         String[] filtrosStrings = new String[EOperator.values().length];
-        for ( int i = 0; i < EOperator.values().length; i++){
+        for (int i = 0; i < EOperator.values().length; i++) {
             filtrosStrings[i] = EOperator.values()[i].toString();
 
         }
 
 
-        builder.setTitle("Filtros de ubicación:")
+        builder.setTitle("Filtros de Compañía:")
                 .setMultiChoiceItems(filtrosStrings, checked, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int index,
@@ -288,18 +331,17 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                         EOperator filtro = EOperator.valueOf(filtrosStrings[index]);
 
                         if (isChecked) {
-                            checked[index] = true;
-                            // If the user checked the item, add it to the selected items
-                            filtrosSeleccionados.add(filtro);
-                        } else if (filtrosSeleccionados.contains(filtro)) {
+                            if (!filtrosSeleccionados.contains(filtro) && checked[index] == true) {
+                                // If the user checked the item, add it to the selected items
+                                filtrosSeleccionados.add(filtro);
+                            }
+                        } else if (!isChecked && filtrosSeleccionados.contains(filtro)) {
                             // Else, if the item is already in the array, remove it
                             checked[index] = false;
                             filtrosSeleccionados.remove(filtro);
                         }
                     }
                 });
-
-
 
 
         builder.setPositiveButton("Aplicar", new DialogInterface.OnClickListener() {
@@ -318,7 +360,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             public void onClick(DialogInterface dialog, int which) {
                 loading.setVisibility(View.VISIBLE);
                 presenter.resetButton();
-                for (int i = 0; i < checked.length; i++){
+                for (int i = 0; i < checked.length; i++) {
                     checked[i] = false;
                 }
 
@@ -326,6 +368,10 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         });
         builder.show();
+    }
+
+    public void showLoading() {
+        loading.setVisibility(View.VISIBLE);
     }
 
 
