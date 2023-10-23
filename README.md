@@ -18,3 +18,16 @@ La aplicación inicial incluye funcionalidad básica para descargar y mostrar in
 
 La aplicación utiliza el patrón Model-View-Presenter. El diagrama de arquitectura inicial es el siguiente:
 ![](Docs/Models/Arquitectura.png)
+
+
+Dentro de los repositorios utilizados para pruebas se posee:
+chargers_es_Ubicacion.json:
+	1. Santander
+	2. Burgos
+	3. Valladolid
+	4. Segovia
+	5. Madrid
+	6. Toledo
+	7. Ciudad Real
+	8. Jaén
+	9. Málaga
