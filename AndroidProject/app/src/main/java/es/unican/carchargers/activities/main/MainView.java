@@ -72,8 +72,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         infoUbi = findViewById(R.id.tvInfoUbi);
 
         loading = findViewById(R.id.imgLoading);
@@ -85,7 +83,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         // Initialize presenter-view connection
         presenter = new MainPresenter();
         presenter.init(this);
-
 
         fusedLocationClient = new FusedLocationProviderClient(this);
 
@@ -99,16 +96,22 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         checked = new boolean[EOperator.values().length];
 
 
-        //Comprobar permisos de locaclización de usuario
-        //Si no los tiene, se solicitan al usuario
+        //Pide permisos
         if (checkLocationPermission()) {
             // Ya tienes permisos de ubicación, puedes solicitar la ubicación.
             obtenerUbicacion();
-            infoUbi.setText("Ubicación ✓");
         } else {
             // Si no tienes permisos, solicítalos al usuario.
             requestLocationPermission();
         }
+
+
+
+
+
+
+
+
     }
 
     @Override
@@ -118,11 +121,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         return true;
     }
 
-    /*
-    Menú superior de la pantalla
-    Opción 1: vista información
-    Opción 2: menú de filtros
-    */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -132,6 +130,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             case R.id.menuItemFiltro:
                 mostrarDialogoFiltros();
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -154,9 +153,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         return repository;
     }
 
-    /*
-    Método que muestra la lista de cargadores disponibles
-    */
     @Override
     public void showChargers(List<Charger> chargers) {
         ChargersArrayAdapter adapterChargers = new ChargersArrayAdapter(this, chargers);
@@ -171,6 +167,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             ordenaPorUbi(0);
         }
         */
+
+
     }
 
     @Override
@@ -197,57 +195,50 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         startActivity(intent);
     }
 
-    @Override
-    public void setLocation(double uLat, double uLon) {
-        Log.d("[DEBUG]", "Latitud: " + uLat + "Longitud: " + uLat);
-        infoUbi.setText("Ubicación ✓");
-        //ubi.setText(uLat + "\n" + uLat);
-    }
 
-    /*
-    Método que comprueba que la app posea los permisos de ubicación
-     */
     private boolean checkLocationPermission() {
         int result = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         if (result == PackageManager.PERMISSION_GRANTED) return true;
         else return false;
     }
 
-    /*
-    Método que solicita los permisos de ubicación
-     */
     private void requestLocationPermission() {
         ActivityCompat.requestPermissions(
                 this,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1
+        );
     }
 
-    /*
-    Método que obtiene la ubicación del usuario
-     */
+
     public void obtenerUbicacion() {
+        //Toast.makeText(MainView.this, "Obtener ubicacion ejecutado", Toast.LENGTH_SHORT).show();
         if (ApplicationConstants.isLocationMocked()) {
+            userLat = ApplicationConstants.getLatMock();
+            userLon = ApplicationConstants.getLonMock();
             presenter.obtainUbi(ApplicationConstants.getLatMock(), ApplicationConstants.getLonMock());
+            //setLocation(userLat, userLon);
             return;
         }
-        //Toast.makeText(MainView.this, "Obtener ubicacion ejecutado", Toast.LENGTH_SHORT).show();
-        //Comprueba los permisos de ubicación
         if (checkLocationPermission()) {
-            //Obtiene la ultima ubicación del usuario
-            fusedLocationClient.getLastLocation().addOnCompleteListener(this, new OnCompleteListener<Location>() {
-                        //
+            fusedLocationClient.getLastLocation()
+                    .addOnCompleteListener(this, new OnCompleteListener<Location>() {
                         @Override
                         public void onComplete(@NonNull Task<Location> task) {
                             if (task.isSuccessful() && task.getResult() != null) {
                                 Location location = task.getResult();
+
                                 //Toast.makeText(MainView.this, "Latitud: " + latitude + ", Longitud: " + longitude, Toast.LENGTH_SHORT).show();
                                 userLat = location.getLatitude();
                                 userLon = location.getLongitude();
+                                Log.d("[DEBUG]", "Latitud: " + userLat + "Longitud: " + userLon);
+                                infoUbi.setText("Ubicación ☑");
                                 presenter.obtainUbi(userLat, userLon);
+
                             } else {
-                                // ubicación no disponible, se vuelve a pedir permiso
+                                // ubicación no disponible
                                 requestLocationPermission();
                                 mostrarDialogoUbicacion();
+
                             }
                         }
                     });
@@ -257,9 +248,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     }
 
-    /*
-    Método que solicita la ubicación en el caso de que no esté disponible
-     */
+
     private void mostrarDialogoUbicacion() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Ubicación desactivada o no alcanzable");
@@ -275,26 +264,27 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         builder.show();
     }
 
-    /*
-    Método que muestra el menú desplegable de filtros
-     */
+
+
+
     private void mostrarDialogoFiltros() {
         //En filtros contenemos todas las empresas
         ArrayList<EOperator> filtrosSeleccionados = new ArrayList<>();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        //Strings de elementos seleccionados en el filtro
         String[] filtrosStrings = new String[EOperator.values().length];
-        //Definición de elementos disponibles para elegir en el filtro
         for ( int i = 0; i < EOperator.values().length; i++){
             filtrosStrings[i] = EOperator.values()[i].toString();
+
         }
+
 
         builder.setTitle("Filtros de ubicación:")
                 .setMultiChoiceItems(filtrosStrings, checked, new DialogInterface.OnMultiChoiceClickListener() {
-                    //Listener que define las compañías seleccionadas al aplicar el filtro
                     @Override
                     public void onClick(DialogInterface dialog, int index,
                                         boolean isChecked) {
+
+
                         EOperator filtro = EOperator.valueOf(filtrosStrings[index]);
 
                         if (isChecked) {
@@ -309,12 +299,16 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                     }
                 });
 
-        //Aplica el filtro seleccionado
+
+
+
         builder.setPositiveButton("Aplicar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 loading.setVisibility(View.VISIBLE);
                 presenter.loadConFiltrosEmpresas(filtrosSeleccionados);
+
+
             }
 
 
@@ -333,4 +327,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         });
         builder.show();
     }
+
+
+
+
+
 }
