@@ -28,7 +28,6 @@ import es.unican.carchargers.model.Charger;
 public class DetailsView extends AppCompatActivity  {
 
     public static final String INTENT_CHARGER = "INTENT_CHARGER";
-    public static final String STR_UBI = "Ubicación: ";
 
     double lat, lon;
 
@@ -37,6 +36,7 @@ public class DetailsView extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_view);
+
 
         // Link to view elements
         ImageView ivLogo = findViewById(R.id.ivLogo);
@@ -47,7 +47,10 @@ public class DetailsView extends AppCompatActivity  {
         TextView tvWeb = findViewById(R.id.tvPaginaWeb);
         //Web que muestra el mapa
         WebView webview = findViewById(R.id.web);
-        webview.getSettings().setJavaScriptEnabled(false);
+        webview.getSettings().setJavaScriptEnabled(true);
+
+
+
 
         // Get Charger from the intent that triggered this activity
         charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
@@ -61,6 +64,11 @@ public class DetailsView extends AppCompatActivity  {
             Toast.makeText(getApplicationContext(), "El cargador es null", Toast.LENGTH_SHORT).show();
         }
 
+
+
+
+
+
         String html1 = "https://maps.google.com/maps?q=";
         String coma = ",";
         String html2 = "&hl=es&z=14&amp;output=embed";
@@ -68,9 +76,14 @@ public class DetailsView extends AppCompatActivity  {
         String webConfig = "<style>html{background-color: #f0f0f0;}</style>";
         webview.loadData(web + webConfig, "text/html", null);
 
+
+
         // Set logo
         int resourceId = EOperator.fromId(charger.operator.id).logo;
         ivLogo.setImageResource(resourceId);
+
+
+
 
         // Set Infos
         if (!charger.address.title.isBlank() || charger.address.title != null ){
@@ -90,6 +103,8 @@ public class DetailsView extends AppCompatActivity  {
 
         tvId.setText(charger.id);
 
+
+
         //Metemos info en el campo info
         String informacion = "";
 
@@ -100,19 +115,19 @@ public class DetailsView extends AppCompatActivity  {
             if ((charger.address.town.isBlank()) && (charger.address.province.isBlank())) {
                 informacion = informacion + "Ubicación: Provincia y ciudad no disponible\n";
             } else if (charger.address.town.isBlank()) {
-                informacion = informacion + STR_UBI + charger.address.province + "\n";
+                informacion = informacion + "Ubicación: " + charger.address.province + "\n";
             } else if (charger.address.province.isBlank()) {
-                informacion = informacion + STR_UBI + charger.address.town + "\n";
+                informacion = informacion + "Ubicación: " + charger.address.town + "\n";
             } else {
-                informacion = informacion + STR_UBI + charger.address.town + ", " + charger.address.province + "\n";
+                informacion = informacion + "Ubicación: " + charger.address.town + ", " + charger.address.province + "\n";
             }
         } catch(NullPointerException e){
-            if (charger.address.province == null && charger.address.town == null){
+            if (charger.address.province == null && charger.address.province == null){
                 informacion = informacion + "Ubicación: Provincia y ciudad no disponible\n";
             } else if (charger.address.town == null){
-                informacion = informacion + STR_UBI + charger.address.province + "\n";
+                informacion = informacion + "Ubicación: " + charger.address.province + "\n";
             } else if (charger.address.province == null){
-                informacion = informacion + STR_UBI + charger.address.town + "\n";
+                informacion = informacion + "Ubicación: " + charger.address.town + "\n";
             }
 
         }

@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import es.unican.carchargers.common.ApplicationConstants;
 import es.unican.carchargers.common.LocationComparator;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.repository.ICallBack;
@@ -23,7 +22,6 @@ import es.unican.carchargers.repository.service.APIArguments;
 
 public class MainPresenter implements IMainContract.Presenter {
 
-    public static final String DEBUG_PRESENTER = "[DEBUG EN PRESENTER]";
     /** the view controlled by this presenter */
     private IMainContract.View view;
 
@@ -31,9 +29,6 @@ public class MainPresenter implements IMainContract.Presenter {
     private List<Charger> shownChargers;
     private Double userLat;
     private Double userLon;
-
-
-
 
     @Override
     public void init(IMainContract.View view) {
@@ -51,7 +46,9 @@ public class MainPresenter implements IMainContract.Presenter {
 
         // set API arguments to retrieve charging stations that match some criteria
         APIArguments args = APIArguments.builder()
-                    .setCountryCode(ECountry.SPAIN.code).setMaxResults(50);
+                    .setCountryCode(ECountry.SPAIN.code)
+                    .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
+                    .setMaxResults(50);
 
 
 
@@ -60,7 +57,6 @@ public class MainPresenter implements IMainContract.Presenter {
             public void onSuccess(List<Charger> chargers) {
                 MainPresenter.this.shownChargers =
                         chargers != null ? chargers : Collections.emptyList();
-
                 if(userLat != null && userLon != null) {
                     Collections.sort(chargers, new LocationComparator(userLat, userLon));
                 }
@@ -93,9 +89,7 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
 
-    /*
-    Método que carga la lista de cargadores filtrados por compañía
-     */
+
     public void loadConFiltrosEmpresas(List<EOperator> filtrosSeleccionados) {
         IRepository repository = view.getRepository();
 
@@ -105,9 +99,9 @@ public class MainPresenter implements IMainContract.Presenter {
                 .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
                 .setMaxResults(50);
 
-        Log.d(DEBUG_PRESENTER,"Los filtros son:");
+        Log.d("[DEBUG EN PRESENTER]","Los filtros son:");
         for(EOperator e: filtrosSeleccionados){
-            Log.d(DEBUG_PRESENTER,e.toString());
+            Log.d("[DEBUG EN PRESENTER]",e.toString());
         }
 
 
@@ -118,7 +112,7 @@ public class MainPresenter implements IMainContract.Presenter {
                         chargers != null ? chargers : Collections.emptyList();
                 List<Charger> chargerResultado = new ArrayList<>();
 
-                Log.d(DEBUG_PRESENTER, "En la lista hubo " + chargers.size() + "elementos");
+                Log.d("[DEBUG EN PRESENTER]", "En la lista hubo " + chargers.size() + "elementos");
 
 
                     for(Charger c: chargers){
@@ -128,7 +122,7 @@ public class MainPresenter implements IMainContract.Presenter {
                             chargerResultado.add(c);
                         }
                     }
-                Log.d(DEBUG_PRESENTER,"En la lista hay actualmente "+chargerResultado.size()+"elementos");
+                Log.d("[DEBUG EN PRESENTER]","En la lista hay actualmente "+chargerResultado.size()+"elementos");
                 if(userLat != null && userLon != null) {
                 Collections.sort(chargers, new LocationComparator(userLat, userLon));
                 }
@@ -144,13 +138,16 @@ public class MainPresenter implements IMainContract.Presenter {
         };
 
         repository.requestChargers(args, callback);
+
     }
 
     public void obtainUbi(double uLat, double uLon){
         userLat = uLat;
         userLon = uLon;
-        Log.d(DEBUG_PRESENTER,"Tenemos ubi:" + userLat+ " " + userLon);
+        Log.d("[DEBUG EN PRESENTER]","Tenemos ubi:" + userLat+ " " + userLon);
         load();
+
+
     }
     public void resetButton (){
         load();
