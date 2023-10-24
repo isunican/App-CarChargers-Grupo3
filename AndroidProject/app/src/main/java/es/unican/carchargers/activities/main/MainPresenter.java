@@ -146,9 +146,8 @@ public class MainPresenter implements IMainContract.Presenter {
         userLon = uLon;
         Log.d("[DEBUG EN PRESENTER]","Tenemos ubi:" + userLat+ " " + userLon);
         load();
-
-
     }
+
     public void resetButton (){
         load();
 
