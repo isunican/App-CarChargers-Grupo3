@@ -1,10 +1,9 @@
-package es.unican.carchargers.activities.user;
+package es.unican.carchargers.activities.config;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -13,22 +12,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.unican.carchargers.R;
-import es.unican.carchargers.model.Charger;
 
 
+public class ConfigView extends AppCompatActivity  {
 
 
-public class UserView extends AppCompatActivity  {
-
-   // public static final String INTENT_CHARGER = "INTENT_CHARGER";
+   private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_view);
+        setContentView(R.layout.activity_config_view);
 
-        TextView tvTitle = findViewById(R.id.tvTitle);
-        tvTitle.setText("Usuario");
+        actionBar = getSupportActionBar();
+
+        // Establece el nuevo nombre para la ActionBar
+        if (actionBar != null) {
+            actionBar.setTitle("Configuración");
+        }
+
         List<String> chargerTypes = new ArrayList<>();
         chargerTypes.add("TJ-45");
         chargerTypes.add("XF-93");

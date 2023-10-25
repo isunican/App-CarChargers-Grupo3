@@ -4,38 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.user.UserView"
+    tools:context=".activities.config.ConfigView"
     tools:ignore="MissingClass">
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvPhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/ivLogo"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_margin="10px"
-            app:srcCompat="@drawable/user_green" />
-    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvInfo"
         android:layout_width="300dp"
-        android:layout_height="400dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="600dp"
         app:cardCornerRadius="16dp"
         app:cardElevation="4dp"
-        app:layout_constraintEnd_toEndOf="@+id/cvPhoto"
-        app:layout_constraintStart_toStartOf="@+id/cvPhoto"
-        app:layout_constraintTop_toBottomOf="@+id/cvPhoto">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/userDetails"
@@ -48,19 +29,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:gravity="bottom|center_horizontal"
-                android:text="Nombre"
+                android:gravity="center"
+                android:text="Filtros permanentes"
                 android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvFiltro"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal|top"
-                android:text="Filtros temporales"
-                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <LinearLayout

@@ -1,7 +1,6 @@
 package es.unican.carchargers.activities.main;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,9 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,15 +22,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.CancellationToken;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.OnTokenCanceledListener;
-import com.google.android.gms.tasks.Task;
 
 import org.parceler.Parcels;
 
@@ -46,7 +39,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.info.InfoActivity;
-import es.unican.carchargers.activities.user.UserView;
+import es.unican.carchargers.activities.config.ConfigView;
 import es.unican.carchargers.common.ApplicationConstants;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
@@ -229,7 +222,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
     //@Override
     public void showUserDetails() {
-        Intent intent = new Intent(this, UserView.class);
+        Intent intent = new Intent(this, ConfigView.class);
         startActivity(intent);
     }
 
