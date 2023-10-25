@@ -2,14 +2,24 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+
+
+    <item
+        android:id="@+id/menuItemRefresh"
+        android:icon="@drawable/refresh"
+        android:title="botonRefresh"
+        app:showAsAction="always" />
     <item
         android:id="@+id/menuItemFiltro"
         android:icon="@drawable/filter"
         android:title="botonFiltro"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/menuItemInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="@string/info" />
+        android:title="Información" />
+    <item
+        android:id="@+id/menuItemUser"
+        android:title="Configuración" />
 </menu>

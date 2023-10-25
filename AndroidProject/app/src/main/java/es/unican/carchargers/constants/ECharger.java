@@ -14,6 +14,8 @@ public enum ECharger {
     CEE(28, "CEE 7/4 - Schuko - Type F"),
     CHADEMO(2, "CHAdeMO"),
     TYPE2_TETHERED(1036, "Type 2 (Tethered Connector) "),
+    CEE_5(17, "CEE 5 Pin"),
+    CEE_3(16, "CEE 3 Pin"),
     GENERIC(-1, "Not Found");
 
     public final static List<Integer> ALL = null;

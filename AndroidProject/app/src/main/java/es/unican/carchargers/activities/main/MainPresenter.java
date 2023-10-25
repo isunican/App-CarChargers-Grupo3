@@ -1,16 +1,16 @@
 package es.unican.carchargers.activities.main;
 
-
-
 import static es.unican.carchargers.constants.EOperator.fromId;
 
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
+import es.unican.carchargers.R;
 import es.unican.carchargers.common.LocationComparator;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.repository.ICallBack;
@@ -45,10 +45,19 @@ public class MainPresenter implements IMainContract.Presenter {
         IRepository repository = view.getRepository();
 
         // set API arguments to retrieve charging stations that match some criteria
-        APIArguments args = APIArguments.builder()
+        APIArguments args;
+
+        if (userLat != null || userLon != null){
+            args = APIArguments.builder()
+                    .setCountryCode(ECountry.SPAIN.code)
+                    .setLocation(userLat,userLon)
+                    .setMaxResults(50);
+        }else {
+            args = APIArguments.builder()
                     .setCountryCode(ECountry.SPAIN.code)
                     .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
                     .setMaxResults(50);
+        }
 
         ICallBack callback = new ICallBack() {
             @Override
@@ -69,7 +78,9 @@ public class MainPresenter implements IMainContract.Presenter {
             }
         };
 
-        repository.requestChargers(args, callback);
+        if (args != null){
+            repository.requestChargers(args, callback);
+        }
 
     }
 
@@ -86,15 +97,38 @@ public class MainPresenter implements IMainContract.Presenter {
         view.showInfoActivity();
     }
 
+    @Override
+    public void onMenuRefreshClicked() {
+        view.obtenerUbicacion();
+        view.showLoading();
+        load();
+    }
+    @Override
+    public void onMenuUserClicked() {
+        view.showUserDetails();
+    }
+
 
     public void loadConFiltrosEmpresas(List<EOperator> filtrosSeleccionados) {
         IRepository repository = view.getRepository();
 
         // set API arguments to retrieve charging stations that match some criteria
-        APIArguments args = APIArguments.builder()
+
+        APIArguments args;
+
+        if (userLat != null || userLon != null){
+            args = APIArguments.builder()
+                    .setCountryCode(ECountry.SPAIN.code)
+                    .setLocation(userLat,userLon)
+                    .setMaxResults(50);
+        }else {
+            args = APIArguments.builder()
                 .setCountryCode(ECountry.SPAIN.code)
                 .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
                 .setMaxResults(50);
+        }
+
+
 
         Log.d("[DEBUG EN PRESENTER]","Los filtros son:");
         for(EOperator e: filtrosSeleccionados){
@@ -111,12 +145,15 @@ public class MainPresenter implements IMainContract.Presenter {
 
                 Log.d("[DEBUG EN PRESENTER]", "En la lista hubo " + chargers.size() + "elementos");
 
-
                     for(Charger c: chargers){
                         EOperator e = fromId(c.operator.id);
                         if (filtrosSeleccionados.contains(e)) {
                             chargerResultado.add(c);
                         }
+                    }
+                    if (filtrosSeleccionados.size() == 0) {
+                        chargerResultado.addAll(chargers);
+                        Collections.sort(chargerResultado, new LocationComparator(userLat, userLon));
                     }
                 Log.d("[DEBUG EN PRESENTER]","En la lista hay actualmente "+chargerResultado.size()+"elementos");
                 if(userLat != null && userLon != null) {
@@ -132,8 +169,10 @@ public class MainPresenter implements IMainContract.Presenter {
                 view.showLoadError();
             }
         };
+        if (args != null){
+            repository.requestChargers(args, callback);
+        }
 
-        repository.requestChargers(args, callback);
 
     }
 
@@ -144,9 +183,8 @@ public class MainPresenter implements IMainContract.Presenter {
         userLon = uLon;
         Log.d("[DEBUG EN PRESENTER]","Tenemos ubi:" + userLat+ " " + userLon);
         load();
-
-
     }
+
     public void resetButton (){
         load();
 
