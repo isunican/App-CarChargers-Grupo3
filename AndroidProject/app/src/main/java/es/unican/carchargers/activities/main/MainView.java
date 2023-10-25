@@ -104,14 +104,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             // Si no tienes permisos, solicítalos al usuario.
             requestLocationPermission();
         }
-
-
-
-
-
-
-
-
     }
 
     @Override
@@ -130,7 +122,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             case R.id.menuItemFiltro:
                 mostrarDialogoFiltros();
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -167,8 +158,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             ordenaPorUbi(0);
         }
         */
-
-
     }
 
     @Override
@@ -194,7 +183,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         Intent intent = new Intent(this, InfoActivity.class);
         startActivity(intent);
     }
-
 
     private boolean checkLocationPermission() {
         int result = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
@@ -226,19 +214,16 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                         public void onComplete(@NonNull Task<Location> task) {
                             if (task.isSuccessful() && task.getResult() != null) {
                                 Location location = task.getResult();
-
                                 //Toast.makeText(MainView.this, "Latitud: " + latitude + ", Longitud: " + longitude, Toast.LENGTH_SHORT).show();
                                 userLat = location.getLatitude();
                                 userLon = location.getLongitude();
                                 Log.d("[DEBUG]", "Latitud: " + userLat + "Longitud: " + userLon);
                                 infoUbi.setText("Ubicación ☑");
                                 presenter.obtainUbi(userLat, userLon);
-
                             } else {
                                 // ubicación no disponible
                                 requestLocationPermission();
                                 mostrarDialogoUbicacion();
-
                             }
                         }
                     });
@@ -247,7 +232,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         }
 
     }
-
 
     private void mostrarDialogoUbicacion() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -264,9 +248,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         builder.show();
     }
 
-
-
-
     private void mostrarDialogoFiltros() {
         //En filtros contenemos todas las empresas
         ArrayList<EOperator> filtrosSeleccionados = new ArrayList<>();
@@ -274,16 +255,13 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         String[] filtrosStrings = new String[EOperator.values().length];
         for ( int i = 0; i < EOperator.values().length; i++){
             filtrosStrings[i] = EOperator.values()[i].toString();
-
         }
-
 
         builder.setTitle("Filtros de ubicación:")
                 .setMultiChoiceItems(filtrosStrings, checked, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int index,
                                         boolean isChecked) {
-
 
                         EOperator filtro = EOperator.valueOf(filtrosStrings[index]);
 
@@ -299,16 +277,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                     }
                 });
 
-
-
-
         builder.setPositiveButton("Aplicar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 loading.setVisibility(View.VISIBLE);
                 presenter.loadConFiltrosEmpresas(filtrosSeleccionados);
-
-
             }
 
 
@@ -327,9 +300,4 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         });
         builder.show();
     }
-
-
-
-
-
 }

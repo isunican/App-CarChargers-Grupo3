@@ -50,8 +50,6 @@ public class MainPresenter implements IMainContract.Presenter {
                     .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
                     .setMaxResults(50);
 
-
-
         ICallBack callback = new ICallBack() {
             @Override
             public void onSuccess(List<Charger> chargers) {
@@ -89,7 +87,6 @@ public class MainPresenter implements IMainContract.Presenter {
     }
 
 
-
     public void loadConFiltrosEmpresas(List<EOperator> filtrosSeleccionados) {
         IRepository repository = view.getRepository();
 
@@ -116,7 +113,6 @@ public class MainPresenter implements IMainContract.Presenter {
 
 
                     for(Charger c: chargers){
-
                         EOperator e = fromId(c.operator.id);
                         if (filtrosSeleccionados.contains(e)) {
                             chargerResultado.add(c);
@@ -141,6 +137,8 @@ public class MainPresenter implements IMainContract.Presenter {
 
     }
 
+
+
     public void obtainUbi(double uLat, double uLon){
         userLat = uLat;
         userLon = uLon;
@@ -153,7 +151,4 @@ public class MainPresenter implements IMainContract.Presenter {
         load();
 
     }
-
-
-
 }
