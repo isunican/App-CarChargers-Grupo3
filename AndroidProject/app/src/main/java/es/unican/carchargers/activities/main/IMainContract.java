@@ -43,6 +43,9 @@ public interface IMainContract {
         public void resetButton();
         public void loadConFiltrosEmpresas(List<EOperator> filtrosSeleccionados);
 
+        void onMenuRefreshClicked();
+
+        void onMenuUserClicked();
     }
 
     /**
@@ -103,6 +106,9 @@ public interface IMainContract {
          * Only the Presenter should call this method
          */
         public void showInfoActivity();
+        public void showUserDetails();
+        public void showLoading();
+        public void obtenerUbicacion();
 
     }
 }

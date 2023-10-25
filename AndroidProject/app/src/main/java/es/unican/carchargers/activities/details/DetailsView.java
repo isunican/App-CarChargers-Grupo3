@@ -14,7 +14,6 @@ import android.widget.Toast;
 import org.parceler.Parcels;
 
 import es.unican.carchargers.R;
-import es.unican.carchargers.activities.main.MainView;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 
@@ -41,7 +40,7 @@ public class DetailsView extends AppCompatActivity  {
         // Link to view elements
         ImageView ivLogo = findViewById(R.id.ivLogo);
         TextView tvTitle = findViewById(R.id.tvTitle);
-        TextView tvDireccion = findViewById(R.id.tvDireccion);
+        TextView tvDireccion = findViewById(R.id.tvChargerType);
         TextView tvId = findViewById(R.id.tvId);
         TextView tvInfo = findViewById(R.id.tvInfo);
         TextView tvWeb = findViewById(R.id.tvPaginaWeb);
