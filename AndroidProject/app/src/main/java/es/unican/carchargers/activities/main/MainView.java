@@ -272,10 +272,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                         @Override
                         public void onSuccess(Location location) {
                             if (location != null) {
-                                double latitude = location.getLatitude();
-                                double longitude = location.getLongitude();
-
-                                //Toast.makeText(MainView.this, "Latitud: " + latitude + ", Longitud: " + longitude, Toast.LENGTH_SHORT).show();
                                 userLat = location.getLatitude();
                                 userLon = location.getLongitude();
                                 Log.d("[DEBUG]", "Latitud: " + userLat + "Longitud: " + userLon);
