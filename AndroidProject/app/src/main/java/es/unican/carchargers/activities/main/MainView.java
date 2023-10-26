@@ -133,7 +133,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     protected void onResume() {
         super.onResume();
 
-        // No tienes ubi
         if (userLat == 0.0 && userLon == 0.0) {
             obtenerUbicacion();
         }
@@ -162,7 +161,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                 return true;
             case R.id.menuItemUser:
                 presenter.onMenuUserClicked();
-                //showUserDetails();
 
                 return true;
             default:
