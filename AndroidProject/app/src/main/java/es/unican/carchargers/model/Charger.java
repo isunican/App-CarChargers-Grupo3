@@ -23,13 +23,14 @@ public class Charger implements Comparable<Charger> {
     @SerializedName("UsageCost")            public String usageCost;
     @SerializedName("OperatorInfo")         public Operator operator;
     @SerializedName("AddressInfo")          public Address address;
-    @SerializedName("TypeInfo")             public ArrayList<Connection> connection;
+
+    @SerializedName("Connection")           public ArrayList<Connection> connections;
 
 
     public Charger() {
         this.operator = new Operator();
         this.address = new Address();
-        this.connection = new ArrayList<Connection>();
+        this.connections = new ArrayList<>();
 
     }
     @Override
@@ -38,11 +39,11 @@ public class Charger implements Comparable<Charger> {
     }
 
     public Set<ConnectionType> getConnectionTypes() {
-        Set<ConnectionType> tipos = new HashSet<>();
-        for (Connection c : connection) {
-            tipos.add(c.connectionType);
+        Set<ConnectionType> chargerTypes = new HashSet<>();
+        for (Connection c : connections) {
+            chargerTypes.add(c.connectionType);
         }
-        return tipos;
+        return chargerTypes;
     }
 
 

@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
  */
 public class APIArguments {
     private String countryCode;
+
+    private Integer connectionTypeId;
     private List<Integer> operatorIds = new ArrayList<>();
     private Double lat;
     private Double lon;
@@ -29,11 +31,17 @@ public class APIArguments {
         args.put(IOpenChargeMapAPI.LATITUDE, lat);
         args.put(IOpenChargeMapAPI.LONGITUDE, lon);
         args.put(IOpenChargeMapAPI.MAX_RESULTS, maxResults);
+        args.put(IOpenChargeMapAPI.CONNECTION_TYPE_ID, connectionTypeId);
         return args;
     }
 
     public APIArguments setCountryCode(String countryCode) {
         this.countryCode = countryCode;
+        return this;
+    }
+
+    public APIArguments setConnectionTypeId(int connectionTypeId) {
+        this.connectionTypeId = connectionTypeId;
         return this;
     }
 
@@ -43,6 +51,7 @@ public class APIArguments {
         }
         return this;
     }
+
 
     public APIArguments setLocation(double lat, double lon) {
         this.lat = lat;

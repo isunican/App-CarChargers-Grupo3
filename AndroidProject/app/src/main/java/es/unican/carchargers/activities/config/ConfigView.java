@@ -41,9 +41,7 @@ public class ConfigView extends AppCompatActivity  {
         for (int i = 0; i < ECharger.values().length; i++) {
             chargerTypes.add(ECharger.values()[i].toString());
         }
-        chargerTypes.add("TJ-45");
-        chargerTypes.add("XF-93");
-        chargerTypes.add("SW-21");
+
 
 
 
