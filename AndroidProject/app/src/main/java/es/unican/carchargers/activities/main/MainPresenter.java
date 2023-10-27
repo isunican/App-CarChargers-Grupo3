@@ -49,6 +49,7 @@ public class MainPresenter implements IMainContract.Presenter {
 
         if (userLat != null || userLon != null){
             args = APIArguments.builder()
+
                     .setCountryCode(ECountry.SPAIN.code)
                     .setLocation(userLat,userLon)
                     .setMaxResults(50);
