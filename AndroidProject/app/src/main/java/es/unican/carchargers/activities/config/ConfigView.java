@@ -14,14 +14,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.unican.carchargers.R;
+import es.unican.carchargers.activities.main.IMainContract;
 import es.unican.carchargers.constants.ECharger;
 import es.unican.carchargers.constants.EOperator;
 
 
 public class ConfigView extends AppCompatActivity  {
 
-
-   private ActionBar actionBar;
+    /**
+     * presenter that controls this view
+     */
+    IConfigContract.Presenter presenter;
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,7 @@ public class ConfigView extends AppCompatActivity  {
                 String selection = spinner.getSelectedItem().toString();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("charger-type", selection);
+                presenter.obtainType(selection);
                 editor.apply();
             }
 

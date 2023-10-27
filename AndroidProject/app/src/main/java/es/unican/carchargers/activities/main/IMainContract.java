@@ -38,14 +38,19 @@ public interface IMainContract {
          */
         public void onMenuInfoClicked();
 
+        void onMenuUserClicked();
+
         public void obtainUbi(double userLat, double userLon);
 
-        public void resetButton();
-        public void loadConFiltrosEmpresas(List<EOperator> filtrosSeleccionados);
+        void obtainFiltros(List<EOperator> filtrosSeleccionados);
+
+        void resetButton();
+
+
+
+        void obtainType(String valorGuardado);
 
         void onMenuRefreshClicked();
-
-        void onMenuUserClicked();
     }
 
     /**

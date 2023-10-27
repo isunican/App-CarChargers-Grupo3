@@ -1,8 +1,10 @@
 package es.unican.carchargers.activities.main;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -69,7 +71,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     private double userLat, userLon;
     private boolean[] checked;
     private ActionBar actionBar;
-
+    private  SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +101,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         actionBar = getSupportActionBar();
 
+
         // Establece el nuevo nombre para la ActionBar
         if (actionBar != null) {
             actionBar.setTitle("Ubicación ☒");
@@ -107,15 +110,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
 
         checked = new boolean[EOperator.values().length];
-        /*
-        buttonRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                presenter.onMenuRefreshClicked();
-                buttonRefresh.setRefreshing(false);
-            }
-        });
-         */
+
+
+        sharedPreferences = getSharedPreferences("MiPref", Context.MODE_PRIVATE);
+
+
 
 
         //Pide permisos
@@ -138,6 +137,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         if (userLat == 0.0 && userLon == 0.0) {
             obtenerUbicacion();
         }
+
+        String valorGuardado = sharedPreferences.getString("charger-type", "");
+        presenter.obtainType(valorGuardado);
 
     }
 
@@ -342,7 +344,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 loading.setVisibility(View.VISIBLE);
-                presenter.loadConFiltrosEmpresas(filtrosSeleccionados);
+                presenter.obtainFiltros(filtrosSeleccionados);
             }
 
 
