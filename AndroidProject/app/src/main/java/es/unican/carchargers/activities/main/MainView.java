@@ -4,9 +4,11 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -314,8 +316,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             filtrosStrings[i] = EOperator.values()[i].toString();
         }
 
-
-        builder.setTitle("Filtros de Compañía:")
+        builder.setTitle(Html.fromHtml("<font color='" + Color.parseColor("#8BC34A") + "'>Filtros de Compañía</font>", Html.FROM_HTML_MODE_LEGACY))
                 .setMultiChoiceItems(filtrosStrings, checked, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int index,
