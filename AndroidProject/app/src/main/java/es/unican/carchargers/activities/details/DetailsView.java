@@ -42,7 +42,6 @@ public class DetailsView extends AppCompatActivity  {
         ImageView ivLogo = findViewById(R.id.ivLogo);
         TextView tvTitle = findViewById(R.id.tvTitle);
         TextView tvDireccion = findViewById(R.id.tvDireccion);
-        TextView tvId = findViewById(R.id.tvId);
         TextView tvInfo = findViewById(R.id.tvInfo);
         TextView tvWeb = findViewById(R.id.tvPaginaWeb);
         //Web que muestra el mapa
@@ -101,7 +100,6 @@ public class DetailsView extends AppCompatActivity  {
 
         }
 
-        tvId.setText(charger.id);
 
 
 

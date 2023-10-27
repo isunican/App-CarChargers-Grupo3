@@ -8,10 +8,11 @@
     android:layout_height="match_parent">
 
     <!-- ConstraintLayout para organizar las vistas -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activities.details.DetailsView"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
         tools:ignore="MissingClass">
 
         <!-- CardView para la foto -->
@@ -21,10 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:cardElevation="4dp">
 
             <!-- ImageView para la foto -->
             <ImageView
@@ -42,10 +40,7 @@
             android:layout_height="170dp"
             android:layout_marginTop="16dp"
             app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:layout_constraintEnd_toEndOf="@+id/cvPhoto"
-            app:layout_constraintStart_toStartOf="@+id/cvPhoto"
-            app:layout_constraintTop_toBottomOf="@+id/cvPhoto">
+            app:cardElevation="4dp">
 
             <!-- LinearLayout para organizar la información -->
             <LinearLayout
@@ -88,14 +83,6 @@
         </androidx.cardview.widget.CardView>
 
         <!-- TextView para mostrar el ID -->
-        <TextView
-            android:id="@+id/tvId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#9C9C9C"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="id" />
 
         <!-- CardView para la vista web -->
         <androidx.cardview.widget.CardView
@@ -104,19 +91,14 @@
             android:layout_height="300dp"
             android:layout_marginBottom="100dp"
             app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:cardElevation="4dp">
 
             <!-- WebView para mostrar una página web -->
             <WebView
                 android:id="@+id/web"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                />
         </androidx.cardview.widget.CardView>
 
         <!-- TextView para la URL de la página web -->
@@ -124,13 +106,8 @@
             android:id="@+id/tvPaginaWeb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
             android:gravity="center_horizontal"
-            android:onClick="pulsaWeb"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="www.paginaweb.com" />
+            android:onClick="pulsaWeb" />
 
         <!-- CardView para los comentarios -->
         <androidx.cardview.widget.CardView
@@ -139,17 +116,18 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <!-- ListView para mostrar los comentarios -->
-            <ListView
-                android:id="@+id/lvComments"
+            app:cardElevation="4dp">
+            <TextView
+                android:id="@+id/tvCommentsCount"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="11" />
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                tools:text="Comentarios (0)"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
         </androidx.cardview.widget.CardView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </ScrollView>
