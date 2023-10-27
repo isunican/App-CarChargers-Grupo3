@@ -41,6 +41,9 @@ public class ConfigPresenter implements IConfigContract.Presenter {
 
     @Override
     public void obtainType(String type) {
-        chargerType = type;
+
+        if (type != null){
+            chargerType = type;
+        }
     }
 }

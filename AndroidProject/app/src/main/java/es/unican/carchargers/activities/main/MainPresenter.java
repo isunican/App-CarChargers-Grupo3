@@ -7,6 +7,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import es.unican.carchargers.common.LocationComparator;
 import es.unican.carchargers.constants.ECountry;
@@ -47,17 +48,28 @@ public class MainPresenter implements IMainContract.Presenter {
         // set API arguments to retrieve charging stations that match some criteria
 
         APIArguments args;
+        int[] filtrosAplicarIDs = null;
+        try{
+        if(filtrosAplicar != null) {
+            filtrosAplicarIDs = new int[filtrosAplicar.size()];
 
-        if (userLat != null || userLon != null){
-            args = APIArguments.builder()
-                    .setCountryCode(ECountry.SPAIN.code)
-                    .setLocation(userLat,userLon)
-                    .setMaxResults(50);
-        }else {
-            args = APIArguments.builder()
-                    .setCountryCode(ECountry.SPAIN.code)
-                    .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
-                    .setMaxResults(50);
+            for (int i = 0; i < filtrosAplicar.size(); i++) {
+                filtrosAplicarIDs[i] = filtrosAplicar.get(i).id;
+            }
+        }
+        } catch (Exception e){
+
+        }
+        args = APIArguments.builder() // args default
+                .setCountryCode(ECountry.SPAIN.code)
+                .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
+                .setDistance(500)
+                .setMaxResults(100);
+        if (userLat != null || userLon != null) { //Solo tenemos ubicacion
+            args.setLocation(userLat,userLon);
+        }
+        if (filtrosAplicarIDs != null) { //Solo tenemos filtros
+            args.setOperatorId(filtrosAplicarIDs);
         }
 
 
@@ -70,10 +82,15 @@ public class MainPresenter implements IMainContract.Presenter {
                 List<Charger> chargerResultado = new ArrayList<>();
 
                 Log.d("[DEBUG EN PRESENTER]", "En la lista hubo " + chargers.size() + "elementos");
-
+                /*
                 if(filtrosAplicar != null) {
                     for (Charger c : chargers) {
-                        EOperator e = fromId(c.operator.id);
+                        EOperator e;
+                        try {
+                             e = fromId(c.operator.id);
+                        } catch(Exception exep){
+                             e = EOperator.GENERIC;
+                        }
                         if (filtrosAplicar.contains(e)) {
                             chargerResultado.add(c);
                         }
@@ -89,13 +106,15 @@ public class MainPresenter implements IMainContract.Presenter {
                     Collections.sort(chargers, new LocationComparator(userLat, userLon));
                 }
 
-                if (filtrosAplicar != null) {
-                    view.showChargers(chargerResultado);
-                    view.showLoadCorrect(chargerResultado.size());
-                } else{
+                 */
+
+                //if (filtrosAplicar != null) {
+                 //   view.showChargers(chargerResultado);
+                  //  view.showLoadCorrect(chargerResultado.size());
+               // } else{
                     view.showChargers(chargers);
                     view.showLoadCorrect(chargers.size());
-                }
+                //}
             }
             @Override
             public void onFailure(Throwable e) {
@@ -144,7 +163,9 @@ public class MainPresenter implements IMainContract.Presenter {
     }
     @Override
     public void obtainType(String valorGuardado) {
-        typeCharger = valorGuardado;
+            typeCharger = valorGuardado;
+        Log.d("[DEBUGTYPE]", "Presenter dice: " + typeCharger);
+
     }
     @Override
     public void obtainFiltros(List<EOperator> filtrosSeleccionados) {

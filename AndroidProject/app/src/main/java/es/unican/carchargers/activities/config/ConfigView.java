@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -61,7 +62,12 @@ public class ConfigView extends AppCompatActivity  {
                 String selection = spinner.getSelectedItem().toString();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("charger-type", selection);
-                presenter.obtainType(selection);
+
+                Log.d("[DEBUGTYPE]", "View dice: " + selection);
+                if (presenter != null){
+                    presenter.obtainType(selection);
+
+                }
                 editor.apply();
             }
 

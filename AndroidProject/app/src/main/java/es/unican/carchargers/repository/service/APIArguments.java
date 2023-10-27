@@ -18,6 +18,7 @@ public class APIArguments {
     private List<Integer> operatorIds = new ArrayList<>();
     private Double lat;
     private Double lon;
+    private Double distance;
     private Integer maxResults;
 
     public static APIArguments builder() {
@@ -32,6 +33,8 @@ public class APIArguments {
         args.put(IOpenChargeMapAPI.LONGITUDE, lon);
         args.put(IOpenChargeMapAPI.MAX_RESULTS, maxResults);
         args.put(IOpenChargeMapAPI.CONNECTION_TYPE_ID, connectionTypeId);
+        args.put(IOpenChargeMapAPI.DISTANCE, distance);
+
         return args;
     }
 
@@ -56,6 +59,10 @@ public class APIArguments {
     public APIArguments setLocation(double lat, double lon) {
         this.lat = lat;
         this.lon = lon;
+        return this;
+    }
+    public APIArguments setDistance(double distance) {
+        this.distance = distance;
         return this;
     }
 
