@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 /**
  * A charging station according to the OpenChargeMap API
  * Documentation: https://openchargemap.org/site/develop/api#/operations/get-poi
@@ -18,14 +21,24 @@ public class Charger implements Comparable<Charger> {
     @SerializedName("UsageCost")            public String usageCost;
     @SerializedName("OperatorInfo")         public Operator operator;
     @SerializedName("AddressInfo")          public Address address;
+    @SerializedName("UserComments")         public ArrayList<UserComment> userComments;
 
     public Charger() {
         this.operator = new Operator();
         this.address = new Address();
+        this.userComments = new ArrayList<>();
     }
     @Override
     public int compareTo(Charger other) {
         return this.address.title.compareTo(other.address.title);
+    }
+
+    public int getChargerComments () {
+        int counter = 0;
+        for (UserComment uC : userComments) {
+            counter++;
+        }
+        return counter;
     }
 
 }

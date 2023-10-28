@@ -122,11 +122,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                tools:text="Comentarios (0)"
-                />
+                tools:text="Comentarios (0)" />
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                tools:text="No existen comentarios \nde este punto de carga"/>
 
         </androidx.cardview.widget.CardView>
     </LinearLayout>
