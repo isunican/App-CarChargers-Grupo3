@@ -19,7 +19,7 @@ public interface IConfigContract {
     public interface Presenter {
         void init(View view);
 
-        void obtainType(String type);
+        void obtainType(int type);
     }
 
     /**

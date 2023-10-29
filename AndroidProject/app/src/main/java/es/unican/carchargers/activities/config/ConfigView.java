@@ -44,7 +44,21 @@ public class ConfigView extends AppCompatActivity  {
 
         List<String> chargerTypes = new ArrayList<>();
         for (int i = 0; i < ECharger.values().length; i++) {
-            chargerTypes.add(ECharger.values()[i].toString());
+
+            /*if (ECharger.values()[i].toString().equalsIgnoreCase("GENERIC")){
+
+                chargerTypes.add("TODOS");
+
+            } else {
+
+             */
+
+
+                chargerTypes.add(ECharger.values()[i].toString());
+            //}
+        }
+        for (String s:chargerTypes){
+            Log.d("[DEBUG SPINNER]", s );
         }
 
 
@@ -60,12 +74,23 @@ public class ConfigView extends AppCompatActivity  {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 String selection = spinner.getSelectedItem().toString();
+                int idSelection;
+                /*
+                if(selection.equalsIgnoreCase("TODOS")){
+                    idSelection = -1;
+                } else {
+
+
+                 */
+
+                    idSelection = ECharger.valueOf(selection).id;
+                //}
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("charger-type", selection);
 
                 Log.d("[DEBUGTYPE]", "View dice: " + selection);
                 if (presenter != null){
-                    presenter.obtainType(selection);
+                    presenter.obtainType(idSelection);
 
                 }
                 editor.apply();
