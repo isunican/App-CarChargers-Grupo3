@@ -100,7 +100,7 @@ public class MainPresenter implements IMainContract.Presenter {
                 .setMaxResults(50);
 
         Log.d("[DEBUG EN PRESENTER]","Los filtros son:");
-        for(EOperator e: filtrosSeleccionados){
+        for(EOperator e: filtrosSeleccionados) {
             Log.d("[DEBUG EN PRESENTER]",e.toString());
         }
 

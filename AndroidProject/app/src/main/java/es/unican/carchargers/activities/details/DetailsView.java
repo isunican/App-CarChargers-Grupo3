@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -14,10 +15,17 @@ import android.widget.Toast;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import es.unican.carchargers.R;
+import es.unican.carchargers.activities.main.ChargersArrayAdapter;
+import es.unican.carchargers.activities.main.CommentsArrayAdapter;
 import es.unican.carchargers.activities.main.MainView;
+import es.unican.carchargers.constants.EComment;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
+import es.unican.carchargers.model.UserComment;
 import es.unican.carchargers.repository.IRepository;
 
 
@@ -52,8 +60,6 @@ public class DetailsView extends AppCompatActivity  {
         ListView lvComments = findViewById(R.id.lvComments);
 
 
-
-
         // Get Charger from the intent that triggered this activity
         charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
         if (charger != null) {
@@ -66,11 +72,6 @@ public class DetailsView extends AppCompatActivity  {
             Toast.makeText(getApplicationContext(), "El cargador es null", Toast.LENGTH_SHORT).show();
         }
 
-
-
-
-
-
         String html1 = "https://maps.google.com/maps?q=";
         String coma = ",";
         String html2 = "&hl=es&z=14&amp;output=embed";
@@ -79,23 +80,20 @@ public class DetailsView extends AppCompatActivity  {
         webview.loadData(web + webConfig, "text/html", null);
 
 
-
         // Set logo
         int resourceId = EOperator.fromId(charger.operator.id).logo;
         ivLogo.setImageResource(resourceId);
 
 
-
-
         // Set Infos
-        if (!charger.address.title.isBlank() || charger.address.title != null ){
+        if (!charger.address.title.isBlank() || charger.address.title != null) {
             tvDireccion.setText(charger.address.title);
         } else {
             Toast.makeText(getApplicationContext(), "No hay address", Toast.LENGTH_SHORT).show();
             tvTitle.setText("Dirección desconocida");
         }
 
-        if (!charger.id.isBlank() || charger.id != null ){
+        if (!charger.id.isBlank() || charger.id != null) {
             tvTitle.setText(charger.operator.title);
         } else {
             Toast.makeText(getApplicationContext(), "No hay empresa", Toast.LENGTH_SHORT).show();
@@ -104,12 +102,10 @@ public class DetailsView extends AppCompatActivity  {
         }
 
 
-
-
         //Metemos info en el campo info
         String informacion = "";
 
-        informacion = informacion + "Número de puntos de conexión: " +charger.numberOfPoints + "\n";
+        informacion = informacion + "Número de puntos de conexión: " + charger.numberOfPoints + "\n";
 
 
         try {
@@ -122,12 +118,12 @@ public class DetailsView extends AppCompatActivity  {
             } else {
                 informacion = informacion + "Ubicación: " + charger.address.town + ", " + charger.address.province + "\n";
             }
-        } catch(NullPointerException e){
-            if (charger.address.province == null && charger.address.province == null){
+        } catch (NullPointerException e) {
+            if (charger.address.province == null && charger.address.province == null) {
                 informacion = informacion + "Ubicación: Provincia y ciudad no disponible\n";
-            } else if (charger.address.town == null){
+            } else if (charger.address.town == null) {
                 informacion = informacion + "Ubicación: " + charger.address.province + "\n";
-            } else if (charger.address.province == null){
+            } else if (charger.address.province == null) {
                 informacion = informacion + "Ubicación: " + charger.address.town + "\n";
             }
 
@@ -139,7 +135,7 @@ public class DetailsView extends AppCompatActivity  {
             } else {
                 informacion = informacion + "Precio por carga: " + charger.usageCost + "\n";
             }
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
             informacion = informacion + "Precio por carga: Desconocido" + "\n";
         }
 
@@ -147,20 +143,20 @@ public class DetailsView extends AppCompatActivity  {
         tvInfo.setText(informacion);
 
         //Metemos la pagina web
-
         tvWeb.setText(charger.operator.website);
 
         //Cálculo de numero de comentarios
-        if (charger.getChargerComments() == 0){
+
+        if (charger.getChargerComments() == 0) {
             tvComment.setText("Comentarios (0)");
         } else {
             tvComment.setText("Comentarios (" + charger.getChargerComments() + ")");
         }
 
         //Muestreo de comentarios
-        public void loadComentarios(/*List<EComment> filtrosSeleccionados*/) {
+        CommentsArrayAdapter commentArrayAdapter = new CommentsArrayAdapter(this, charger.userComments);
+        lvComments.setAdapter(commentArrayAdapter);
 
-        }
 
     }
 
