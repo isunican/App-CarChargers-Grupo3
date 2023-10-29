@@ -109,7 +109,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:onClick="pulsaWeb"
-            />
+            tools:text="Pagina web" />
 
         <!-- CardView para los comentarios -->
         <androidx.cardview.widget.CardView

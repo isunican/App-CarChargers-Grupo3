@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,8 +18,7 @@ import es.unican.carchargers.R;
 import es.unican.carchargers.activities.main.MainView;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
-
-
+import es.unican.carchargers.repository.IRepository;
 
 
 /**
@@ -47,6 +47,9 @@ public class DetailsView extends AppCompatActivity  {
         //Web que muestra el mapa
         WebView webview = findViewById(R.id.web);
         webview.getSettings().setJavaScriptEnabled(true);
+        //Lista de comentarios
+        TextView tvComment = findViewById(R.id.tvCommentsCount);
+        ListView lvComments = findViewById(R.id.lvComments);
 
 
 
@@ -146,6 +149,18 @@ public class DetailsView extends AppCompatActivity  {
         //Metemos la pagina web
 
         tvWeb.setText(charger.operator.website);
+
+        //Cálculo de numero de comentarios
+        if (charger.getChargerComments() == 0){
+            tvComment.setText("Comentarios (0)");
+        } else {
+            tvComment.setText("Comentarios (" + charger.getChargerComments() + ")");
+        }
+
+        //Muestreo de comentarios
+        public void loadComentarios(/*List<EComment> filtrosSeleccionados*/) {
+
+        }
 
     }
 
