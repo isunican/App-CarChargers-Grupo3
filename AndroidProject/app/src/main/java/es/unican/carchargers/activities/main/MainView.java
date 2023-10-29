@@ -139,7 +139,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             obtenerUbicacion();
         }
 
-        String valorGuardado = sharedPreferences.getString("charger-type", "");
+        String valorGuardado = sharedPreferences.getString("charger-type", "TODOS");
         int idSelection;
         if(valorGuardado.equalsIgnoreCase("TODOS")){
            idSelection = -1;
