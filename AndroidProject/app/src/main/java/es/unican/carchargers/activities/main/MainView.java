@@ -45,6 +45,7 @@ import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.info.InfoActivity;
 import es.unican.carchargers.activities.config.ConfigView;
 import es.unican.carchargers.common.ApplicationConstants;
+import es.unican.carchargers.constants.ECharger;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
@@ -139,7 +140,15 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         }
 
         String valorGuardado = sharedPreferences.getString("charger-type", "");
-        presenter.obtainType(valorGuardado);
+        int idSelection;
+        if(valorGuardado.equalsIgnoreCase("TODOS")){
+           idSelection = -1;
+        }
+        else{
+            idSelection = ECharger.valueOf(valorGuardado).id;
+        }
+
+        presenter.obtainType(idSelection);
 
     }
 

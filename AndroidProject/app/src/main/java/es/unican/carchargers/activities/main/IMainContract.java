@@ -42,13 +42,11 @@ public interface IMainContract {
 
         public void obtainUbi(double userLat, double userLon);
 
+        void obtainType(int idCharger);
+
         void obtainFiltros(List<EOperator> filtrosSeleccionados);
 
         void resetButton();
-
-
-
-        void obtainType(String valorGuardado);
 
         void onMenuRefreshClicked();
     }
