@@ -141,16 +141,16 @@ public class DetailsView extends AppCompatActivity  {
         }
 
 
-        informacion += charger.getConnectionTypes().size() + "\n";
+
         for (ConnectionType c: charger.getConnectionTypes()) {
             try {
                 if (charger.getConnectionTypes().isEmpty()) {
-                    informacion = informacion + "Tipo de cargador disponible: No encontrado" + "\n";
+                    informacion = informacion + "Tipo de cargador: No encontrado" + "\n";
                 } else {
-                    informacion = informacion + "Tipo de cargador disponible: " + c.title + "\n";
+                    informacion = informacion + "Tipo de cargador: " + c.title + "\n";
                 }
             } catch (NullPointerException e) {
-                informacion = informacion + "Tipo de cargador disponible: No encontrado" + "\n";
+                informacion = informacion + "Tipo de cargador: No encontrado" + "\n";
             }
 
         }

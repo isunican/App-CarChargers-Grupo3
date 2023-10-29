@@ -1,5 +1,7 @@
 package es.unican.carchargers.model;
 
+import android.util.Log;
+
 import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
@@ -24,7 +26,7 @@ public class Charger implements Comparable<Charger> {
     @SerializedName("OperatorInfo")         public Operator operator;
     @SerializedName("AddressInfo")          public Address address;
 
-    @SerializedName("Connection")           public ArrayList<Connection> connections;
+    @SerializedName("Connections")           public ArrayList<Connection> connections;
 
 
     public Charger() {
@@ -40,6 +42,7 @@ public class Charger implements Comparable<Charger> {
 
     public Set<ConnectionType> getConnectionTypes() {
         Set<ConnectionType> chargerTypes = new HashSet<>();
+        Log.d("[DEBUG EN PRESENTER]", "Conexiones" + connections.size());
         for (Connection c : connections) {
             chargerTypes.add(c.connectionType);
         }
