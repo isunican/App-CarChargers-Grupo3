@@ -27,7 +27,7 @@ public class MainPresenter implements IMainContract.Presenter {
     private Double userLat;
     private Double userLon;
     private List<EOperator> filtrosAplicar = null;
-    private int typeCharger = -10;
+    private int typeCharger = -1;
 
 
     @Override
@@ -64,9 +64,8 @@ public class MainPresenter implements IMainContract.Presenter {
                 .setDistance(500)
                 .setMaxResults(100);
 
-        if(typeCharger != -10 && typeCharger != -1 ){//Si el numero se ha actualizado hay un tipo de cargador
+        if(typeCharger != -1){//Si no hay filtro seleccionado o el filtro es TODOS
             args.setConnectionTypeId(typeCharger);
-
         }
 
 
