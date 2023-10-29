@@ -56,7 +56,7 @@ public class MainPresenter implements IMainContract.Presenter {
         }else {
             args = APIArguments.builder()
                     .setCountryCode(ECountry.SPAIN.code)
-                    .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
+                    //.setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
                     .setMaxResults(50);
         }
 
