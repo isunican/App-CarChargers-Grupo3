@@ -34,13 +34,13 @@ public class ConfigPresenter implements IConfigContract.Presenter {
         view.init();
     }
 
+    @Override
+    public void obtainType(int type) {}
+
     /**
      * This method requests a list of charging stations from the repository, and requests
      * the view to show them.
      */
 
-    @Override
-    public void obtainType(String type) {
-        chargerType = type;
-    }
+
 }

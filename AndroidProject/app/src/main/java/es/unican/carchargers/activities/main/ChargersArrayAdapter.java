@@ -39,16 +39,33 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
         // logo
         {
             ImageView iv = convertView.findViewById(R.id.ivLogo);
-            String operatorName = charger.operator.title;
-            EOperator operator = EOperator.fromId(charger.operator.id);
-            iv.setImageResource(operator.logo);
+            String operatorName;
+            if (charger.operator != null && charger.operator.title != null) {
+                operatorName = charger.operator.title;
+            } else {
+                operatorName = "Operador no identificado";
+            }
+
+            if (charger.operator != null ) {
+                EOperator operator = EOperator.fromId(charger.operator.id);
+                iv.setImageResource(operator.logo);
+            } else {
+                operatorName = "Operador no identificado";
+            }
+
+
         }
 
-        // Title
+// Title
         {
             TextView tv = convertView.findViewById(R.id.tvTitle);
-            tv.setText(charger.operator.title);
+            if (charger.operator != null && charger.operator.title != null) {
+                tv.setText(charger.operator.title);
+            } else {
+                tv.setText("Operador no identificado");
+            }
         }
+
 
         // Address
         {

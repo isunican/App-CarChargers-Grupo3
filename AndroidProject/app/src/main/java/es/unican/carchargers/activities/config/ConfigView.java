@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -43,7 +44,21 @@ public class ConfigView extends AppCompatActivity  {
 
         List<String> chargerTypes = new ArrayList<>();
         for (int i = 0; i < ECharger.values().length; i++) {
-            chargerTypes.add(ECharger.values()[i].toString());
+
+            /*if (ECharger.values()[i].toString().equalsIgnoreCase("GENERIC")){
+
+                chargerTypes.add("TODOS");
+
+            } else {
+
+             */
+
+
+                chargerTypes.add(ECharger.values()[i].toString());
+            //}
+        }
+        for (String s:chargerTypes){
+            Log.d("[DEBUG SPINNER]", s );
         }
 
 
@@ -59,9 +74,25 @@ public class ConfigView extends AppCompatActivity  {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 String selection = spinner.getSelectedItem().toString();
+                int idSelection;
+                /*
+                if(selection.equalsIgnoreCase("TODOS")){
+                    idSelection = -1;
+                } else {
+
+
+                 */
+
+                    idSelection = ECharger.valueOf(selection).id;
+                //}
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("charger-type", selection);
-                presenter.obtainType(selection);
+
+                Log.d("[DEBUGTYPE]", "View dice: " + selection);
+                if (presenter != null){
+                    presenter.obtainType(idSelection);
+
+                }
                 editor.apply();
             }
 
