@@ -9,6 +9,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.anything;
+import static es.unican.carchargers.utils.Matchers.hasElements;
 import static es.unican.carchargers.utils.Matchers.isNotEmpty;
 
 import android.content.Context;
@@ -75,12 +76,11 @@ public class FiltrosOkUITest {
 
     @Test
     public void filtroOkTest() {
-        onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
+        onView(withId(R.id.lvChargers)).check(matches(hasElements(2)));
         onView(ViewMatchers.withId(R.id.lvChargers)).check(matches(isDisplayed()));
         onView(withId(R.id.menuItemFiltro)).perform(click());
         onView(withText("IBERDROLA")).perform(click());
         onView(withText("Aplicar")).perform(click());
-        onView(withId(R.id.lvChargers)).check(matches(hasChildCount(2)));
 
         //Comprobamos los elementos
         onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).
