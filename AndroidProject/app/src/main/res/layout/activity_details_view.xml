@@ -148,6 +148,8 @@
                     android:layout_weight="11"
                     android:inputType="textMultiLine" />
 
+
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
