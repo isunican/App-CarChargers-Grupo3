@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -60,6 +61,7 @@ public class DetailsView extends AppCompatActivity  {
         ListView lvComments = findViewById(R.id.lvComments);
 
 
+
         // Get Charger from the intent that triggered this activity
         charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
         if (charger != null) {
@@ -71,6 +73,11 @@ public class DetailsView extends AppCompatActivity  {
         } else {
             Toast.makeText(getApplicationContext(), "El cargador es null", Toast.LENGTH_SHORT).show();
         }
+        ViewGroup.LayoutParams params = lvComments.getLayoutParams();
+        params.height = 352 * charger.getChargerComments(); // Cambia este valor al tamaño deseado en píxeles
+        lvComments.setLayoutParams(params);
+
+
 
         String html1 = "https://maps.google.com/maps?q=";
         String coma = ",";
@@ -163,6 +170,7 @@ public class DetailsView extends AppCompatActivity  {
         CommentsArrayAdapter commentArrayAdapter = new CommentsArrayAdapter(this, charger.userComments);
         lvComments.setAdapter(commentArrayAdapter);
         }
+
 
 
     }
