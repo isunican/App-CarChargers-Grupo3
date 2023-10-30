@@ -74,7 +74,11 @@ public class DetailsView extends AppCompatActivity  {
             Toast.makeText(getApplicationContext(), "El cargador es null", Toast.LENGTH_SHORT).show();
         }
         ViewGroup.LayoutParams params = lvComments.getLayoutParams();
-        params.height = 352 * charger.getChargerComments(); // Cambia este valor al tamaño deseado en píxeles
+        if (charger.getChargerComments() == 0){
+            params.height = 132;
+        }else{
+            params.height = 352 * charger.getChargerComments(); // Cambia este valor al tamaño deseado en píxeles
+        }
         lvComments.setLayoutParams(params);
 
 
