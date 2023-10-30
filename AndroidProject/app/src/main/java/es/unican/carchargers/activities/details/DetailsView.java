@@ -169,6 +169,12 @@ public class DetailsView extends AppCompatActivity  {
         if (charger.userComments != null){
         CommentsArrayAdapter commentArrayAdapter = new CommentsArrayAdapter(this, charger.userComments);
         lvComments.setAdapter(commentArrayAdapter);
+        } else {
+            List<String> noComments = new ArrayList<>();
+            noComments.add("No existen comentarios\nde este punto de carga.");
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, noComments);
+            lvComments.setAdapter(adapter);
+
         }
 
 
