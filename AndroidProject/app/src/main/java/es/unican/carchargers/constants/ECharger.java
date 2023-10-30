@@ -9,14 +9,15 @@ import es.unican.carchargers.R;
  * and the link to the logo resource id.
  */
 public enum ECharger {
+    TODOS(-1, "Not Found"),
     TYPE2_SOCKET(25, "Type 2 (Socket Only)"),  // ID Connections:354871
     CCS(33, "CCS (Type 2)"),
     CEE(28, "CEE 7/4 - Schuko - Type F"),
     CHADEMO(2, "CHAdeMO"),
     TYPE2_TETHERED(1036, "Type 2 (Tethered Connector) "),
     CEE_5(17, "CEE 5 Pin"),
-    CEE_3(16, "CEE 3 Pin"),
-    TODOS(-1, "Not Found");
+    CEE_3(16, "CEE 3 Pin");
+
 
     public final static List<Integer> ALL = null;
 

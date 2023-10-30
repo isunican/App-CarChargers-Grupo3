@@ -140,13 +140,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         }
 
         String valorGuardado = sharedPreferences.getString("charger-type", "TODOS");
-        int idSelection;
-        if(valorGuardado.equalsIgnoreCase("TODOS")){
-           idSelection = -1;
-        }
-        else{
-            idSelection = ECharger.valueOf(valorGuardado).id;
-        }
+        int idSelection = ECharger.valueOf(valorGuardado).id;
+
 
         presenter.obtainType(idSelection);
 
