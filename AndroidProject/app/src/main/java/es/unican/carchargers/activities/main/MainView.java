@@ -75,6 +75,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     private  SharedPreferences sharedPreferences;
     private int idSelection;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,15 +120,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
 
 
-        //Pide permisos
-        if (checkLocationPermission()) {
-            // Ya tienes permisos de ubicación, puedes solicitar la ubicación.
-            obtenerUbicacion();
-        } else {
-            // Si no tienes permisos, solicítalos al usuario.
-            requestLocationPermission();
-            mostrarDialogoUbicacion();
-        }
+
 
 
     }
@@ -137,7 +130,14 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         super.onResume();
 
         if (userLat == 0.0 && userLon == 0.0) {
-            obtenerUbicacion();
+            if (checkLocationPermission()) {
+                // Ya tienes permisos de ubicación, puedes solicitar la ubicación.
+                obtenerUbicacion();
+            } else {
+                // Si no tienes permisos, solicítalos al usuario.
+                requestLocationPermission();
+                mostrarDialogoUbicacion();
+            }
         }
 
         String valorGuardado = sharedPreferences.getString("charger-type", "TODOS");

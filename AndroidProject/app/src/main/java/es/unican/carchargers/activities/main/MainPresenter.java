@@ -45,8 +45,11 @@ public class MainPresenter implements IMainContract.Presenter {
      * This method requests a list of charging stations from the repository, and requests
      * the view to show them.
      */
+    int j = 0;
     public void load() {
 
+        Log.d("[DEBUG LOAD]", "load numero " + j +": setUbi: " +  setUbi+": setInit: " +  setInit +": setType: " +  setType);
+        j++;
         if (!setUbi || !setInit || !setType){
             return;
         }
