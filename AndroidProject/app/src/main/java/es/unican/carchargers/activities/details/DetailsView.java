@@ -143,7 +143,13 @@ public class DetailsView extends AppCompatActivity  {
         tvInfo.setText(informacion);
 
         //Metemos la pagina web
+        try{
+        if(!charger.operator.website.isBlank() ||!charger.operator.website.isEmpty()) {
         tvWeb.setText(charger.operator.website);
+        }
+        }catch(Exception e){
+            tvWeb.setText("No disponemos de una página web de contacto.");
+        }
 
         //Cálculo de numero de comentarios
 
@@ -154,8 +160,10 @@ public class DetailsView extends AppCompatActivity  {
         }
 
         //Muestreo de comentarios
+        if (charger.userComments != null){
         CommentsArrayAdapter commentArrayAdapter = new CommentsArrayAdapter(this, charger.userComments);
         lvComments.setAdapter(commentArrayAdapter);
+        }
 
 
     }

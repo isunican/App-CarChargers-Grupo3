@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 import org.parceler.Parcel;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -33,12 +35,21 @@ public class Charger implements Comparable<Charger> {
         return this.address.title.compareTo(other.address.title);
     }
 
+    public List<UserComment> getUserComments() {
+        return userComments;
+    }
     public int getChargerComments () {
         int counter = 0;
-        for (UserComment uC : userComments) {
-            counter++;
+        Set<UserComment> userCommentsCountList = new HashSet<>();
+        try {
+            userCommentsCountList.addAll(userComments);
+            for (UserComment uC : userCommentsCountList) {
+                counter++;
+            }
+            return counter;
+        } catch (Exception e){
+            return 0;
         }
-        return counter;
     }
 
 }
