@@ -25,6 +25,7 @@ public class Charger implements Comparable<Charger> {
     @SerializedName("UsageCost")            public String usageCost;
     @SerializedName("OperatorInfo")         public Operator operator;
     @SerializedName("AddressInfo")          public Address address;
+    @SerializedName("UserComments")         public ArrayList<UserComment> userComments;
 
     @SerializedName("Connections")           public ArrayList<Connection> connections;
 
@@ -34,6 +35,7 @@ public class Charger implements Comparable<Charger> {
         this.address = new Address();
         this.connections = new ArrayList<>();
 
+        this.userComments = new ArrayList<>();
     }
     @Override
     public int compareTo(Charger other) {
@@ -51,5 +53,22 @@ public class Charger implements Comparable<Charger> {
 
 
 
+
+    public List<UserComment> getUserComments() {
+        return userComments;
+    }
+    public int getChargerComments () {
+        int counter = 0;
+        Set<UserComment> userCommentsCountList = new HashSet<>();
+        try {
+            userCommentsCountList.addAll(userComments);
+            for (UserComment uC : userCommentsCountList) {
+                counter++;
+            }
+            return counter;
+        } catch (Exception e){
+            return 0;
+        }
+    }
 
 }
