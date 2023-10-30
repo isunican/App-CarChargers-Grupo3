@@ -73,6 +73,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     private boolean[] checked;
     private ActionBar actionBar;
     private  SharedPreferences sharedPreferences;
+    private int idSelection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,10 +141,14 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         }
 
         String valorGuardado = sharedPreferences.getString("charger-type", "TODOS");
-        int idSelection = ECharger.valueOf(valorGuardado).id;
+        int idSelectionOnResume = ECharger.valueOf(valorGuardado).id;
+        if (idSelectionOnResume != idSelection){
+            idSelection = idSelectionOnResume;
+            presenter.obtainType(idSelectionOnResume);
+        }
 
 
-        presenter.obtainType(idSelection);
+
 
     }
 
@@ -288,6 +293,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                             } else {
                                 // ubicación no disponible
                                 mostrarDialogoUbicacion();
+                                presenter.obtainUbi(0.0, 0.0);
                             }
                         }
                     });

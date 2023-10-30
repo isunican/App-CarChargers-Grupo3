@@ -28,12 +28,16 @@ public class MainPresenter implements IMainContract.Presenter {
     private Double userLon;
     private List<EOperator> filtrosAplicar = null;
     private int typeCharger = -1;
+    private boolean setInit = false;
+    private boolean setUbi = false;
+    private boolean setType = false;
 
 
     @Override
     public void init(IMainContract.View view) {
         this.view = view;
         view.init();
+        setInit = true;
         load();
     }
 
@@ -42,6 +46,10 @@ public class MainPresenter implements IMainContract.Presenter {
      * the view to show them.
      */
     public void load() {
+
+        if (!setUbi || !setInit || !setType){
+            return;
+        }
         IRepository repository = view.getRepository();
 
         // set API arguments to retrieve charging stations that match some criteria
@@ -127,9 +135,12 @@ public class MainPresenter implements IMainContract.Presenter {
 
 
     public void obtainUbi(double uLat, double uLon) {
-        userLat = uLat;
-        userLon = uLon;
+        if (uLat != 0.0 && uLon != 0.0){
+            userLat = uLat;
+            userLon = uLon;
+        }
         Log.d("[DEBUG EN PRESENTER]", "Tenemos ubi:" + userLat + " " + userLon);
+        setUbi = true;
         load();
     }
 
@@ -137,8 +148,8 @@ public class MainPresenter implements IMainContract.Presenter {
     public void obtainType(int idCharger) {
         typeCharger = idCharger;
         Log.d("[DEBUGTYPE]", "Presenter dice: " + typeCharger);
+        setType = true;
         load();
-
     }
 
     @Override

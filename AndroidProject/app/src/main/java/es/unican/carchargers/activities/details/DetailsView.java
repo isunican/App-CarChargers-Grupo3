@@ -53,13 +53,12 @@ public class DetailsView extends AppCompatActivity  {
         // Link to view elements
         ImageView ivLogo = findViewById(R.id.ivLogo);
         TextView tvTitle = findViewById(R.id.tvTitle);
-        TextView tvDireccion = findViewById(R.id.tvChargerType);
-        TextView tvId = findViewById(R.id.tvId);
+        TextView tvDireccion = findViewById(R.id.tvDireccion);
         TextView tvInfo = findViewById(R.id.tvInfo);
         TextView tvWeb = findViewById(R.id.tvPaginaWeb);
         //Web que muestra el mapa
         WebView webview = findViewById(R.id.web);
-        webview.getSettings().setJavaScriptEnabled(false);
+        webview.getSettings().setJavaScriptEnabled(true);
         //Lista de comentarios
         TextView tvComment = findViewById(R.id.tvCommentsCount);
         ListView lvComments = findViewById(R.id.lvComments);
