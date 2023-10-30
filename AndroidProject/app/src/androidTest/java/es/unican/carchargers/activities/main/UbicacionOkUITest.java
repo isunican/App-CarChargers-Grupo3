@@ -8,6 +8,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.anything;
+import static es.unican.carchargers.utils.Matchers.hasElements;
 import static es.unican.carchargers.utils.Matchers.isNotEmpty;
 
 import android.content.Context;
@@ -78,8 +79,7 @@ public class UbicacionOkUITest {
 
     @Test
     public void ubicacionOkTest() {
-        onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
-        //onView(withId(R.id.lvChargers)).check(matches(hasChildCount(9)));
+        onView(withId(R.id.lvChargers)).check(matches(hasElements(9)));
         onView(ViewMatchers.withId(R.id.lvChargers)).check(matches(isDisplayed()));
         //Comprobar el primer elemento
         onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).
