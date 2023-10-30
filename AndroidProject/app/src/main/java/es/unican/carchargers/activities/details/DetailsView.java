@@ -16,8 +16,7 @@ import org.parceler.Parcels;
 import es.unican.carchargers.R;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
-
-
+import es.unican.carchargers.model.ConnectionType;
 
 
 /**
@@ -140,6 +139,22 @@ public class DetailsView extends AppCompatActivity  {
         } catch(NullPointerException e){
             informacion = informacion + "Precio por carga: Desconocido" + "\n";
         }
+
+
+
+        for (ConnectionType c: charger.getConnectionTypes()) {
+            try {
+                if (charger.getConnectionTypes().isEmpty()) {
+                    informacion = informacion + "Tipo de cargador: No encontrado" + "\n";
+                } else {
+                    informacion = informacion + "Tipo de cargador: " + c.title + "\n";
+                }
+            } catch (NullPointerException e) {
+                informacion = informacion + "Tipo de cargador: No encontrado" + "\n";
+            }
+
+        }
+
 
 
         tvInfo.setText(informacion);

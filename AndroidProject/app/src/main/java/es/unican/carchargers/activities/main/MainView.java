@@ -1,12 +1,16 @@
 package es.unican.carchargers.activities.main;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,6 +45,7 @@ import es.unican.carchargers.activities.details.DetailsView;
 import es.unican.carchargers.activities.info.InfoActivity;
 import es.unican.carchargers.activities.config.ConfigView;
 import es.unican.carchargers.common.ApplicationConstants;
+import es.unican.carchargers.constants.ECharger;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
@@ -67,7 +72,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     private double userLat, userLon;
     private boolean[] checked;
     private ActionBar actionBar;
-
+    private  SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +102,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         actionBar = getSupportActionBar();
 
+
         // Establece el nuevo nombre para la ActionBar
         if (actionBar != null) {
             actionBar.setTitle("Ubicación ☒");
@@ -105,15 +111,11 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
 
         checked = new boolean[EOperator.values().length];
-        /*
-        buttonRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                presenter.onMenuRefreshClicked();
-                buttonRefresh.setRefreshing(false);
-            }
-        });
-         */
+
+
+        sharedPreferences = getSharedPreferences("MiPref", Context.MODE_PRIVATE);
+
+
 
 
         //Pide permisos
@@ -126,16 +128,22 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             mostrarDialogoUbicacion();
         }
 
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        // No tienes ubi
         if (userLat == 0.0 && userLon == 0.0) {
             obtenerUbicacion();
         }
+
+        String valorGuardado = sharedPreferences.getString("charger-type", "TODOS");
+        int idSelection = ECharger.valueOf(valorGuardado).id;
+
+
+        presenter.obtainType(idSelection);
 
     }
 
@@ -155,12 +163,12 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             case R.id.menuItemFiltro:
                 mostrarDialogoFiltros();
                 return true;
+
             case R.id.menuItemRefresh:
                 presenter.onMenuRefreshClicked();
                 return true;
             case R.id.menuItemUser:
                 presenter.onMenuUserClicked();
-                //showUserDetails();
 
                 return true;
             default:
@@ -193,7 +201,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         listView.setAdapter(adapterChargers);
 
         loading.setVisibility(View.INVISIBLE);
-
     }
 
     @Override
@@ -225,7 +232,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         Intent intent = new Intent(this, ConfigView.class);
         startActivity(intent);
     }
-
 
     private boolean checkLocationPermission() {
         int result = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
@@ -272,10 +278,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                         @Override
                         public void onSuccess(Location location) {
                             if (location != null) {
-                                double latitude = location.getLatitude();
-                                double longitude = location.getLongitude();
-
-                                //Toast.makeText(MainView.this, "Latitud: " + latitude + ", Longitud: " + longitude, Toast.LENGTH_SHORT).show();
                                 userLat = location.getLatitude();
                                 userLon = location.getLongitude();
                                 Log.d("[DEBUG]", "Latitud: " + userLat + "Longitud: " + userLon);
@@ -283,7 +285,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                                     actionBar.setTitle("Ubicación ☑");
                                 }
                                 presenter.obtainUbi(userLat, userLon);
-
                             } else {
                                 // ubicación no disponible
                                 mostrarDialogoUbicacion();
@@ -295,7 +296,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         }
 
     }
-
 
     private void mostrarDialogoUbicacion() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -320,16 +320,13 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         String[] filtrosStrings = new String[EOperator.values().length];
         for (int i = 0; i < EOperator.values().length; i++) {
             filtrosStrings[i] = EOperator.values()[i].toString();
-
         }
 
-
-        builder.setTitle("Filtros de Compañía:")
+        builder.setTitle(Html.fromHtml("<font color='" + Color.parseColor("#8BC34A") + "'>Filtros de Compañía</font>", Html.FROM_HTML_MODE_LEGACY))
                 .setMultiChoiceItems(filtrosStrings, checked, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int index,
                                         boolean isChecked) {
-
 
                         EOperator filtro = EOperator.valueOf(filtrosStrings[index]);
 
@@ -351,9 +348,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 loading.setVisibility(View.VISIBLE);
-                presenter.loadConFiltrosEmpresas(filtrosSeleccionados);
-
-
+                presenter.obtainFiltros(filtrosSeleccionados);
             }
 
 
@@ -376,6 +371,5 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     public void showLoading() {
         loading.setVisibility(View.VISIBLE);
     }
-
 
 }
