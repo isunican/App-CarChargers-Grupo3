@@ -54,7 +54,7 @@ public class DetailsView extends AppCompatActivity  {
         TextView tvWeb = findViewById(R.id.tvPaginaWeb);
         //Web que muestra el mapa
         WebView webview = findViewById(R.id.web);
-        webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setJavaScriptEnabled(false);
         //Lista de comentarios
         TextView tvComment = findViewById(R.id.tvCommentsCount);
         ListView lvComments = findViewById(R.id.lvComments);
@@ -146,11 +146,10 @@ public class DetailsView extends AppCompatActivity  {
         tvWeb.setText(charger.operator.website);
 
         //Cálculo de numero de comentarios
-
         if (charger.getChargerComments() == 0) {
             tvComment.setText("Comentarios (0)");
         } else {
-            tvComment.setText("Comentarios (" + charger.getChargerComments() + ")");
+            tvComment.setText("Comentarios (" + String.valueOf(charger.getChargerComments()) + ")");
         }
 
         //Muestreo de comentarios
