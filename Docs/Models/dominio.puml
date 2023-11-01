@@ -1,27 +1,46 @@
 @startuml dominio
 
 class Charger {
-    + String id
-    + int numberOfPoints
-    + String usageCost
+    + ID
+    + NumberOfPoints
+    + UsageCost
 }
 
-class Operator {
-    + int id
-    + String title
-    + String website
-    + String comments
+class OperatorInfo {
+    + ID
+    + Title
+    + WebsiteUrl
+    + Comments
 }
 
-class Address {
-    + String title
-    + String town
-    + String province
-    + String latitude
-    + String longitude
+class AddressInfo {
+    + Title
+    + Town
+    + StateOrProvince
+    + Latitude
+    + Longitude
 }
 
-Charger -down-> "1" Address : address
-Charger -down-> "1" Operator : operator
+class UserComment {
+    + ID
+    + UserName
+    + Comment
+    + DateCreated
+}
+class Connection {
+    + ID
+}
+
+class ConnectionType {
+    + ID
+    + Title
+}
+
+Charger -down-> "1" AddressInfo : address
+Charger -down-> "1" OperatorInfo : operator
+Charger -down-> "*" UserComment : userComments
+Charger -down-> "*" Connection : connections
+Connection -down-> "1" ConnectionType : connectionType
+
 
 @enduml

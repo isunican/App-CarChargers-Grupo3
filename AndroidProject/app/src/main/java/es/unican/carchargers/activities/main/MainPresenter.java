@@ -69,7 +69,7 @@ public class MainPresenter implements IMainContract.Presenter {
             }
         } catch (Exception e) {
         }
-        args = onAPIargs(filtrosAplicarIDs);
+        args = onAPIargs(filtrosAplicarIDs, typeCharger,userLat,userLon);
 
 
         ICallBack callback = new ICallBack() {
@@ -95,7 +95,7 @@ public class MainPresenter implements IMainContract.Presenter {
 
     }
 
-    public APIArguments onAPIargs(int [] idsFiltros){
+    public APIArguments onAPIargs(int [] idsFiltros, int typeCharger, Double userLat, Double userLon){
 
         APIArguments args = APIArguments.builder() // args default
                 .setCountryCode(ECountry.SPAIN.code)

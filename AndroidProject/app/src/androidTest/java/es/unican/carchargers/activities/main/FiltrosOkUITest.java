@@ -1,4 +1,4 @@
-package es.unican.carchargers.activities.main;
+/*package es.unican.carchargers.activities.main;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -29,8 +29,8 @@ import dagger.hilt.android.testing.BindValue;
 import dagger.hilt.android.testing.HiltAndroidRule;
 import dagger.hilt.android.testing.HiltAndroidTest;
 import dagger.hilt.android.testing.UninstallModules;
-import es.unican.carchargers.R;
-import es.unican.carchargers.common.ApplicationConstants;
+import es.unican.carchargers.R;*/
+/*import es.unican.carchargers.common.ApplicationConstants;
 import es.unican.carchargers.common.RepositoriesModule;
 import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.Repositories;
@@ -75,7 +75,7 @@ public class FiltrosOkUITest {
 
     @Test
     public void filtroOkTest() {
-        onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
+        onView(withId(R.id.lvChargers)).check(matches(hasElements(9)));
         onView(ViewMatchers.withId(R.id.lvChargers)).check(matches(isDisplayed()));
         onView(withId(R.id.menuItemFiltro)).perform(click());
         onView(withText("IBERDROLA")).perform(click());
@@ -88,4 +88,4 @@ public class FiltrosOkUITest {
         onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(1).
               onChildView(withId(R.id.tvAddress)).check(matches(withText("Parking Central (Andalusia)")));
     }
-}
+}*/

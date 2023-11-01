@@ -12,7 +12,7 @@ public class Matchers {
     /**
      * Metodo para comprobar en los test de interfaz si una lista está vacía.
      * Para utilizarlo se usa:
-     *      onView(withId(R.id.id_de_la_lista)).check(matches(hasElements()))
+     *      onView(withId(R.id.id_de_la_lista)).check(matches(isNotEmpty()))
      * @return Matcher<View>
      */
     public static Matcher<View> isNotEmpty() {

@@ -23,14 +23,7 @@ import es.unican.carchargers.R;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.model.ConnectionType;
-import es.unican.carchargers.activities.main.ChargersArrayAdapter;
 import es.unican.carchargers.activities.main.CommentsArrayAdapter;
-import es.unican.carchargers.activities.main.MainView;
-import es.unican.carchargers.constants.EComment;
-import es.unican.carchargers.constants.EOperator;
-import es.unican.carchargers.model.Charger;
-import es.unican.carchargers.model.UserComment;
-import es.unican.carchargers.repository.IRepository;
 
 
 /**
