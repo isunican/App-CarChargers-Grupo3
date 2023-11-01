@@ -28,12 +28,16 @@ public class MainPresenter implements IMainContract.Presenter {
     private Double userLon;
     private List<EOperator> filtrosAplicar = null;
     private int typeCharger = -1;
+    private boolean setInit = false;
+    private boolean setUbi = false;
+    private boolean setType = false;
 
 
     @Override
     public void init(IMainContract.View view) {
         this.view = view;
         view.init();
+        setInit = true;
         load();
     }
 
@@ -41,7 +45,14 @@ public class MainPresenter implements IMainContract.Presenter {
      * This method requests a list of charging stations from the repository, and requests
      * the view to show them.
      */
+    int j = 0;
     public void load() {
+
+        Log.d("[DEBUG LOAD]", "load numero " + j +": setUbi: " +  setUbi+": setInit: " +  setInit +": setType: " +  setType);
+        j++;
+        if (!setUbi || !setInit || !setType){
+            return;
+        }
         IRepository repository = view.getRepository();
 
         // set API arguments to retrieve charging stations that match some criteria
@@ -58,23 +69,7 @@ public class MainPresenter implements IMainContract.Presenter {
             }
         } catch (Exception e) {
         }
-        args = APIArguments.builder() // args default
-                .setCountryCode(ECountry.SPAIN.code)
-                .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
-                .setDistance(500)
-                .setMaxResults(100);
-
-        if(typeCharger != -1){//Si no hay filtro seleccionado o el filtro es TODOS
-            args.setConnectionTypeId(typeCharger);
-        }
-
-
-        if (userLat != null || userLon != null) { //Solo tenemos ubicacion
-            args.setLocation(userLat, userLon);
-        }
-        if (filtrosAplicarIDs != null) { //Solo tenemos filtros
-            args.setOperatorId(filtrosAplicarIDs);
-        }
+        args = onAPIargs(filtrosAplicarIDs);
 
 
         ICallBack callback = new ICallBack() {
@@ -98,6 +93,28 @@ public class MainPresenter implements IMainContract.Presenter {
         }
 
 
+    }
+
+    public APIArguments onAPIargs(int [] idsFiltros){
+
+        APIArguments args = APIArguments.builder() // args default
+                .setCountryCode(ECountry.SPAIN.code)
+                .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
+                .setDistance(500)
+                .setMaxResults(100);
+
+        if(typeCharger != -1){//Si no hay filtro seleccionado o el filtro es TODOS
+            args.setConnectionTypeId(typeCharger);
+        }
+
+
+        if (userLat != null || userLon != null) { //Solo tenemos ubicacion
+            args.setLocation(userLat, userLon);
+        }
+        if (idsFiltros != null) { //Solo tenemos filtros
+            args.setOperatorId(idsFiltros);
+        }
+        return args;
     }
 
     @Override
@@ -127,9 +144,12 @@ public class MainPresenter implements IMainContract.Presenter {
 
 
     public void obtainUbi(double uLat, double uLon) {
-        userLat = uLat;
-        userLon = uLon;
+        if (uLat != 0.0 && uLon != 0.0){
+            userLat = uLat;
+            userLon = uLon;
+        }
         Log.d("[DEBUG EN PRESENTER]", "Tenemos ubi:" + userLat + " " + userLon);
+        setUbi = true;
         load();
     }
 
@@ -137,8 +157,8 @@ public class MainPresenter implements IMainContract.Presenter {
     public void obtainType(int idCharger) {
         typeCharger = idCharger;
         Log.d("[DEBUGTYPE]", "Presenter dice: " + typeCharger);
+        setType = true;
         load();
-
     }
 
     @Override
