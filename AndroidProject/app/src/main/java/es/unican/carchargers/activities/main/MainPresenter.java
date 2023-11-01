@@ -91,8 +91,6 @@ public class MainPresenter implements IMainContract.Presenter {
         if (args != null) {
             repository.requestChargers(args, callback);
         }
-
-
     }
 
     public APIArguments onAPIargs(int [] idsFiltros, int typeCharger, Double userLat, Double userLon){
