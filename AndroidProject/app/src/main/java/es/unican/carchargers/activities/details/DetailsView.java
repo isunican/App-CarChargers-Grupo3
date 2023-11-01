@@ -40,6 +40,7 @@ import es.unican.carchargers.repository.IRepository;
 public class DetailsView extends AppCompatActivity  {
 
     public static final String INTENT_CHARGER = "INTENT_CHARGER";
+    public static final String UBICACION = "Ubicacion: ";
 
     double lat, lon;
 
@@ -124,21 +125,21 @@ public class DetailsView extends AppCompatActivity  {
 
         try {
             if ((charger.address.town.isBlank()) && (charger.address.province.isBlank())) {
-                informacion = informacion + "Ubicación: Provincia y ciudad no disponible\n";
+                informacion = informacion + UBICACION + "Provincia y ciudad no disponible\n";
             } else if (charger.address.town.isBlank()) {
-                informacion = informacion + "Ubicación: " + charger.address.province + "\n";
+                informacion = informacion + UBICACION  + charger.address.province + "\n";
             } else if (charger.address.province.isBlank()) {
-                informacion = informacion + "Ubicación: " + charger.address.town + "\n";
+                informacion = informacion + UBICACION + charger.address.town + "\n";
             } else {
-                informacion = informacion + "Ubicación: " + charger.address.town + ", " + charger.address.province + "\n";
+                informacion = informacion + UBICACION + charger.address.town + ", " + charger.address.province + "\n";
             }
         } catch (NullPointerException e) {
-            if (charger.address.province == null && charger.address.province == null) {
-                informacion = informacion + "Ubicación: Provincia y ciudad no disponible\n";
+            if (charger.address.province == null && charger.address.town == null) {
+                informacion = informacion + UBICACION + "Provincia y ciudad no disponible\n";
             } else if (charger.address.town == null) {
-                informacion = informacion + "Ubicación: " + charger.address.province + "\n";
+                informacion = informacion + UBICACION + charger.address.province + "\n";
             } else if (charger.address.province == null) {
-                informacion = informacion + "Ubicación: " + charger.address.town + "\n";
+                informacion = informacion + UBICACION + charger.address.town + "\n";
             }
 
         }
