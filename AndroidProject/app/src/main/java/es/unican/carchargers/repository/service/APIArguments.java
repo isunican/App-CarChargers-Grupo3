@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Arguments that can be requested directly to the OpenChargeMap REST API.
@@ -71,4 +70,35 @@ public class APIArguments {
         return this;
     }
 
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public Double getLocationLatitude() {
+        return lat;
+    }
+
+    public Double getLocationLongitude() {
+        return lon;
+    }
+
+    public int getConnectionTypeId() {
+        return connectionTypeId;
+    }
+
+    public Integer[] getOperatorIds() {
+        if (operatorIds.size() == 0) {
+            return null;
+        }
+        return operatorIds.toArray(new Integer[0]);
+    }
+
+    public int getMaxResults() {
+        return maxResults;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
 }
