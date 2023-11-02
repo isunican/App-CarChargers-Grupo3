@@ -90,4 +90,14 @@ public class ComentariosOkUITest {
         //comprobamos que hay un elemento en los comentarios
         onView(withId(R.id.lvComments)).check(matches(hasElements(1)));
     }
+    @Test
+    public void VariosComentariosOkUITest() {
+        onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
+        onView(ViewMatchers.withId(R.id.lvChargers)).check(matches(isDisplayed()));
+        onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).perform(click());
+        //Comprobar que hay 2 comentarios
+        onView(withId(R.id.tvCommentsCount)).check(matches(withText("Comentarios (2)")));
+        //comprobamos que hay dos elementos en los comentarios
+        onView(withId(R.id.lvComments)).check(matches(hasElements(2)));
+    }
 }
