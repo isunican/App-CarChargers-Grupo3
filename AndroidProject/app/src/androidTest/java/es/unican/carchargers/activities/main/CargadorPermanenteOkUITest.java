@@ -16,12 +16,14 @@ import static es.unican.carchargers.utils.Matchers.hasElements;
 import static es.unican.carchargers.utils.Matchers.isNotEmpty;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.SlidingDrawer;
 
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -53,8 +55,14 @@ public class CargadorPermanenteOkUITest {
     @Rule(order = 0)  // the Hilt rule must execute first
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
 
+    @Rule(order = 0)
+    public HiltAndroidRule hiltRule2;
+
     @Rule(order = 1)
     public ActivityScenarioRule<MainView> activityRule = new ActivityScenarioRule<>(MainView.class);
+
+    @Rule(order = 1)
+    public ActivityScenarioRule<MainView> activityRule2;
 
     //Rule que establece los permisos de usuario de ubicación como aceptados
     @Rule
@@ -82,34 +90,48 @@ public class CargadorPermanenteOkUITest {
             .getFake(context.getResources().openRawResource(R.raw.chargers_es_permanente));
 
     @Test
-    public void cargadorPermanenteTest() {
+    public void cargadorPermanentePrueba1Test() {
         // Comprobamos que aparecen los elementos y la interacción con ellos es correcta
         onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
-        onView(ViewMatchers.withId(R.id.lvChargers)).check(matches(isDisplayed()));
+        onView(withId(R.id.lvChargers)).check(matches(isDisplayed()));
         openContextualActionModeOverflowMenu();
         onView(withText("Configuración")).perform(click());
         onView(withId(R.id.spnChargerType)).perform(click());
         onView(withText("CHADEMO")).perform(click());
 
-        // Comprobamos que el número de resultados es correcto
-        onView(isRoot()).perform(ViewActions.pressBack());
-        onView(ViewMatchers.withId(R.id.lvChargers)).check(matches(isDisplayed()));
-        //onView(withId(R.id.lvChargers)).check(matches(hasElements(2)));
+        // Volvemos a la vista principal
+        pressBack();
+
+        // Espera a que se actualice la vista
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Comprobamos que solo aparecen 2 cargadores de tipo CHADEMO
+        onView(withId(R.id.lvChargers)).check(matches(isDisplayed()));
+        onView(withId(R.id.lvChargers)).check(matches(hasElements(2)));
 
         // Comprobamos que se obtienen los tipos de cargadores buscados y ordenados por ubicación
-        /*onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).
+        onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).
               onChildView(withId(R.id.tvAddress)).check(matches(withText("Repsol Puertollano")));
         onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(1).
-              onChildView(withId(R.id.tvAddress)).check(matches(withText("ECOVE Galp Sevilla")));*/
+              onChildView(withId(R.id.tvAddress)).check(matches(withText("ECOVE Galp Sevilla")));
+    }
+
+    @Test
+    public void cargadorPermanentePrueba2Test() {
+        // Cierra la app y vuelve a abrirla
+        activityRule.getScenario().close();
+        hiltRule2 = new HiltAndroidRule(this);
+        activityRule2 = new ActivityScenarioRule<>(MainView.class);
 
         // Comprobamos la persistencia del tipo de cargador después de cerrar la app
-
-        activityRule.getScenario().onActivity(activity -> {
-            onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
-            onView(ViewMatchers.withId(R.id.lvChargers)).check(matches(isDisplayed()));
-            openContextualActionModeOverflowMenu();
-            onView(withText("Configuración")).perform(click());
-            onData(anything()).inAdapterView(withId(R.id.spnChargerType)).check(matches(withText("CHADEMO")));
-        });
+        onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
+        onView(ViewMatchers.withId(R.id.lvChargers)).check(matches(isDisplayed()));
+        openContextualActionModeOverflowMenu();
+        onView(withText("Configuración")).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.spnChargerType)).check(matches(withText("CHADEMO")));
     }
 }
