@@ -1,80 +1,102 @@
 package es.unican.carchargers;
 
+import static org.hamcrest.CoreMatchers.any;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import static es.unican.carchargers.constants.ELocation.SANTANDER;
+
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+
+import java.util.Collections;
+import java.util.List;
 
 import es.unican.carchargers.activities.main.MainPresenter;
-import es.unican.carchargers.common.LocationComparator;
+import es.unican.carchargers.activities.main.MainView;
+
+import es.unican.carchargers.constants.ECountry;
 import es.unican.carchargers.model.Charger;
+import es.unican.carchargers.repository.IRepository;
+import es.unican.carchargers.repository.service.APIArguments;
+
+import es.unican.carchargers.repository.ICallBack;
 
 public class OnApiArgsTest {
 
-
     private MainPresenter presenter;
+    private MainView mainView;
+    private IRepository repository;
+    private APIArguments args;
 
-    @Test
-    public void onAPiArgsTest() {
-/**
+    @Before
+    public void setUp() {
+
+        mainView = mock(MainView.class);
+        repository = mock(IRepository.class);
         presenter = new MainPresenter();
 
-        // UGIC 3.a
-
-        double distancia = comparador.calculateDistance(47.0616,146.3375,-29.6866, -123.3046 );
-
-        assertTrue( distancia > (12408570 * 0.99) && distancia < (12408570 * 1.01) );
-
-        // UGIC 3.b
-        distancia = comparador.calculateDistance(0.0, 146.3375, -29.6866, -123.3046);
-
-        assertTrue( distancia > 10051790 * 0.98 && distancia < 10051790 * 1.02 );
-
-        // UGIC 3.c
-        distancia = comparador.calculateDistance(47.0616, 0.0, -29.6866, -123.3046);
-        System.out.println(distancia);
-        assertTrue( distancia > 14851500 * 0.99 && distancia < 14851500 * 1.01 );
-
-        // UGIC 3.d
-        distancia = comparador.calculateDistance(47.0616, 146.3375, 0.0, -123.3046);
-        assertTrue( distancia > 10044320 * 0.99 && distancia < 10044320 * 1.01 );
-
-        // UGIC 3.e
-        distancia = comparador.calculateDistance(47.0616, 146.3375, -29.6866, 0.0);
-        assertTrue( distancia > 16558930 * 0.99 && distancia < 16558930 * 1.01 );
-*/
     }
 
     @Test
-    public void compareTest() {
-/**
-        comparador = new LocationComparator(-29.6866,-123.3046 );
+    public void onAPiArgsTest() {
 
-        Charger c1 = new Charger();
-        c1.address.latitude = "52.343197";
-        c1.address.longitude = "-0.170632";
+        // UGIC.1a
+        args = presenter.onAPIargs(null, -1, null, null);
+        assertEquals(ECountry.SPAIN.code, args.getCountryCode());
+        assertArrayEquals(null, args.getOperatorIds());
+        assertTrue(SANTANDER.lat == args.getLocationLatitude());
+        assertTrue(SANTANDER.lon == args.getLocationLongitude());
+        assertTrue(100 == args.getMaxResults());
+        assertThrows(NullPointerException.class, () -> args.getConnectionTypeId());
+        assertTrue(500 == args.getDistance());
 
-        Charger c2 = new Charger();
-        c2.address.latitude = "53.343197";
-        c2.address.longitude = "-1.170632";
+        // UGIC.1b
+        args = presenter.onAPIargs(new int[]{3,2,34,5}, -1, null, null);
+        assertEquals(ECountry.SPAIN.code, args.getCountryCode());
+        assertArrayEquals(new Integer[]{3,2,34,5}, args.getOperatorIds());
+        assertTrue(SANTANDER.lat == args.getLocationLatitude());
+        assertTrue(SANTANDER.lon == args.getLocationLongitude());
+        assertTrue(100 == args.getMaxResults());
+        assertThrows(NullPointerException.class, () -> args.getConnectionTypeId());
+        assertTrue(500 == args.getDistance());
 
-        // UGIC 2.a
-        assertTrue(comparador.compare(c1,c2) == 1);
+        // UGIC.1c
+        args = presenter.onAPIargs(null, 8, null, null);
+        assertEquals(ECountry.SPAIN.code, args.getCountryCode());
+        assertArrayEquals(null, args.getOperatorIds());
+        assertTrue(SANTANDER.lat == args.getLocationLatitude());
+        assertTrue(SANTANDER.lon == args.getLocationLongitude());
+        assertTrue(100 == args.getMaxResults());
+        assertTrue(8 == args.getConnectionTypeId());
+        assertTrue(500 == args.getDistance());
 
-        // UGIC 2.b
-        assertTrue(comparador.compare(c2,c1) == -1);
+        // UGIC.1d
+        args = presenter.onAPIargs(null, -1, -29.6866, null);
+        assertEquals(ECountry.SPAIN.code, args.getCountryCode());
+        assertArrayEquals(null, args.getOperatorIds());
+        assertTrue(SANTANDER.lat == args.getLocationLatitude());
+        assertTrue(SANTANDER.lon == args.getLocationLongitude());
+        assertTrue(100 == args.getMaxResults());
+        assertThrows(NullPointerException.class, () -> args.getConnectionTypeId());
+        assertTrue(500 == args.getDistance());
 
-        // UGIC 2.c
-
-        assertTrue(comparador.compare(c1,c1) == 0);
-
-        // UGIC 2.d
-        assertTrue(comparador.compare(null,c2) == -1);
-
-        // UGIC 2.3
-        assertTrue(comparador.compare(c1,null) == 1);
-
-        // UGIC 2.3
-        assertTrue(comparador.compare(null,null) == 0);
-*/
+        // UGIC.1e
+        args = presenter.onAPIargs(new int[]{3,2,24,5}, -8, -29.6866, -123.3046);
+        assertEquals(ECountry.SPAIN.code, args.getCountryCode());
+        assertArrayEquals(new Integer[]{3,2,24,5}, args.getOperatorIds());
+        assertTrue(-29.6866 == args.getLocationLatitude());
+        assertTrue(-123.3046 == args.getLocationLongitude());
+        assertTrue(100 == args.getMaxResults());
+        assertTrue(-8 == args.getConnectionTypeId());
+        assertTrue(500 == args.getDistance());
     }
 }

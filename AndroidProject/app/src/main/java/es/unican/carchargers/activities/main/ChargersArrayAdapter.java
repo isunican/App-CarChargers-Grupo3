@@ -19,6 +19,7 @@ import es.unican.carchargers.model.Charger;
 
 public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
 
+    private static final String OPERADOR_NO_IDENTIFICADO = "Operador no identificado";
     public ChargersArrayAdapter(@NonNull Context context, @NonNull List<Charger> objects) {
         super(context, 0, objects);
     }
@@ -43,14 +44,14 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
             if (charger.operator != null && charger.operator.title != null) {
                 operatorName = charger.operator.title;
             } else {
-                operatorName = "Operador no identificado";
+                operatorName = OPERADOR_NO_IDENTIFICADO;
             }
 
             if (charger.operator != null ) {
                 EOperator operator = EOperator.fromId(charger.operator.id);
                 iv.setImageResource(operator.logo);
             } else {
-                operatorName = "Operador no identificado";
+                operatorName = OPERADOR_NO_IDENTIFICADO;
             }
 
 
@@ -62,7 +63,7 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
             if (charger.operator != null && charger.operator.title != null) {
                 tv.setText(charger.operator.title);
             } else {
-                tv.setText("Operador no identificado");
+                tv.setText(OPERADOR_NO_IDENTIFICADO);
             }
         }
 

@@ -28,16 +28,16 @@ public class MainPresenter implements IMainContract.Presenter {
     private Double userLon;
     private List<EOperator> filtrosAplicar = null;
     private int typeCharger = -1;
-    private boolean setInit = false;
-    private boolean setUbi = false;
-    private boolean setType = false;
+    private boolean init = false;
+    private boolean ubi = false;
+    private boolean type = false;
 
 
     @Override
     public void init(IMainContract.View view) {
         this.view = view;
         view.init();
-        setInit = true;
+        init = true;
         load();
     }
 
@@ -48,9 +48,9 @@ public class MainPresenter implements IMainContract.Presenter {
     int j = 0;
     public void load() {
 
-        Log.d("[DEBUG LOAD]", "load numero " + j +": setUbi: " +  setUbi+": setInit: " +  setInit +": setType: " +  setType);
+        //Log.d("[DEBUG LOAD]", "load numero " + j +": setUbi: " +  setUbi+": setInit: " +  setInit +": setType: " +  setType);
         j++;
-        if (!setUbi || !setInit || !setType){
+        if (!ubi || !init || !type){
             return;
         }
         IRepository repository = view.getRepository();
@@ -91,8 +91,6 @@ public class MainPresenter implements IMainContract.Presenter {
         if (args != null) {
             repository.requestChargers(args, callback);
         }
-
-
     }
 
     public APIArguments onAPIargs(int [] idsFiltros, int typeCharger, Double userLat, Double userLon){
@@ -108,7 +106,7 @@ public class MainPresenter implements IMainContract.Presenter {
         }
 
 
-        if (userLat != null || userLon != null) { //Solo tenemos ubicacion
+        if (userLat != null && userLon != null) { //Solo tenemos ubicacion
             args.setLocation(userLat, userLon);
         }
         if (idsFiltros != null) { //Solo tenemos filtros
@@ -148,16 +146,16 @@ public class MainPresenter implements IMainContract.Presenter {
             userLat = uLat;
             userLon = uLon;
         }
-        Log.d("[DEBUG EN PRESENTER]", "Tenemos ubi:" + userLat + " " + userLon);
-        setUbi = true;
+        //Log.d("[DEBUG EN PRESENTER]", "Tenemos ubi:" + userLat + " " + userLon);
+        ubi = true;
         load();
     }
 
     @Override
     public void obtainType(int idCharger) {
         typeCharger = idCharger;
-        Log.d("[DEBUGTYPE]", "Presenter dice: " + typeCharger);
-        setType = true;
+        //Log.d("[DEBUGTYPE]", "Presenter dice: " + typeCharger);
+        type = true;
         load();
     }
 
@@ -172,4 +170,15 @@ public class MainPresenter implements IMainContract.Presenter {
 
     }
 
+    public void setUbi(boolean a) {
+        ubi = a;
+    }
+
+    public void setInit(boolean a) {
+        init = a;
+    }
+
+    public void setType(boolean a) {
+        type = a;
+    }
 }
