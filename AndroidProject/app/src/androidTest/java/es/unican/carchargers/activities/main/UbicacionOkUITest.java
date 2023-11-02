@@ -79,6 +79,7 @@ public class UbicacionOkUITest {
 
     @Test
     public void ubicacionOkTest() {
+        //Comprobar el numero de elementos visibles en la lista
         onView(withId(R.id.lvChargers)).check(matches(hasElements(9)));
         onView(ViewMatchers.withId(R.id.lvChargers)).check(matches(isDisplayed()));
         //Comprobar el primer elemento
