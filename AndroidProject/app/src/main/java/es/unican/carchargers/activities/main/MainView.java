@@ -285,7 +285,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                             if (location != null) {
                                 userLat = location.getLatitude();
                                 userLon = location.getLongitude();
-                                Log.d("[DEBUG]", "Latitud: " + userLat + "Longitud: " + userLon);
+                                //Log.d("[DEBUG]", "Latitud: " + userLat + "Longitud: " + userLon);
                                 if (actionBar != null) {
                                     actionBar.setTitle("Ubicación ☑");
                                 }
