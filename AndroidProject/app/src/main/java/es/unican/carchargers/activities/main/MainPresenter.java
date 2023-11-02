@@ -48,7 +48,7 @@ public class MainPresenter implements IMainContract.Presenter {
     int j = 0;
     public void load() {
 
-        Log.d("[DEBUG LOAD]", "load numero " + j +": setUbi: " +  setUbi+": setInit: " +  setInit +": setType: " +  setType);
+        //Log.d("[DEBUG LOAD]", "load numero " + j +": setUbi: " +  setUbi+": setInit: " +  setInit +": setType: " +  setType);
         j++;
         if (!setUbi || !setInit || !setType){
             return;
@@ -146,7 +146,7 @@ public class MainPresenter implements IMainContract.Presenter {
             userLat = uLat;
             userLon = uLon;
         }
-        Log.d("[DEBUG EN PRESENTER]", "Tenemos ubi:" + userLat + " " + userLon);
+        //Log.d("[DEBUG EN PRESENTER]", "Tenemos ubi:" + userLat + " " + userLon);
         setUbi = true;
         load();
     }
@@ -154,7 +154,7 @@ public class MainPresenter implements IMainContract.Presenter {
     @Override
     public void obtainType(int idCharger) {
         typeCharger = idCharger;
-        Log.d("[DEBUGTYPE]", "Presenter dice: " + typeCharger);
+        //Log.d("[DEBUGTYPE]", "Presenter dice: " + typeCharger);
         setType = true;
         load();
     }
