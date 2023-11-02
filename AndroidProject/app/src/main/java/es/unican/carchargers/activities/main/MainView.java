@@ -110,18 +110,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             actionBar.setTitle("Ubicación ☒");
         }
 
-
-
         checked = new boolean[EOperator.values().length];
 
-
         sharedPreferences = getSharedPreferences("MiPref", Context.MODE_PRIVATE);
-
-
-
-
-
-
 
     }
 
@@ -143,6 +134,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         String valorGuardado = sharedPreferences.getString("charger-type", "TODOS");
         int idSelectionOnResume = ECharger.valueOf(valorGuardado).id;
         if (idSelectionOnResume != idSelection){
+            loading.setVisibility(View.VISIBLE);
             idSelection = idSelectionOnResume;
             presenter.obtainType(idSelectionOnResume);
         }
@@ -252,6 +244,21 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     }
 
 
+    private void mostrarDialogoUbicacion() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Ubicación desactivada o no alcanzable");
+        builder.setMessage("Para usar esta función, por favor asegúrese de tener la ubicación habilitada en la configuración del dispositivo.");
+        builder.setPositiveButton("Abrir config.", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("Cancelar", null);
+        builder.show();
+    }
+
     public void obtenerUbicacion() {
 
         //Toast.makeText(MainView.this, "Obtener ubicacion ejecutado", Toast.LENGTH_SHORT).show();
@@ -301,21 +308,6 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             mostrarDialogoUbicacion();
         }
 
-    }
-
-    private void mostrarDialogoUbicacion() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Ubicación desactivada o no alcanzable");
-        builder.setMessage("Para usar esta función, por favor asegúrese de tener la ubicación habilitada en la configuración del dispositivo.");
-        builder.setPositiveButton("Abrir config.", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivity(intent);
-            }
-        });
-        builder.setNegativeButton("Cancelar", null);
-        builder.show();
     }
 
 
