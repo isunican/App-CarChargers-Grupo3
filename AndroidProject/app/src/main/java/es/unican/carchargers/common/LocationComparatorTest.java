@@ -5,10 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import es.unican.carchargers.common.LocationComparator;
-import es.unican.carchargers.model.Address;
 import es.unican.carchargers.model.Charger;
-import es.unican.carchargers.model.Operator;
 
 public class LocationComparatorTest {
 

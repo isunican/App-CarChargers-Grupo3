@@ -69,23 +69,7 @@ public class MainPresenter implements IMainContract.Presenter {
             }
         } catch (Exception e) {
         }
-        args = APIArguments.builder() // args default
-                .setCountryCode(ECountry.SPAIN.code)
-                .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
-                .setDistance(500)
-                .setMaxResults(100);
-
-        if(typeCharger != -1){//Si no hay filtro seleccionado o el filtro es TODOS
-            args.setConnectionTypeId(typeCharger);
-        }
-
-
-        if (userLat != null || userLon != null) { //Solo tenemos ubicacion
-            args.setLocation(userLat, userLon);
-        }
-        if (filtrosAplicarIDs != null) { //Solo tenemos filtros
-            args.setOperatorId(filtrosAplicarIDs);
-        }
+        args = onAPIargs(filtrosAplicarIDs, typeCharger,userLat,userLon);
 
 
         ICallBack callback = new ICallBack() {
@@ -109,6 +93,28 @@ public class MainPresenter implements IMainContract.Presenter {
         }
 
 
+    }
+
+    public APIArguments onAPIargs(int [] idsFiltros, int typeCharger, Double userLat, Double userLon){
+
+        APIArguments args = APIArguments.builder() // args default
+                .setCountryCode(ECountry.SPAIN.code)
+                .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
+                .setDistance(500)
+                .setMaxResults(100);
+
+        if(typeCharger != -1){//Si no hay filtro seleccionado o el filtro es TODOS
+            args.setConnectionTypeId(typeCharger);
+        }
+
+
+        if (userLat != null || userLon != null) { //Solo tenemos ubicacion
+            args.setLocation(userLat, userLon);
+        }
+        if (idsFiltros != null) { //Solo tenemos filtros
+            args.setOperatorId(idsFiltros);
+        }
+        return args;
     }
 
     @Override

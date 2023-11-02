@@ -8,6 +8,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.anything;
+import static es.unican.carchargers.utils.Matchers.hasElements;
 import static es.unican.carchargers.utils.Matchers.isNotEmpty;
 
 import android.content.Context;
@@ -35,7 +36,7 @@ import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.Repositories;
 import es.unican.carchargers.utils.HTTPIdlingResource;
 
-/**
+/*
  * Example UI Test using Hilt dependency injection
  * Documentation: https://developer.android.com/training/dependency-injection/hilt-testing
  * This test also uses an HTTP Idling Resource
@@ -78,8 +79,7 @@ public class UbicacionOkUITest {
 
     @Test
     public void ubicacionOkTest() {
-        onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
-        //onView(withId(R.id.lvChargers)).check(matches(hasChildCount(9)));
+        onView(withId(R.id.lvChargers)).check(matches(hasElements(9)));
         onView(ViewMatchers.withId(R.id.lvChargers)).check(matches(isDisplayed()));
         //Comprobar el primer elemento
         onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).
