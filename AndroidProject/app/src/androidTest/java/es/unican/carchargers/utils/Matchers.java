@@ -12,7 +12,7 @@ public class Matchers {
     /**
      * Metodo para comprobar en los test de interfaz si una lista está vacía.
      * Para utilizarlo se usa:
-     *      onView(withId(R.id.id_de_la_lista)).check(matches(hasElements()))
+     *      onView(withId(R.id.id_de_la_lista)).check(matches(isNotEmpty()))
      * @return Matcher<View>
      */
     public static Matcher<View> isNotEmpty() {
@@ -28,5 +28,26 @@ public class Matchers {
             }
         };
     }
+    /**
+     * Metodo para comprobar en los test de interfaz si una lista tiene "elemNumber" elementos.
+     * Para utilizarlo se usa:
+     *      onView(withId(R.id.id_de_la_lista)).check(matches(hasElements()))
+     * @return Matcher<View>
+     */
+    public static Matcher<View> hasElements(int numElem) {
+        return new TypeSafeMatcher<View>() {
+            @Override public boolean matchesSafely (final View view) {
+                ListView lv = (ListView) view;
+                int count = lv.getCount();
+                return count == numElem;
+            }
+
+            @Override public void describeTo (final Description description) {
+                description.appendText ("ListView should have the same elements as the parameter defined");
+            }
+        };
+    }
+
+
 
 }

@@ -6,19 +6,24 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import es.unican.carchargers.R;
-import es.unican.carchargers.activities.main.MainView;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
-
-
+import es.unican.carchargers.model.ConnectionType;
+import es.unican.carchargers.activities.main.CommentsArrayAdapter;
 
 
 /**
@@ -28,6 +33,7 @@ import es.unican.carchargers.model.Charger;
 public class DetailsView extends AppCompatActivity  {
 
     public static final String INTENT_CHARGER = "INTENT_CHARGER";
+    public static final String UBICACION = "Ubicacion: ";
 
     double lat, lon;
 
@@ -42,13 +48,14 @@ public class DetailsView extends AppCompatActivity  {
         ImageView ivLogo = findViewById(R.id.ivLogo);
         TextView tvTitle = findViewById(R.id.tvTitle);
         TextView tvDireccion = findViewById(R.id.tvDireccion);
-        TextView tvId = findViewById(R.id.tvId);
         TextView tvInfo = findViewById(R.id.tvInfo);
         TextView tvWeb = findViewById(R.id.tvPaginaWeb);
         //Web que muestra el mapa
         WebView webview = findViewById(R.id.web);
         webview.getSettings().setJavaScriptEnabled(true);
-
+        //Lista de comentarios
+        TextView tvComment = findViewById(R.id.tvCommentsCount);
+        ListView lvComments = findViewById(R.id.lvComments);
 
 
 
@@ -63,9 +70,13 @@ public class DetailsView extends AppCompatActivity  {
         } else {
             Toast.makeText(getApplicationContext(), "El cargador es null", Toast.LENGTH_SHORT).show();
         }
-
-
-
+        ViewGroup.LayoutParams params = lvComments.getLayoutParams();
+        if (charger.getChargerComments() == 0){
+            params.height = 132;
+        }else{
+            params.height = 352 * charger.getChargerComments(); // Cambia este valor al tamaño deseado en píxeles
+        }
+        lvComments.setLayoutParams(params);
 
 
 
@@ -77,23 +88,20 @@ public class DetailsView extends AppCompatActivity  {
         webview.loadData(web + webConfig, "text/html", null);
 
 
-
         // Set logo
         int resourceId = EOperator.fromId(charger.operator.id).logo;
         ivLogo.setImageResource(resourceId);
 
 
-
-
         // Set Infos
-        if (!charger.address.title.isBlank() || charger.address.title != null ){
+        if (!charger.address.title.isBlank() || charger.address.title != null) {
             tvDireccion.setText(charger.address.title);
         } else {
             Toast.makeText(getApplicationContext(), "No hay address", Toast.LENGTH_SHORT).show();
             tvTitle.setText("Dirección desconocida");
         }
 
-        if (!charger.id.isBlank() || charger.id != null ){
+        if (!charger.id.isBlank() || charger.id != null) {
             tvTitle.setText(charger.operator.title);
         } else {
             Toast.makeText(getApplicationContext(), "No hay empresa", Toast.LENGTH_SHORT).show();
@@ -101,33 +109,30 @@ public class DetailsView extends AppCompatActivity  {
 
         }
 
-        tvId.setText(charger.id);
-
-
 
         //Metemos info en el campo info
         String informacion = "";
 
-        informacion = informacion + "Número de puntos de conexión: " +charger.numberOfPoints + "\n";
+        informacion = informacion + "Número de puntos de conexión: " + charger.numberOfPoints + "\n";
 
 
         try {
             if ((charger.address.town.isBlank()) && (charger.address.province.isBlank())) {
-                informacion = informacion + "Ubicación: Provincia y ciudad no disponible\n";
+                informacion = informacion + UBICACION + "Provincia y ciudad no disponible\n";
             } else if (charger.address.town.isBlank()) {
-                informacion = informacion + "Ubicación: " + charger.address.province + "\n";
+                informacion = informacion + UBICACION  + charger.address.province + "\n";
             } else if (charger.address.province.isBlank()) {
-                informacion = informacion + "Ubicación: " + charger.address.town + "\n";
+                informacion = informacion + UBICACION + charger.address.town + "\n";
             } else {
-                informacion = informacion + "Ubicación: " + charger.address.town + ", " + charger.address.province + "\n";
+                informacion = informacion + UBICACION + charger.address.town + ", " + charger.address.province + "\n";
             }
-        } catch(NullPointerException e){
-            if (charger.address.province == null && charger.address.province == null){
-                informacion = informacion + "Ubicación: Provincia y ciudad no disponible\n";
-            } else if (charger.address.town == null){
-                informacion = informacion + "Ubicación: " + charger.address.province + "\n";
-            } else if (charger.address.province == null){
-                informacion = informacion + "Ubicación: " + charger.address.town + "\n";
+        } catch (NullPointerException e) {
+            if (charger.address.province == null && charger.address.town == null) {
+                informacion = informacion + UBICACION + "Provincia y ciudad no disponible\n";
+            } else if (charger.address.town == null) {
+                informacion = informacion + UBICACION + charger.address.province + "\n";
+            } else if (charger.address.province == null) {
+                informacion = informacion + UBICACION + charger.address.town + "\n";
             }
 
         }
@@ -138,16 +143,58 @@ public class DetailsView extends AppCompatActivity  {
             } else {
                 informacion = informacion + "Precio por carga: " + charger.usageCost + "\n";
             }
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
             informacion = informacion + "Precio por carga: Desconocido" + "\n";
         }
+
+
+
+        for (ConnectionType c: charger.getConnectionTypes()) {
+            try {
+                if (charger.getConnectionTypes().isEmpty()) {
+                    informacion = informacion + "Tipo de cargador: No encontrado" + "\n";
+                } else {
+                    informacion = informacion + "Tipo de cargador: " + c.title + "\n";
+                }
+            } catch (NullPointerException e) {
+                informacion = informacion + "Tipo de cargador: No encontrado" + "\n";
+            }
+
+        }
+
 
 
         tvInfo.setText(informacion);
 
         //Metemos la pagina web
-
+        try{
+        if(!charger.operator.website.isBlank() ||!charger.operator.website.isEmpty()) {
         tvWeb.setText(charger.operator.website);
+        }
+        }catch(Exception e){
+            tvWeb.setText("No disponemos de una página web de contacto.");
+        }
+
+        //Cálculo de numero de comentarios
+        if (charger.getChargerComments() == 0) {
+            tvComment.setText("Comentarios (0)");
+        } else {
+            tvComment.setText("Comentarios (" + String.valueOf(charger.getChargerComments()) + ")");
+        }
+
+        //Muestreo de comentarios
+        if (charger.userComments != null){
+        CommentsArrayAdapter commentArrayAdapter = new CommentsArrayAdapter(this, charger.userComments);
+        lvComments.setAdapter(commentArrayAdapter);
+        } else {
+            List<String> noComments = new ArrayList<>();
+            noComments.add("No existen comentarios\nde este punto de carga.");
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, noComments);
+            lvComments.setAdapter(adapter);
+
+        }
+
+
 
     }
 

@@ -23,6 +23,9 @@ public interface IOpenChargeMapAPI {
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
     public static final String MAX_RESULTS = "maxResults";
+    public static final String CONNECTION_TYPE_ID = "connectiontypeid";
+    public static final String DISTANCE = "distance";
+
 
     @GET("poi")
     Call<List<Charger>> chargers(@QueryMap Map<String, Object> args);

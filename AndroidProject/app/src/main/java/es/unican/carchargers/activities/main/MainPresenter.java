@@ -1,39 +1,43 @@
 package es.unican.carchargers.activities.main;
 
-
-
-import static es.unican.carchargers.constants.EOperator.fromId;
-
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
-import es.unican.carchargers.common.LocationComparator;
-import es.unican.carchargers.constants.EOperator;
-import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.constants.ECountry;
 import es.unican.carchargers.constants.ELocation;
+import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
+import es.unican.carchargers.repository.ICallBack;
 import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.service.APIArguments;
 
 public class MainPresenter implements IMainContract.Presenter {
 
-    /** the view controlled by this presenter */
+    /**
+     * the view controlled by this presenter
+     */
     private IMainContract.View view;
 
-    /** a cached list of charging stations currently shown */
+    /**
+     * a cached list of charging stations currently shown
+     */
     private List<Charger> shownChargers;
     private Double userLat;
     private Double userLon;
+    private List<EOperator> filtrosAplicar = null;
+    private int typeCharger = -1;
+    private boolean init = false;
+    private boolean ubi = false;
+    private boolean type = false;
+
 
     @Override
     public void init(IMainContract.View view) {
         this.view = view;
         view.init();
+        init = true;
         load();
     }
 
@@ -41,15 +45,31 @@ public class MainPresenter implements IMainContract.Presenter {
      * This method requests a list of charging stations from the repository, and requests
      * the view to show them.
      */
-    private void load() {
+    int j = 0;
+    public void load() {
+
+        //Log.d("[DEBUG LOAD]", "load numero " + j +": setUbi: " +  setUbi+": setInit: " +  setInit +": setType: " +  setType);
+        j++;
+        if (!ubi || !init || !type){
+            return;
+        }
         IRepository repository = view.getRepository();
 
         // set API arguments to retrieve charging stations that match some criteria
-        APIArguments args = APIArguments.builder()
-                    .setCountryCode(ECountry.SPAIN.code)
-                    .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
-                    .setMaxResults(50);
 
+        APIArguments args;
+        int[] filtrosAplicarIDs = null;
+        try {
+            if (filtrosAplicar != null) {
+                filtrosAplicarIDs = new int[filtrosAplicar.size()];
+
+                for (int i = 0; i < filtrosAplicar.size(); i++) {
+                    filtrosAplicarIDs[i] = filtrosAplicar.get(i).id;
+                }
+            }
+        } catch (Exception e) {
+        }
+        args = onAPIargs(filtrosAplicarIDs, typeCharger,userLat,userLon);
 
 
         ICallBack callback = new ICallBack() {
@@ -57,11 +77,9 @@ public class MainPresenter implements IMainContract.Presenter {
             public void onSuccess(List<Charger> chargers) {
                 MainPresenter.this.shownChargers =
                         chargers != null ? chargers : Collections.emptyList();
-                if(userLat != null && userLon != null) {
-                    Collections.sort(chargers, new LocationComparator(userLat, userLon));
-                }
-                view.showChargers(MainPresenter.this.shownChargers);
-                view.showLoadCorrect(MainPresenter.this.shownChargers.size());
+
+                view.showChargers(chargers);
+                view.showLoadCorrect(chargers.size());
             }
 
             @Override
@@ -70,9 +88,31 @@ public class MainPresenter implements IMainContract.Presenter {
                 view.showLoadError();
             }
         };
+        if (args != null) {
+            repository.requestChargers(args, callback);
+        }
+    }
 
-        repository.requestChargers(args, callback);
+    public APIArguments onAPIargs(int [] idsFiltros, int typeCharger, Double userLat, Double userLon){
 
+        APIArguments args = APIArguments.builder() // args default
+                .setCountryCode(ECountry.SPAIN.code)
+                .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
+                .setDistance(500)
+                .setMaxResults(100);
+
+        if(typeCharger != -1){//Si no hay filtro seleccionado o el filtro es TODOS
+            args.setConnectionTypeId(typeCharger);
+        }
+
+
+        if (userLat != null && userLon != null) { //Solo tenemos ubicacion
+            args.setLocation(userLat, userLon);
+        }
+        if (idsFiltros != null) { //Solo tenemos filtros
+            args.setOperatorId(idsFiltros);
+        }
+        return args;
     }
 
     @Override
@@ -88,72 +128,57 @@ public class MainPresenter implements IMainContract.Presenter {
         view.showInfoActivity();
     }
 
+    @Override
+    public void onMenuRefreshClicked() {
+        view.obtenerUbicacion();
+        view.showLoading();
+        load();
+    }
+
+    @Override
+    public void onMenuUserClicked() {
+        view.showUserDetails();
+    }
 
 
-    public void loadConFiltrosEmpresas(List<EOperator> filtrosSeleccionados) {
-        IRepository repository = view.getRepository();
-
-        // set API arguments to retrieve charging stations that match some criteria
-        APIArguments args = APIArguments.builder()
-                .setCountryCode(ECountry.SPAIN.code)
-                .setLocation(ELocation.SANTANDER.lat, ELocation.SANTANDER.lon)
-                .setMaxResults(50);
-
-        Log.d("[DEBUG EN PRESENTER]","Los filtros son:");
-        for(EOperator e: filtrosSeleccionados){
-            Log.d("[DEBUG EN PRESENTER]",e.toString());
+    public void obtainUbi(double uLat, double uLon) {
+        if (uLat != 0.0 && uLon != 0.0){
+            userLat = uLat;
+            userLon = uLon;
         }
-
-
-        ICallBack callback = new ICallBack() {
-            @Override
-            public void onSuccess(List<Charger> chargers) {
-                MainPresenter.this.shownChargers =
-                        chargers != null ? chargers : Collections.emptyList();
-                List<Charger> chargerResultado = new ArrayList<>();
-
-                Log.d("[DEBUG EN PRESENTER]", "En la lista hubo " + chargers.size() + "elementos");
-
-
-                    for(Charger c: chargers){
-
-                        EOperator e = fromId(c.operator.id);
-                        if (filtrosSeleccionados.contains(e)) {
-                            chargerResultado.add(c);
-                        }
-                    }
-                Log.d("[DEBUG EN PRESENTER]","En la lista hay actualmente "+chargerResultado.size()+"elementos");
-                if(userLat != null && userLon != null) {
-                Collections.sort(chargers, new LocationComparator(userLat, userLon));
-                }
-                view.showChargers(chargerResultado);
-                view.showLoadCorrect(chargerResultado.size());
-            }
-
-            @Override
-            public void onFailure(Throwable e) {
-                MainPresenter.this.shownChargers = Collections.emptyList();
-                view.showLoadError();
-            }
-        };
-
-        repository.requestChargers(args, callback);
-
-    }
-
-    public void obtainUbi(double uLat, double uLon){
-        userLat = uLat;
-        userLon = uLon;
-        Log.d("[DEBUG EN PRESENTER]","Tenemos ubi:" + userLat+ " " + userLon);
+        //Log.d("[DEBUG EN PRESENTER]", "Tenemos ubi:" + userLat + " " + userLon);
+        ubi = true;
         load();
-
-
     }
-    public void resetButton (){
+
+    @Override
+    public void obtainType(int idCharger) {
+        typeCharger = idCharger;
+        //Log.d("[DEBUGTYPE]", "Presenter dice: " + typeCharger);
+        type = true;
+        load();
+    }
+
+    @Override
+    public void obtainFiltros(List<EOperator> filtrosSeleccionados) {
+        filtrosAplicar = filtrosSeleccionados;
+        load();
+    }
+
+    public void resetButton() {
         load();
 
     }
 
+    public void setUbi(boolean a) {
+        ubi = a;
+    }
 
+    public void setInit(boolean a) {
+        init = a;
+    }
 
+    public void setType(boolean a) {
+        type = a;
+    }
 }

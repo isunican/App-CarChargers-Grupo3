@@ -38,11 +38,17 @@ public interface IMainContract {
          */
         public void onMenuInfoClicked();
 
+        void onMenuUserClicked();
+
         public void obtainUbi(double userLat, double userLon);
 
-        public void resetButton();
-        public void loadConFiltrosEmpresas(List<EOperator> filtrosSeleccionados);
+        void obtainType(int idCharger);
 
+        void obtainFiltros(List<EOperator> filtrosSeleccionados);
+
+        void resetButton();
+
+        void onMenuRefreshClicked();
     }
 
     /**
@@ -103,6 +109,9 @@ public interface IMainContract {
          * Only the Presenter should call this method
          */
         public void showInfoActivity();
+        public void showUserDetails();
+        public void showLoading();
+        public void obtenerUbicacion();
 
     }
 }

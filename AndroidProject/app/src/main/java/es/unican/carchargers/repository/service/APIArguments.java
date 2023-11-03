@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Arguments that can be requested directly to the OpenChargeMap REST API.
@@ -13,9 +12,12 @@ import java.util.stream.Collectors;
  */
 public class APIArguments {
     private String countryCode;
+
+    private Integer connectionTypeId;
     private List<Integer> operatorIds = new ArrayList<>();
     private Double lat;
     private Double lon;
+    private Double distance;
     private Integer maxResults;
 
     public static APIArguments builder() {
@@ -29,11 +31,19 @@ public class APIArguments {
         args.put(IOpenChargeMapAPI.LATITUDE, lat);
         args.put(IOpenChargeMapAPI.LONGITUDE, lon);
         args.put(IOpenChargeMapAPI.MAX_RESULTS, maxResults);
+        args.put(IOpenChargeMapAPI.CONNECTION_TYPE_ID, connectionTypeId);
+        args.put(IOpenChargeMapAPI.DISTANCE, distance);
+
         return args;
     }
 
     public APIArguments setCountryCode(String countryCode) {
         this.countryCode = countryCode;
+        return this;
+    }
+
+    public APIArguments setConnectionTypeId(int connectionTypeId) {
+        this.connectionTypeId = connectionTypeId;
         return this;
     }
 
@@ -44,9 +54,14 @@ public class APIArguments {
         return this;
     }
 
+
     public APIArguments setLocation(double lat, double lon) {
         this.lat = lat;
         this.lon = lon;
+        return this;
+    }
+    public APIArguments setDistance(double distance) {
+        this.distance = distance;
         return this;
     }
 
@@ -55,4 +70,35 @@ public class APIArguments {
         return this;
     }
 
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public Double getLocationLatitude() {
+        return lat;
+    }
+
+    public Double getLocationLongitude() {
+        return lon;
+    }
+
+    public int getConnectionTypeId() {
+        return connectionTypeId;
+    }
+
+    public Integer[] getOperatorIds() {
+        if (operatorIds.size() == 0) {
+            return null;
+        }
+        return operatorIds.toArray(new Integer[0]);
+    }
+
+    public int getMaxResults() {
+        return maxResults;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
 }
