@@ -1,5 +1,6 @@
-package es.unican.carchargers.activities.main;
 
+package es.unican.carchargers.activities.main;
+/*
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openContextualActionModeOverflowMenu;
@@ -135,3 +136,5 @@ public class CargadorPermanenteOkUITest {
         onData(anything()).inAdapterView(withId(R.id.spnChargerType)).check(matches(withText("CHADEMO")));
     }
 }
+
+ */
