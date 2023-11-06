@@ -39,9 +39,11 @@ public class OnApiArgsTest {
 
     @Before
     public void setUp() {
+
         mainView = mock(MainView.class);
         repository = mock(IRepository.class);
         presenter = new MainPresenter();
+
     }
 
     @Test

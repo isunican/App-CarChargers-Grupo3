@@ -34,6 +34,7 @@ import com.google.android.gms.tasks.OnTokenCanceledListener;
 
 import org.parceler.Parcels;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -210,13 +211,21 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     @Override
     public void showLoadCorrect(int chargers) {
+        if (chargers == 0){
+            Toast.makeText(this, String.format("No hay cargadores que cumplan los filtros actuales.", chargers),
+                    Toast.LENGTH_LONG).show();
+        }
         Toast.makeText(this, String.format("Cargados %d cargadores", chargers),
                 Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void showLoadError() {
-        Toast.makeText(this, "Error cargando cargadores", Toast.LENGTH_LONG).show();
+
+        if(isInternetAvailable()){
+            Toast.makeText(this, "No se ha podido cargar la información.", Toast.LENGTH_LONG).show();
+        }
+        Toast.makeText(this, "No se ha podido cargar la información por problemas de red.", Toast.LENGTH_LONG).show();
         loading.setVisibility(View.INVISIBLE);
     }
 
@@ -285,7 +294,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                             if (location != null) {
                                 userLat = location.getLatitude();
                                 userLon = location.getLongitude();
-                                Log.d("[DEBUG]", "Latitud: " + userLat + "Longitud: " + userLon);
+                                //Log.d("[DEBUG]", "Latitud: " + userLat + "Longitud: " + userLon);
                                 if (actionBar != null) {
                                     actionBar.setTitle("Ubicación ☑");
                                 }
@@ -363,6 +372,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 loading.setVisibility(View.VISIBLE);
+                presenter.obtainFiltros(null);
                 presenter.resetButton();
                 for (int i = 0; i < checked.length; i++) {
                     checked[i] = false;
@@ -376,6 +386,20 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     public void showLoading() {
         loading.setVisibility(View.VISIBLE);
+    }
+
+    public static boolean isInternetAvailable() {
+        String host = "www.google.com";  // Servidor al que se realizará el ping
+        int timeout = 1500; // Tiempo de espera para el ping en milisegundos
+
+        try {
+            Process process = Runtime.getRuntime().exec("ping -c 1 -w " + timeout + " " + host);
+            int exitCode = process.waitFor();
+            return (exitCode == 0); // El valor de retorno 0 indica una respuesta exitosa
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return false; // Si ocurre una excepción, asumimos que no hay conectividad
     }
 
 }
