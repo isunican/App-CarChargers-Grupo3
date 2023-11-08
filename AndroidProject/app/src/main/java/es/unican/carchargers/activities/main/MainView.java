@@ -1,6 +1,7 @@
 package es.unican.carchargers.activities.main;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.ActionMenuItemView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -106,10 +108,12 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         actionBar = getSupportActionBar();
 
 
-        // Establece el nuevo nombre para la ActionBar
+
+
         if (actionBar != null) {
-            actionBar.setTitle("Ubicación ☒");
+            actionBar.setTitle(" ");
         }
+
 
         checked = new boolean[EOperator.values().length];
 
@@ -296,15 +300,20 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             };
             fusedLocationClient.getCurrentLocation(100, c)
                     .addOnSuccessListener(this, new OnSuccessListener<>() {
+                        @SuppressLint("RestrictedApi")
                         @Override
                         public void onSuccess(Location location) {
                             if (location != null) {
                                 userLat = location.getLatitude();
                                 userLon = location.getLongitude();
                                 //Log.d("[DEBUG]", "Latitud: " + userLat + "Longitud: " + userLon);
+                                /*
                                 if (actionBar != null) {
                                     actionBar.setTitle("Ubicación ☑");
                                 }
+                                 */
+                                ActionMenuItemView locationInfo = findViewById(R.id.menuItemLocation);
+                                locationInfo.setIcon(getResources().getDrawable(R.drawable.yes_location));
                                 presenter.obtainUbi(userLat, userLon);
                             } else {
                                 // ubicación no disponible

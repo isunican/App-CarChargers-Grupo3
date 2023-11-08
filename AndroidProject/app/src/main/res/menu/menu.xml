@@ -5,6 +5,11 @@
 
 
     <item
+        android:id="@+id/menuItemLocation"
+        android:icon="@drawable/no_location"
+        android:title="botonLocation"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/menuItemRefresh"
         android:icon="@drawable/refresh"
         android:title="botonRefresh"
