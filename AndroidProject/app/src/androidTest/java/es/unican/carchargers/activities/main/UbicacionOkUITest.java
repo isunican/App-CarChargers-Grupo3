@@ -37,7 +37,7 @@ import es.unican.carchargers.repository.Repositories;
  * Example UI Test using Hilt dependency injection
  * Documentation: https://developer.android.com/training/dependency-injection/hilt-testing
  * This test also uses an HTTP Idling Resource
- */
+
 @HiltAndroidTest
 @UninstallModules(RepositoriesModule.class)
 @RunWith(AndroidJUnit4.class)
@@ -90,3 +90,6 @@ public class UbicacionOkUITest {
                 onChildView(withId(R.id.tvAddress)).check(matches(withText("Parking Central (Andalusia)")));
     }
 }
+
+
+ */
