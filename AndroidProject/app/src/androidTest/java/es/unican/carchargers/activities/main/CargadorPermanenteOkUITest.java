@@ -87,7 +87,7 @@ public class CargadorPermanenteOkUITest {
             .getFake(context.getResources().openRawResource(R.raw.chargers_es_permanente));
 
     @Test
-    public void cargadorPermanentePrueba1Test() {
+    public void cargadorPermanentePruebaTest() {
 
         // PRUEBA 1: CONFIGURACIÓN Y VISUALIZACIÓN BÁSICA
 
@@ -105,14 +105,14 @@ public class CargadorPermanenteOkUITest {
         // Se comprueba que los resultados son correctos
         onView(withId(R.id.lvChargers)).check(matches(isDisplayed()));
         onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).
-                onChildView(withId(R.id.tvAddress)).check(matches(withText("ECOVE Galp Sevilla")));
+                onChildView(withId(R.id.tvAddress)).check(matches(withText("ECOVE Galp Sevilla (Andalucía)")));
         onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(1).
-                onChildView(withId(R.id.tvAddress)).check(matches(withText("Repsol Puertollano")));
+                onChildView(withId(R.id.tvAddress)).check(matches(withText("Repsol Puertollano (Castilla-La Mancha)")));
 
         // PRUEBA 2: PERSISTENCIA DE LA CONFIGURACIÓN
 
         // Cierra la app y vuelve a abrirla
-        /*activityRule.getScenario().close();
+        activityRule.getScenario().close();
         ActivityScenario.launch(MainView.class, null);
 
         // Comprueba la persistencia en el tipo de cargador
@@ -120,7 +120,7 @@ public class CargadorPermanenteOkUITest {
         onView(withId(R.id.lvChargers)).check(matches(isDisplayed()));
         openContextualActionModeOverflowMenu();
         onView(withText("Configuración")).perform(click());
-        onView(withId(R.id.spnChargerType)).check(matches(withSpinnerText("CHADEMO")));*/
+        onView(withId(R.id.spnChargerType)).check(matches(withSpinnerText("CHADEMO")));
 
     }
 }
