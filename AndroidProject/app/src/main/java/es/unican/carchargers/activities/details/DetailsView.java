@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.unican.carchargers.R;
+import es.unican.carchargers.activities.main.PhotosArrayAdapter;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.model.ConnectionType;
@@ -56,6 +57,10 @@ public class DetailsView extends AppCompatActivity  {
         //Lista de comentarios
         TextView tvComment = findViewById(R.id.tvCommentsCount);
         ListView lvComments = findViewById(R.id.lvComments);
+        //Lista de fotos
+        TextView tvPhoto = findViewById(R.id.tvPhotosCount);
+        ListView lvPhotos = findViewById(R.id.lvPhotos);
+
 
 
 
@@ -204,11 +209,25 @@ public class DetailsView extends AppCompatActivity  {
             noComments.add("No existen comentarios\nde este punto de carga.");
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, noComments);
             lvComments.setAdapter(adapter);
-
         }
 
+        //Cálculo de numero de fotos
+        if (charger.mediaItems != null && charger.mediaItems.size() != 0) {
+            tvPhoto.setText("Fotos (" + String.valueOf(charger.mediaItems.size()) + ")");
+        } else {
+            tvPhoto.setText("Fotos (0)");
+        }
 
-
+        //Muestreo de fotos
+        if (charger.mediaItems != null){
+            PhotosArrayAdapter photoArrayAdapter = new PhotosArrayAdapter(this, charger.mediaItems);
+            lvPhotos.setAdapter(photoArrayAdapter);
+        } else {
+            List<String> noPhotos = new ArrayList<>();
+            noPhotos.add("No existen fotos\nde este punto de carga.");
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, noPhotos);
+            lvPhotos.setAdapter(adapter);
+        }
     }
 
     public void pulsaWeb(View view){
