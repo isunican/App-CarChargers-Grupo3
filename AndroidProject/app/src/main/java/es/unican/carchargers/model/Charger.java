@@ -50,25 +50,4 @@ public class Charger implements Comparable<Charger> {
         }
         return chargerTypes;
     }
-
-
-
-
-    public List<UserComment> getUserComments() {
-        return userComments;
-    }
-    public int getChargerComments () {
-        int counter = 0;
-        Set<UserComment> userCommentsCountList = new HashSet<>();
-        try {
-            userCommentsCountList.addAll(userComments);
-            for (UserComment uC : userCommentsCountList) {
-                counter++;
-            }
-            return counter;
-        } catch (Exception e){
-            return 0;
-        }
-    }
-
 }

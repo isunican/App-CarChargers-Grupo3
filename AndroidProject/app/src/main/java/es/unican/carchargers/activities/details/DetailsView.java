@@ -70,13 +70,26 @@ public class DetailsView extends AppCompatActivity  {
         } else {
             Toast.makeText(getApplicationContext(), "El cargador es null", Toast.LENGTH_SHORT).show();
         }
+
+        /*
+        try{
         ViewGroup.LayoutParams params = lvComments.getLayoutParams();
-        if (charger.getChargerComments() == 0){
+        if (charger.userComments == null && charger.userComments.size() == 0){
             params.height = 132;
         }else{
-            params.height = 352 * charger.getChargerComments(); // Cambia este valor al tamaño deseado en píxeles
+            params.height = 352 * charger.userComments.size(); // Cambia este valor al tamaño deseado en píxeles
         }
         lvComments.setLayoutParams(params);
+        }catch (Exception e){
+            ViewGroup.LayoutParams params = lvComments.getLayoutParams();
+            if (charger.userComments == null && charger.userComments.size() == 0){
+                params.height = 132;
+            }else{
+                params.height = 352 * charger.userComments.size(); // Cambia este valor al tamaño deseado en píxeles
+            }
+            lvComments.setLayoutParams(params);
+        }
+        */
 
 
 
@@ -176,10 +189,10 @@ public class DetailsView extends AppCompatActivity  {
         }
 
         //Cálculo de numero de comentarios
-        if (charger.getChargerComments() == 0) {
-            tvComment.setText("Comentarios (0)");
+        if (charger.userComments != null && charger.userComments.size() != 0) {
+            tvComment.setText("Comentarios (" + String.valueOf(charger.userComments.size()) + ")");
         } else {
-            tvComment.setText("Comentarios (" + String.valueOf(charger.getChargerComments()) + ")");
+            tvComment.setText("Comentarios (0)");
         }
 
         //Muestreo de comentarios
