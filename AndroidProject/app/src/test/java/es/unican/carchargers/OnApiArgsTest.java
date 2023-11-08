@@ -1,34 +1,20 @@
 package es.unican.carchargers;
 
-import static org.hamcrest.CoreMatchers.any;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import static es.unican.carchargers.constants.ELocation.SANTANDER;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-
-import java.util.Collections;
-import java.util.List;
 
 import es.unican.carchargers.activities.main.MainPresenter;
 import es.unican.carchargers.activities.main.MainView;
-
 import es.unican.carchargers.constants.ECountry;
-import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.service.APIArguments;
-
-import es.unican.carchargers.repository.ICallBack;
 
 public class OnApiArgsTest {
 
