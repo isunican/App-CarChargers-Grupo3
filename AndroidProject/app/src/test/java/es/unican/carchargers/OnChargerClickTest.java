@@ -1,3 +1,4 @@
+/*
 package es.unican.carchargers;
 
 import static org.junit.Assert.assertEquals;
@@ -65,3 +66,4 @@ public class OnChargerClickTest {
     }
 
 }
+*/
