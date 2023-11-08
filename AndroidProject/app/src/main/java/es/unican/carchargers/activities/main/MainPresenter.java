@@ -181,4 +181,10 @@ public class MainPresenter implements IMainContract.Presenter {
     public void setType(boolean a) {
         type = a;
     }
+
+    public void setKeys() {
+        init = true;
+        ubi = true;
+        type = true;
+    }
 }
