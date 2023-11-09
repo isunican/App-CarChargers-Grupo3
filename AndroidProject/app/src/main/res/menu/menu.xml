@@ -8,6 +8,7 @@
         android:id="@+id/menuItemLocation"
         android:icon="@drawable/no_location"
         android:title="botonLocation"
+        android:enabled="false"
         app:showAsAction="always" />
     <item
         android:id="@+id/menuItemRefresh"
