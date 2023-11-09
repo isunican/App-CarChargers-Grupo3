@@ -68,6 +68,7 @@ public class MainPresenter implements IMainContract.Presenter {
                 }
             }
         } catch (Exception e) {
+            Log.e("ExcepcionFiltros", "Excepcion en los filtros para la api: ",e );
         }
         args = onAPIargs(filtrosAplicarIDs, typeCharger,userLat,userLon);
 
