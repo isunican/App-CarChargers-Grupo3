@@ -1,11 +1,16 @@
 package es.unican.carchargers.activities.main;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,6 +37,8 @@ public class PhotosArrayAdapter extends ArrayAdapter<MediaItem> {
         // this is the user comment we want to show here
         MediaItem mediaItem = getItem(position);
 
+
+
         // create the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext())
@@ -44,6 +51,14 @@ public class PhotosArrayAdapter extends ArrayAdapter<MediaItem> {
                     ImageView iv = convertView.findViewById(R.id.ivPhoto);
                     String imageUrl = mediaItem.itemUrl;
                     Picasso.get().load(imageUrl).resize(0 , 600).centerCrop().into(iv);
+                    iv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // Aplicar la animación de escala
+                            showPopUp(iv);
+
+                        }
+                    });
 
                 }
                 /*
@@ -58,5 +73,36 @@ public class PhotosArrayAdapter extends ArrayAdapter<MediaItem> {
         }
         return convertView;
     }
+
+    private void showPopUp(ImageView iv) {
+        // Crear un PopupWindow sin un archivo XML
+        final PopupWindow popupWindow = new PopupWindow(
+                iv,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                true
+        );
+
+        // Configurar animación de entrada
+        popupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
+
+        // Hacer que el fondo sea semitransparente para enfocar la atención en el Popup
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+
+        // Mostrar el PopupWindow en el centro de la pantalla
+        int[] location = new int[2];
+        anchorView.getLocationOnScreen(location);
+        popupWindow.showAtLocation(anchorView, Gravity.CENTER, 0, 0);
+
+        // Cerrar el PopupWindow cuando se hace clic en él
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }});
+
+
+    }
+
 
 }
