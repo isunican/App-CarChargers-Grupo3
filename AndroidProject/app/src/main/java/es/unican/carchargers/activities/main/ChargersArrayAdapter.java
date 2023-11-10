@@ -86,13 +86,27 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
 
             if (charger.userComments != null && charger.userComments.size() != 0){
 
-                    if (charger.userComments.size() > 9) {
-                        tv.setText("9+");
-                    } else {
+                if (charger.userComments.size() > 9) {
+                    tv.setText("9+");
+                } else {
 
-                        tv.setText(String.valueOf(charger.userComments.size()));
-                    }
+                    tv.setText(String.valueOf(charger.userComments.size()));
                 }
+            }
+        }
+        // Numero Fotos
+        {
+            TextView tv = convertView.findViewById(R.id.tvPhoto);
+
+            if (charger.mediaItems != null && charger.mediaItems.size() != 0){
+
+                if (charger.mediaItems.size() > 9) {
+                    tv.setText("9+");
+                } else {
+
+                    tv.setText(String.valueOf(charger.mediaItems .size()));
+                }
+            }
         }
 
         return convertView;
