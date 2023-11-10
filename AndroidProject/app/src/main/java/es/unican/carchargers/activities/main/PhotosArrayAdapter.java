@@ -43,7 +43,7 @@ public class PhotosArrayAdapter extends ArrayAdapter<MediaItem> {
                 if (mediaItem.isVideo == false) {
                     ImageView iv = convertView.findViewById(R.id.ivPhoto);
                     String imageUrl = mediaItem.itemUrl;
-                    Picasso.get().load(imageUrl).resize(20, 20).centerCrop().into(iv);
+                    Picasso.get().load(imageUrl).resize(240, 180).centerCrop().into(iv);
                 } else {
                     ImageView iv = convertView.findViewById(R.id.ivPhoto);
                     String imageUrl = mediaItem.itemThumbnailUrl;
