@@ -80,6 +80,20 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
             TextView tv = convertView.findViewById(R.id.tvInfo);
             tv.setText(charger.usageCost);
         }
+        // Numero Comentarios
+        {
+            TextView tv = convertView.findViewById(R.id.tvComment);
+
+            if (charger.userComments != null && charger.userComments.size() != 0){
+
+                    if (charger.userComments.size() > 9) {
+                        tv.setText("9+");
+                    } else {
+
+                        tv.setText(String.valueOf(charger.userComments.size()));
+                    }
+                }
+        }
 
         return convertView;
     }
