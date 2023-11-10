@@ -27,15 +27,16 @@ public class Charger implements Comparable<Charger> {
     @SerializedName("AddressInfo")          public Address address;
     @SerializedName("UserComments")         public ArrayList<UserComment> userComments;
 
-    @SerializedName("Connections")           public ArrayList<Connection> connections;
+    @SerializedName("Connections")          public ArrayList<Connection> connections;
+    @SerializedName("MediaItems")           public ArrayList<MediaItem> mediaItems;
 
 
     public Charger() {
         this.operator = new Operator();
         this.address = new Address();
         this.connections = new ArrayList<>();
-
         this.userComments = new ArrayList<>();
+        this.mediaItems = new ArrayList<>();
     }
     @Override
     public int compareTo(Charger other) {

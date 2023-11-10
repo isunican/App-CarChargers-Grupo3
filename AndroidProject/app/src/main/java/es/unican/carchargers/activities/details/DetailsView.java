@@ -1,6 +1,7 @@
 package es.unican.carchargers.activities.details;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -10,9 +11,12 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
 
 import org.parceler.Parcels;
 
@@ -20,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.unican.carchargers.R;
+import es.unican.carchargers.activities.main.PhotosArrayAdapter;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.model.ConnectionType;
@@ -55,7 +60,14 @@ public class DetailsView extends AppCompatActivity  {
         webview.getSettings().setJavaScriptEnabled(true);
         //Lista de comentarios
         TextView tvComment = findViewById(R.id.tvCommentsCount);
-        ListView lvComments = findViewById(R.id.lvComments);
+        ListView lvCommentss = findViewById(R.id.lvComments);
+        ExpandableHeightListView lvComments = (ExpandableHeightListView) findViewById(R.id.lvComments);
+        //Lista de fotos
+        TextView tvPhoto = findViewById(R.id.tvPhotosCount);
+        ListView lvPhotoss = findViewById(R.id.lvPhotos);
+        ExpandableHeightListView lvPhotos = (ExpandableHeightListView) findViewById(R.id.lvPhotos);
+
+
 
 
 
@@ -199,16 +211,32 @@ public class DetailsView extends AppCompatActivity  {
         if (charger.userComments != null){
         CommentsArrayAdapter commentArrayAdapter = new CommentsArrayAdapter(this, charger.userComments);
         lvComments.setAdapter(commentArrayAdapter);
+        lvComments.setExpanded(true);
         } else {
             List<String> noComments = new ArrayList<>();
             noComments.add("No existen comentarios\nde este punto de carga.");
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, noComments);
             lvComments.setAdapter(adapter);
-
         }
 
+        //Cálculo de numero de fotos
+        if (charger.mediaItems != null && charger.mediaItems.size() != 0) {
+            tvPhoto.setText("Fotos (" + String.valueOf(charger.mediaItems.size()) + ")");
+        } else {
+            tvPhoto.setText("Fotos (0)");
+        }
 
-
+        //Muestreo de fotos
+        if (charger.mediaItems != null){
+            PhotosArrayAdapter photoArrayAdapter = new PhotosArrayAdapter(this, charger.mediaItems);
+            lvPhotos.setAdapter(photoArrayAdapter);
+            lvPhotos.setExpanded(true);
+        } else {
+            List<String> noPhotos = new ArrayList<>();
+            noPhotos.add("No existen fotos\nde este punto de carga.");
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, noPhotos);
+            lvPhotos.setAdapter(adapter);
+        }
     }
 
     public void pulsaWeb(View view){
@@ -217,6 +245,31 @@ public class DetailsView extends AppCompatActivity  {
         startActivity(intent);
 
     }
+
+    /*
+    private void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // Adapter aún no está configurado
+            return;
+        }
+
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
+
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+    */
+
 
 
 }

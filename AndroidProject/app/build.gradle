@@ -122,4 +122,11 @@ dependencies {
     // For local unit tests
     testImplementation 'com.google.dagger:hilt-android-testing:2.44.2'
     testAnnotationProcessor 'com.google.dagger:hilt-compiler:2.44.2'
+
+    //Picasso for image url addapter
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //dependencia expandableheightlistview
+    implementation 'com.github.paolorotolo:expandableheightlistview:1.0.0'
 }
+
