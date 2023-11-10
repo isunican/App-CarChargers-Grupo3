@@ -1,6 +1,7 @@
 package es.unican.carchargers.activities.details;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -10,9 +11,12 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
 
 import org.parceler.Parcels;
 
@@ -56,10 +60,13 @@ public class DetailsView extends AppCompatActivity  {
         webview.getSettings().setJavaScriptEnabled(true);
         //Lista de comentarios
         TextView tvComment = findViewById(R.id.tvCommentsCount);
-        ListView lvComments = findViewById(R.id.lvComments);
+        ListView lvCommentss = findViewById(R.id.lvComments);
+        ExpandableHeightListView lvComments = (ExpandableHeightListView) findViewById(R.id.lvComments);
         //Lista de fotos
         TextView tvPhoto = findViewById(R.id.tvPhotosCount);
-        ListView lvPhotos = findViewById(R.id.lvPhotos);
+        ListView lvPhotoss = findViewById(R.id.lvPhotos);
+        ExpandableHeightListView lvPhotos = (ExpandableHeightListView) findViewById(R.id.lvPhotos);
+
 
 
 
@@ -204,6 +211,7 @@ public class DetailsView extends AppCompatActivity  {
         if (charger.userComments != null){
         CommentsArrayAdapter commentArrayAdapter = new CommentsArrayAdapter(this, charger.userComments);
         lvComments.setAdapter(commentArrayAdapter);
+        lvComments.setExpanded(true);
         } else {
             List<String> noComments = new ArrayList<>();
             noComments.add("No existen comentarios\nde este punto de carga.");
@@ -222,6 +230,7 @@ public class DetailsView extends AppCompatActivity  {
         if (charger.mediaItems != null){
             PhotosArrayAdapter photoArrayAdapter = new PhotosArrayAdapter(this, charger.mediaItems);
             lvPhotos.setAdapter(photoArrayAdapter);
+            lvPhotos.setExpanded(true);
         } else {
             List<String> noPhotos = new ArrayList<>();
             noPhotos.add("No existen fotos\nde este punto de carga.");
@@ -236,6 +245,31 @@ public class DetailsView extends AppCompatActivity  {
         startActivity(intent);
 
     }
+
+    /*
+    private void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // Adapter aún no está configurado
+            return;
+        }
+
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
+
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+    */
+
 
 
 }

@@ -117,7 +117,7 @@
         <!-- CardView para los comentarios -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cvCommentsView"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:padding="5px"
@@ -142,10 +142,10 @@
                     tools:text="Comentarios (0)" />
 
 
-                <ListView
+                <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
                     android:id="@+id/lvComments"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="wrap_content"
                     android:inputType="textMultiLine" />
 
             </LinearLayout>
@@ -155,7 +155,7 @@
         <!-- CardView para los comentarios -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cvPhotosView"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:padding="5px"
@@ -179,10 +179,10 @@
                     android:textStyle="bold"
                     tools:text="Fotos (0)" />
 
-                <ListView
+                <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
                     android:id="@+id/lvPhotos"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="wrap_content"
                     android:inputType="textMultiLine" />
 
             </LinearLayout>
