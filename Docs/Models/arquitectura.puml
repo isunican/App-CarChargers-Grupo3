@@ -8,8 +8,7 @@ MainView -right0)- MainPresenter : IMainContract.View
 MainView -up..-> InfoActivity : <<use>>
 MainView -down..> DetailsView : <<use>>
 MainView -down..> ConfigView : <<use>>
-ConfigView -right(0- ConfigPresenter : IMainContract.Presenter
-ConfigView -right0)- ConfigPresenter : IMainContract.View
+
 
 MainPresenter -right(0- Repository : IRepository
 
@@ -80,12 +79,21 @@ interface IMainContract#View {
     showLoadError()
     showChargerDetails(Charger charger)
     showInfoActivity()
+    showUserDetails()
+    showLoading()
+    obtenerUbicacion();
 }
 
 interface IMainContract#Presenter {
-   init(View view);
+   init(View view)
    onChargerClicked(int index)
-   onMenuInfoClicked();
+   onMenuInfoClicked()
+   onMenuUserClicked()
+   obtainUbi(double userLat, double userLon)
+   obtainType(int idCharger)
+   obtainFiltros(List<EOperator> filtrosSeleccionados)
+   resetButton()
+   onMenuRefreshClicked()
 }
 
 interface IRepository {
