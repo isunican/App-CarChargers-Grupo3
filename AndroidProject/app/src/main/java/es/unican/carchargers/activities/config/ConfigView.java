@@ -22,10 +22,8 @@ import es.unican.carchargers.constants.EOperator;
 
 public class ConfigView extends AppCompatActivity  {
 
-    /**
-     * presenter that controls this view
-     */
-    IConfigContract.Presenter presenter;
+
+
     private ActionBar actionBar;
 
     @Override
@@ -88,11 +86,7 @@ public class ConfigView extends AppCompatActivity  {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("charger-type", selection);
 
-                Log.d("[DEBUGTYPE]", "View dice: " + selection);
-                if (presenter != null){
-                    presenter.obtainType(idSelection);
 
-                }
                 editor.apply();
             }
 
