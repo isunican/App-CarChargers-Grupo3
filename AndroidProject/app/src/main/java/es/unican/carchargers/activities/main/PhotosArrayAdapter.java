@@ -44,30 +44,19 @@ public class PhotosArrayAdapter extends ArrayAdapter<MediaItem> {
                     .inflate(R.layout.activity_details_view_photo, parent, false);
         }
         // Photo (ha de estar enabled y en el caso de que sea un video se inyecta su miniatura)
-        {
-            if (mediaItem.isEnabled == true) {
-                if (mediaItem.isVideo == false) {
-                    ImageView iv = convertView.findViewById(R.id.ivPhoto);
-                    String imageUrl = mediaItem.itemUrl;
-                    Picasso.get().load(imageUrl).resize(0 , 600).centerCrop().into(iv);
-                    iv.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showPopUp(iv,imageUrl);
 
-                        }
-                    });
+        if (mediaItem.isEnabled && !mediaItem.isVideo) {
+
+            ImageView iv = convertView.findViewById(R.id.ivPhoto);
+            String imageUrl = mediaItem.itemUrl;
+            Picasso.get().load(imageUrl).resize(0 , 600).centerCrop().into(iv);
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showPopUp(iv,imageUrl);
 
                 }
-                /*
-                else {
-                    ImageView iv = convertView.findViewById(R.id.ivPhoto);
-                    String imageUrl = mediaItem.itemThumbnailUrl;
-                    Picasso.get().load(imageUrl).into(iv);
-                }
-                */
-
-            }
+            });
         }
         return convertView;
     }
