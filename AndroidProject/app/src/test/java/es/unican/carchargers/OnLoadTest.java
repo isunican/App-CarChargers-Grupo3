@@ -66,7 +66,10 @@ public class OnLoadTest {
 
         assertTrue(presenter.getShownChargers() != null);
         assertTrue(presenter.getShownChargers().size() == 3);
-
+        verify(mainView, times(1)).getRepository();
+        verify(mainView, times(1)).showChargers(chargers);
+        verify(mainView, times(1)).showLoadCorrect(chargers.size());
+        verify(mainView, times(0)).showLoadError();
 
         // UGIC.1b
         presenter = new MainPresenter();
@@ -86,6 +89,8 @@ public class OnLoadTest {
 
         assertTrue(presenter.getShownChargers() == null);
 
+        // No se usa verify ya que no se ejecuta ningún método
+
         // UGIC.1c
         presenter = new MainPresenter();
         presenter.setView(mainView);
@@ -99,7 +104,6 @@ public class OnLoadTest {
 
         assertTrue(presenter.getShownChargers() != null);
         assertTrue(presenter.getShownChargers().size() == 3);
-
         verify(mainView, times(2)).getRepository();
         verify(mainView, times(2)).showChargers(chargers);
         verify(mainView, times(2)).showLoadCorrect(chargers.size());
