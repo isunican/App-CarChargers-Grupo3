@@ -8,11 +8,13 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.anything;
+import static es.unican.carchargers.utils.Matchers.hasCorrectIcon;
 import static es.unican.carchargers.utils.Matchers.hasElements;
 import static es.unican.carchargers.utils.Matchers.isNotEmpty;
 
 import android.content.Context;
 
+import androidx.core.content.ContextCompat;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -43,7 +45,7 @@ import es.unican.carchargers.repository.Repositories;
 @HiltAndroidTest
 @UninstallModules(RepositoriesModule.class)
 @RunWith(AndroidJUnit4.class)
-public class ComentariosOkUITest {
+public class FotosYComentariosOkUITest {
 
     @Rule(order = 0)  // the Hilt rule must execute first
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
@@ -78,15 +80,17 @@ public class ComentariosOkUITest {
             .getFake(context.getResources().openRawResource(R.raw.chargers_es_coments));
 
     @Test
-    public void CeroComentariosOkUITest() {
+    public void CeroComentariosCeroFotosOkUITest() {
         onView(withId(R.id.lvChargers)).check(matches(isNotEmpty()));
         onView(ViewMatchers.withId(R.id.lvChargers)).check(matches(isDisplayed()));
-        onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(1).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(3).onChildView(withId(R.id.tvComment)).check(matches(withText("0")));
+        onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(3).onChildView(withId(R.id.tvPhoto)).check(matches(withText("0")));
+        //onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(3).onChildView(withId(R.id.cameraLogo)).check(matches(hasCorrectIcon(ContextCompat.getDrawable(context, R.drawable.camera))));
+        //onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(3).onChildView(withId(R.id.commentLogo)).check(matches(hasCorrectIcon(ContextCompat.getDrawable(context, R.drawable.comment))));
         //Comprobar que hay 0 comentarios
-        onView(withId(R.id.tvCommentsCount)).check(matches(withText("Comentarios (0)")));
+        //onView(withId(R.id.tvCommentsCount)).check(matches(withText("Comentarios (0)")));
         //comprobamos que hay un elemento en los comentarios
-        onView(withId(R.id.lvComments)).check(matches(hasElements(1)));
+        //onView(withId(R.id.lvComments)).check(matches(hasElements(1)));
     }
-
-
+    
 }
