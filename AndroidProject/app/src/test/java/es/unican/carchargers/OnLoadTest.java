@@ -1,5 +1,7 @@
 package es.unican.carchargers;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -64,8 +66,8 @@ public class OnLoadTest {
 
         presenter.load();
 
-        assertTrue(presenter.getShownChargers() != null);
-        assertTrue(presenter.getShownChargers().size() == 3);
+        assertNotEquals(presenter.getShownChargers(), null);
+        assertEquals(presenter.getShownChargers().size(),3);
         verify(mainView, times(1)).getRepository();
         verify(mainView, times(1)).showChargers(chargers);
         verify(mainView, times(1)).showLoadCorrect(chargers.size());
@@ -87,7 +89,7 @@ public class OnLoadTest {
 
         presenter.load();
 
-        assertTrue(presenter.getShownChargers() == null);
+        assertEquals(presenter.getShownChargers(), null);
 
         // No se usa verify ya que no se ejecuta ningún método
 
@@ -102,8 +104,8 @@ public class OnLoadTest {
 
         presenter.load();
 
-        assertTrue(presenter.getShownChargers() != null);
-        assertTrue(presenter.getShownChargers().size() == 3);
+        assertNotEquals(presenter.getShownChargers(), null);
+        assertEquals(presenter.getShownChargers().size(), 3);
         verify(mainView, times(2)).getRepository();
         verify(mainView, times(2)).showChargers(chargers);
         verify(mainView, times(2)).showLoadCorrect(chargers.size());
