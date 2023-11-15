@@ -187,4 +187,24 @@ public class MainPresenter implements IMainContract.Presenter {
         ubi = true;
         type = true;
     }
+
+    public  List<Charger> getShownChargers() {
+        return shownChargers;
+    }
+
+    public  void  setView(IMainContract.View view) {
+        this.view = view;
+    }
+
+    public void setUserLat(double userLat) {
+        this.userLat = userLat;
+    }
+
+    public void setUserLon(double userLon) {
+        this.userLon = userLon;
+    }
+
+    public void setTypeCharger(int typeCharger) {
+        this.typeCharger = typeCharger;
+    }
 }
