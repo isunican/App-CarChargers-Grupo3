@@ -24,10 +24,11 @@ public class ConfigView extends AppCompatActivity  {
 
 
 
-    private ActionBar actionBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ActionBar actionBar;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config_view);
 
@@ -43,17 +44,8 @@ public class ConfigView extends AppCompatActivity  {
         List<String> chargerTypes = new ArrayList<>();
         for (int i = 0; i < ECharger.values().length; i++) {
 
-            /*if (ECharger.values()[i].toString().equalsIgnoreCase("GENERIC")){
+            chargerTypes.add(ECharger.values()[i].toString());
 
-                chargerTypes.add("TODOS");
-
-            } else {
-
-             */
-
-
-                chargerTypes.add(ECharger.values()[i].toString());
-            //}
         }
         for (String s:chargerTypes){
             Log.d("[DEBUG SPINNER]", s );
@@ -72,21 +64,8 @@ public class ConfigView extends AppCompatActivity  {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 String selection = spinner.getSelectedItem().toString();
-                int idSelection;
-                /*
-                if(selection.equalsIgnoreCase("TODOS")){
-                    idSelection = -1;
-                } else {
-
-
-                 */
-
-                    idSelection = ECharger.valueOf(selection).id;
-                //}
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("charger-type", selection);
-
-
                 editor.apply();
             }
 
@@ -104,31 +83,6 @@ public class ConfigView extends AppCompatActivity  {
                 spinner.setSelection(index);
             }
         }
-
-        // Agrega un Listener para el Spinner
-        /*
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-
-                String elem = parentView.getItemAtPosition(position).toString();
-                switch(elem)
-                {
-                    case "":
-                        break;
-
-
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // No hacer nada si no se selecciona nada
-            }
-        });
-        
-         */
 
 
     }

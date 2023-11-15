@@ -389,6 +389,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             int exitCode = process.waitFor();
             return (exitCode == 0); // El valor de retorno 0 indica una respuesta exitosa
         } catch (IOException | InterruptedException e) {
+            Thread.currentThread().interrupt();
             e.printStackTrace();
         }
         return false; // Si ocurre una excepción, asumimos que no hay conectividad
