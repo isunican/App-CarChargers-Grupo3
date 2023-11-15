@@ -9,7 +9,9 @@
         android:icon="@drawable/no_location"
         android:title="botonLocation"
         android:enabled="false"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:tag="OFF"
+        />
     <item
         android:id="@+id/menuItemRefresh"
         android:icon="@drawable/refresh"

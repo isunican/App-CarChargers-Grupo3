@@ -87,6 +87,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         loading = findViewById(R.id.imgLoading);
         loading.setVisibility(View.VISIBLE);
+        //PRUEBA: LLAMAR AL MENU EN EL ONCREATE
+        //invalidateOptionsMenu();
+
 
 
 
@@ -279,6 +282,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             userLat = ApplicationConstants.getLatMock();
             userLon = ApplicationConstants.getLonMock();
             presenter.obtainUbi(ApplicationConstants.getLatMock(), ApplicationConstants.getLonMock());
+            modificaIconoUbi();
             //setLocation(userLat, userLon);
             return;
         }
@@ -312,8 +316,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                                     actionBar.setTitle("Ubicación ☑");
                                 }
                                  */
-                                ActionMenuItemView locationInfo = findViewById(R.id.menuItemLocation);
-                                locationInfo.setIcon(getResources().getDrawable(R.drawable.yes_location));
+                                modificaIconoUbi();
                                 presenter.obtainUbi(userLat, userLon);
                             } else {
                                 // ubicación no disponible
@@ -325,6 +328,13 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         } else {
             mostrarDialogoUbicacion();
         }
+
+    }
+
+    private void modificaIconoUbi() {
+        ActionMenuItemView locationInfo = findViewById(R.id.menuItemLocation);
+        locationInfo.setTag("ON");
+        locationInfo.setIcon(getResources().getDrawable(R.drawable.yes_location));
 
     }
 
