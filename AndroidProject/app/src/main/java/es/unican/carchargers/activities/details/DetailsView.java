@@ -22,10 +22,12 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.main.PhotosArrayAdapter;
 import es.unican.carchargers.constants.EOperator;
+import es.unican.carchargers.model.Address;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.model.ConnectionType;
 import es.unican.carchargers.activities.main.CommentsArrayAdapter;
@@ -40,7 +42,8 @@ public class DetailsView extends AppCompatActivity  {
     public static final String INTENT_CHARGER = "INTENT_CHARGER";
     public static final String UBICACION = "Ubicacion: ";
 
-    double lat, lon;
+    double lat;
+    double lon;
 
     Charger charger;
     @Override
@@ -60,21 +63,16 @@ public class DetailsView extends AppCompatActivity  {
         webview.getSettings().setJavaScriptEnabled(true);
         //Lista de comentarios
         TextView tvComment = findViewById(R.id.tvCommentsCount);
-        ListView lvCommentss = findViewById(R.id.lvComments);
+
         ExpandableHeightListView lvComments = (ExpandableHeightListView) findViewById(R.id.lvComments);
         //Lista de fotos
         TextView tvPhoto = findViewById(R.id.tvPhotosCount);
-        ListView lvPhotoss = findViewById(R.id.lvPhotos);
+
         ExpandableHeightListView lvPhotos = (ExpandableHeightListView) findViewById(R.id.lvPhotos);
-
-
-
-
 
         // Get Charger from the intent that triggered this activity
         charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
         if (charger != null) {
-            //Toast.makeText(getApplicationContext(), "Latitud: " + lat + " Longitud: " + lon, Toast.LENGTH_SHORT).show();
 
             lat = Double.parseDouble(charger.address.latitude);
             lon = Double.parseDouble(charger.address.longitude);
@@ -82,27 +80,6 @@ public class DetailsView extends AppCompatActivity  {
         } else {
             Toast.makeText(getApplicationContext(), "El cargador es null", Toast.LENGTH_SHORT).show();
         }
-
-        /*
-        try{
-        ViewGroup.LayoutParams params = lvComments.getLayoutParams();
-        if (charger.userComments == null && charger.userComments.size() == 0){
-            params.height = 132;
-        }else{
-            params.height = 352 * charger.userComments.size(); // Cambia este valor al tamaño deseado en píxeles
-        }
-        lvComments.setLayoutParams(params);
-        }catch (Exception e){
-            ViewGroup.LayoutParams params = lvComments.getLayoutParams();
-            if (charger.userComments == null && charger.userComments.size() == 0){
-                params.height = 132;
-            }else{
-                params.height = 352 * charger.userComments.size(); // Cambia este valor al tamaño deseado en píxeles
-            }
-            lvComments.setLayoutParams(params);
-        }
-        */
-
 
 
         String html1 = "https://maps.google.com/maps?q=";
@@ -137,58 +114,21 @@ public class DetailsView extends AppCompatActivity  {
 
         //Metemos info en el campo info
         String informacion = "";
-
-        informacion = informacion + "Número de puntos de conexión: " + charger.numberOfPoints + "\n";
-
-
-        try {
-            if ((charger.address.town.isBlank()) && (charger.address.province.isBlank())) {
-                informacion = informacion + UBICACION + "Provincia y ciudad no disponible\n";
-            } else if (charger.address.town.isBlank()) {
-                informacion = informacion + UBICACION  + charger.address.province + "\n";
-            } else if (charger.address.province.isBlank()) {
-                informacion = informacion + UBICACION + charger.address.town + "\n";
-            } else {
-                informacion = informacion + UBICACION + charger.address.town + ", " + charger.address.province + "\n";
-            }
-        } catch (NullPointerException e) {
-            if (charger.address.province == null && charger.address.town == null) {
-                informacion = informacion + UBICACION + "Provincia y ciudad no disponible\n";
-            } else if (charger.address.town == null) {
-                informacion = informacion + UBICACION + charger.address.province + "\n";
-            } else if (charger.address.province == null) {
-                informacion = informacion + UBICACION + charger.address.town + "\n";
-            }
-
-        }
-
-        try {
-            if (charger.usageCost.isBlank()) {
-                informacion = informacion + "Precio por carga: Desconocido" + "\n";
-            } else {
-                informacion = informacion + "Precio por carga: " + charger.usageCost + "\n";
-            }
-        } catch (NullPointerException e) {
-            informacion = informacion + "Precio por carga: Desconocido" + "\n";
-        }
+        StringBuilder builder = new StringBuilder(informacion);
 
 
+        builder.append("Número de puntos de conexión: " + charger.numberOfPoints + "\n");
 
-        for (ConnectionType c: charger.getConnectionTypes()) {
-            try {
-                if (charger.getConnectionTypes().isEmpty()) {
-                    informacion = informacion + "Tipo de cargador: No encontrado" + "\n";
-                } else {
-                    informacion = informacion + "Tipo de cargador: " + c.title + "\n";
-                }
-            } catch (NullPointerException e) {
-                informacion = informacion + "Tipo de cargador: No encontrado" + "\n";
-            }
+        // Metemos ubicacion en el campo info
+        anhadirInfoUbicacion(charger.address, builder);
 
-        }
+        // Metemos coste en el campo info
+        anhadirInfoCoste(charger.usageCost,builder);
 
+        // Metemos el tipo de cargador en el campo info
+        anhadirInfoTipoCargador(charger.getConnectionTypes(), builder);
 
-
+        informacion = builder.toString();
         tvInfo.setText(informacion);
 
         //Metemos la pagina web
@@ -239,37 +179,47 @@ public class DetailsView extends AppCompatActivity  {
         }
     }
 
-    public void pulsaWeb(View view){
+
+    private void anhadirInfoTipoCargador(Set<ConnectionType> connectionTypes, StringBuilder builder) {
+        if (connectionTypes == null || connectionTypes.isEmpty()) {
+            builder.append("Tipo de cargador: No encontrado" + "\n");
+        } else {
+            for (ConnectionType c: connectionTypes) {
+                builder.append("Tipo de cargador: " + c.title + "\n");
+            }
+        }
+
+    }
+
+    private void anhadirInfoCoste(String coste, StringBuilder builder) {
+
+        if (coste == null) {
+            builder.append("Precio por carga: Desconocido" + "\n");
+        } else if (coste.isBlank()) {
+            builder.append("Precio por carga: Desconocido" + "\n");
+        } else {
+            builder.append("Precio por carga: " + charger.usageCost + "\n");
+        }
+    }
+    private void anhadirInfoUbicacion(Address address, StringBuilder builder) {
+
+        if (address == null || (address.town == null && address.province == null)) {
+            builder.append(UBICACION + "Provincia y ciudad no disponible\n");
+        } else if (address.town == null) {
+            builder.append(UBICACION + address.province + "\n");
+        } else if (address.province == null) {
+            builder.append(UBICACION + address.town + "\n");
+        } else {
+            builder.append(UBICACION + address.town + ", " + address.province + "\n");
+        }
+    }
+
+    public void pulsaWeb(){
         Uri uri = Uri.parse(charger.operator.website);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
 
     }
-
-    /*
-    private void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            // Adapter aún no está configurado
-            return;
-        }
-
-        int totalHeight = 0;
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
-
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-    }
-    */
-
 
 
 }

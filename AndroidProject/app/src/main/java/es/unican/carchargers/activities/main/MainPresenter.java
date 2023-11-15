@@ -48,7 +48,7 @@ public class MainPresenter implements IMainContract.Presenter {
     int j = 0;
     public void load() {
 
-        //Log.d("[DEBUG LOAD]", "load numero " + j +": setUbi: " +  setUbi+": setInit: " +  setInit +": setType: " +  setType);
+
         j++;
         if (!ubi || !init || !type){
             return;
@@ -68,6 +68,7 @@ public class MainPresenter implements IMainContract.Presenter {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
         args = onAPIargs(filtrosAplicarIDs, typeCharger,userLat,userLon);
 
@@ -101,7 +102,7 @@ public class MainPresenter implements IMainContract.Presenter {
                 .setDistance(500)
                 .setMaxResults(100);
 
-        if(typeCharger != -1){//Si no hay filtro seleccionado o el filtro es TODOS
+        if(typeCharger != -1){//Si no hay filtro seleccionado o el filtro es todos
             args.setConnectionTypeId(typeCharger);
         }
 
@@ -146,7 +147,7 @@ public class MainPresenter implements IMainContract.Presenter {
             userLat = uLat;
             userLon = uLon;
         }
-        //Log.d("[DEBUG EN PRESENTER]", "Tenemos ubi:" + userLat + " " + userLon);
+
         ubi = true;
         load();
     }
@@ -154,7 +155,7 @@ public class MainPresenter implements IMainContract.Presenter {
     @Override
     public void obtainType(int idCharger) {
         typeCharger = idCharger;
-        //Log.d("[DEBUGTYPE]", "Presenter dice: " + typeCharger);
+
         type = true;
         load();
     }

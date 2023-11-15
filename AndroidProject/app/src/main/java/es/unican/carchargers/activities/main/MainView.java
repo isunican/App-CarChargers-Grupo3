@@ -70,7 +70,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
 
     private FusedLocationProviderClient fusedLocationClient;
-    private double userLat, userLon;
+    private double userLat;
+    private double userLon;
     private boolean[] checked;
     private ActionBar actionBar;
     private  SharedPreferences sharedPreferences;
@@ -94,14 +95,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         presenter = new MainPresenter();
         presenter.init(this);
 
-        //SwipeRefreshLayout buttonRefresh = findViewById(R.id.swipeRefresh);
 
         fusedLocationClient = new FusedLocationProviderClient(this);
-
-
-
-
-        EOperator[] filtros = EOperator.values();
 
         actionBar = getSupportActionBar();
 
@@ -241,8 +236,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     private boolean checkLocationPermission() {
         int result = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        if (result == PackageManager.PERMISSION_GRANTED) return true;
-        else return false;
+        boolean isTrue = false;
+        if (result == PackageManager.PERMISSION_GRANTED) isTrue = true;
+        return isTrue;
     }
 
     private void requestLocationPermission() {
@@ -270,12 +266,12 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     public void obtenerUbicacion() {
 
-        //Toast.makeText(MainView.this, "Obtener ubicacion ejecutado", Toast.LENGTH_SHORT).show();
+
         if (ApplicationConstants.isLocationMocked()) { // implementacion necesaria para los tests, no se ejecuta de normal
             userLat = ApplicationConstants.getLatMock();
             userLon = ApplicationConstants.getLonMock();
             presenter.obtainUbi(ApplicationConstants.getLatMock(), ApplicationConstants.getLonMock());
-            //setLocation(userLat, userLon);
+
             return;
         }
 
@@ -301,7 +297,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                             if (location != null) {
                                 userLat = location.getLatitude();
                                 userLon = location.getLongitude();
-                                //Log.d("[DEBUG]", "Latitud: " + userLat + "Longitud: " + userLon);
+
                                 if (actionBar != null) {
                                     actionBar.setTitle("Ubicación ☑");
                                 }
@@ -338,7 +334,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                         EOperator filtro = EOperator.valueOf(filtrosStrings[index]);
 
                         if (isChecked) {
-                            if (!filtrosSeleccionados.contains(filtro) && checked[index] == true) {
+                            if (!filtrosSeleccionados.contains(filtro) && checked[index]) {
                                 // If the user checked the item, add it to the selected items
                                 filtrosSeleccionados.add(filtro);
                             }
@@ -389,6 +385,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             int exitCode = process.waitFor();
             return (exitCode == 0); // El valor de retorno 0 indica una respuesta exitosa
         } catch (IOException | InterruptedException e) {
+            Thread.currentThread().interrupt();
             e.printStackTrace();
         }
         return false; // Si ocurre una excepción, asumimos que no hay conectividad

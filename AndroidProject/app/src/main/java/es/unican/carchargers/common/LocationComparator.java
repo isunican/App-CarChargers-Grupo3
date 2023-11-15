@@ -9,7 +9,7 @@ public class LocationComparator implements Comparator<Charger> {
     private final double userLat;
     private final double userLon;
 
-    private final int R = 6371; // Radius of the earth
+
 
     public LocationComparator(double userLat, double userLon) {
         this.userLat = userLat;
@@ -24,7 +24,7 @@ public class LocationComparator implements Comparator<Charger> {
             return -1;
         } else if (o1 != null && o2 == null) {
             return 1;
-        } else if (o1 == null && o2 == null) {
+        } else if (o1 == null) {
             return 0;
         }
 
