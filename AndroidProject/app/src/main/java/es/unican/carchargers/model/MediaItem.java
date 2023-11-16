@@ -1,8 +1,12 @@
 package es.unican.carchargers.model;
 
+import android.provider.MediaStore;
+
 import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
+
+import java.util.Objects;
 
 @Parcel
 public class MediaItem implements Comparable<MediaItem> {
@@ -15,5 +19,22 @@ public class MediaItem implements Comparable<MediaItem> {
     @Override
     public int compareTo(MediaItem other) {
         return this.itemUrl.compareTo(other.itemUrl);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        MediaItem other = (MediaItem) obj;
+        return this.id == other.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
