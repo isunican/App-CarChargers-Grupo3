@@ -5,12 +5,22 @@
 
 
     <item
-        android:id="@+id/menuItemLocation"
+        android:id="@+id/menuItemLocationOFF"
         android:icon="@drawable/no_location"
-        android:title="botonLocation"
+        android:title="botonLocationOFF"
         android:enabled="false"
         app:showAsAction="always"
-        android:tag="OFF"
+        android:visible="true"
+
+        />
+    <item
+        android:id="@+id/menuItemLocationON"
+        android:icon="@drawable/yes_location"
+        android:title="botonLocationON"
+        android:enabled="false"
+        app:showAsAction="always"
+        android:visible="false"
+
         />
     <item
         android:id="@+id/menuItemRefresh"

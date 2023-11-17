@@ -77,6 +77,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     private ActionBar actionBar;
     private  SharedPreferences sharedPreferences;
     private int idSelection;
+    private boolean locationActivated = false;
 
 
     @Override
@@ -157,6 +158,18 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if(locationActivated){
+            menu.findItem(R.id.menuItemLocationON).setVisible(true);
+            menu.findItem(R.id.menuItemLocationOFF).setVisible(false);
+        } else {
+            menu.findItem(R.id.menuItemLocationON).setVisible(false);
+            menu.findItem(R.id.menuItemLocationOFF).setVisible(true);
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -282,8 +295,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             userLat = ApplicationConstants.getLatMock();
             userLon = ApplicationConstants.getLonMock();
             presenter.obtainUbi(ApplicationConstants.getLatMock(), ApplicationConstants.getLonMock());
-            modificaIconoUbi();
-            //setLocation(userLat, userLon);
+            locationActivated = true;
             return;
         }
 
@@ -310,13 +322,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                             if (location != null) {
                                 userLat = location.getLatitude();
                                 userLon = location.getLongitude();
-                                //Log.d("[DEBUG]", "Latitud: " + userLat + "Longitud: " + userLon);
-                                /*
-                                if (actionBar != null) {
-                                    actionBar.setTitle("Ubicación ☑");
-                                }
-                                 */
-                                modificaIconoUbi();
+                                locationActivated = true;
+                                MainView.this.invalidateOptionsMenu();
                                 presenter.obtainUbi(userLat, userLon);
                             } else {
                                 // ubicación no disponible
@@ -331,12 +338,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     }
 
-    private void modificaIconoUbi() {
-        ActionMenuItemView locationInfo = findViewById(R.id.menuItemLocation);
-        locationInfo.setTag("ON");
-        locationInfo.setIcon(getResources().getDrawable(R.drawable.yes_location));
 
-    }
 
 
     private void mostrarDialogoFiltros() {

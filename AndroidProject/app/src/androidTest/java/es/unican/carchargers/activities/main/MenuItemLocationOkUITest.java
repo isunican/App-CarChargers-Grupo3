@@ -23,6 +23,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
 
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -63,8 +64,8 @@ public class MenuItemLocationOkUITest {
     // necesito el context para acceder a recursos, por ejemplo un json con datos fake
     Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-    @BeforeClass
-    public static void setupClass() {
+    @Before
+    public void setupClass() {
         //Se establece una ubicación del usuario simulada (Facultad de Ciencias Universidad de Cantabria)
         ApplicationConstants.setLocationMock(43.4709312, -3.8016632);
 
@@ -78,16 +79,13 @@ public class MenuItemLocationOkUITest {
             .getFake(context.getResources().openRawResource(R.raw.chargers_es_coments));
 
     @Test
-    public void MenuItemLocationOkUITest() {
-        /*
-        ActionMenuItemView locationInfo = findViewById(R.id.menuItemLocation);
-        locationInfo.setTag("ON");
-        locationInfo.setIcon(getResources().getDrawable(R.drawable.yes_location));
-         */
-        ApplicationConstants.setLocationMock(43.4709312, -3.8016632);
-        onView(withTagValue(is((Object) "OFF"))).check(matches(isDisplayed()));
-
-
+    public void MenuItemONLocationOkUITest() {
+        setupClass();
+        onView(withId(R.id.menuItemLocationON)).check(matches(isDisplayed()));
+    }
+    @Test
+    public void MenuItemOFFLocationOkUITest() {
+        onView(withId(R.id.menuItemLocationOFF)).check(matches(isDisplayed()));
     }
 }
 
