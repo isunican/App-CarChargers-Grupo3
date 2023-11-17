@@ -33,7 +33,7 @@ import es.unican.carchargers.activities.main.CommentsArrayAdapter;
 public class DetailsView extends AppCompatActivity  {
 
     public static final String INTENT_CHARGER = "INTENT_CHARGER";
-    public static final String UBICACION = "Ubicacion: ";
+    public static final String UBICACION = "Ubicación: ";
 
     double lat, lon;
 
@@ -176,7 +176,7 @@ public class DetailsView extends AppCompatActivity  {
         }
 
 
-
+        informacion.trim();
         tvInfo.setText(informacion);
 
         //Metemos la pagina web
