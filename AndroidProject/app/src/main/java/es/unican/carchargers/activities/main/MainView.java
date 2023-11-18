@@ -1,6 +1,7 @@
 package es.unican.carchargers.activities.main;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.ActionMenuItemView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -76,6 +78,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
     private ActionBar actionBar;
     private  SharedPreferences sharedPreferences;
     private int idSelection;
+    private boolean locationActivated = false;
 
 
     @Override
@@ -86,6 +89,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         loading = findViewById(R.id.imgLoading);
         loading.setVisibility(View.VISIBLE);
+        //PRUEBA: LLAMAR AL MENU EN EL ONCREATE
+        //invalidateOptionsMenu();
+
 
 
 
@@ -101,10 +107,12 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         actionBar = getSupportActionBar();
 
 
-        // Establece el nuevo nombre para la ActionBar
+
+
         if (actionBar != null) {
-            actionBar.setTitle("Ubicación ☒");
+            actionBar.setTitle(" ");
         }
+
 
         checked = new boolean[EOperator.values().length];
 
@@ -145,6 +153,18 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if(locationActivated){
+            menu.findItem(R.id.menuItemLocationON).setVisible(true);
+            menu.findItem(R.id.menuItemLocationOFF).setVisible(false);
+        } else {
+            menu.findItem(R.id.menuItemLocationON).setVisible(false);
+            menu.findItem(R.id.menuItemLocationOFF).setVisible(true);
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -272,6 +292,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             userLon = ApplicationConstants.getLonMock();
             presenter.obtainUbi(ApplicationConstants.getLatMock(), ApplicationConstants.getLonMock());
 
+            locationActivated = true;
+
             return;
         }
 
@@ -292,15 +314,16 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             };
             fusedLocationClient.getCurrentLocation(100, c)
                     .addOnSuccessListener(this, new OnSuccessListener<>() {
+                        @SuppressLint("RestrictedApi")
                         @Override
                         public void onSuccess(Location location) {
                             if (location != null) {
                                 userLat = location.getLatitude();
                                 userLon = location.getLongitude();
 
-                                if (actionBar != null) {
-                                    actionBar.setTitle("Ubicación ☑");
-                                }
+                                locationActivated = true;
+                                MainView.this.invalidateOptionsMenu();
+
                                 presenter.obtainUbi(userLat, userLon);
                             } else {
                                 // ubicación no disponible
@@ -314,6 +337,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         }
 
     }
+
+
 
 
     private void mostrarDialogoFiltros() {
