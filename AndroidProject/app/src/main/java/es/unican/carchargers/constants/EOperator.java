@@ -16,9 +16,9 @@ public enum EOperator {
     TESLA(3534, R.drawable.tesla),      // also for non-teslas
     IONITY(3299, R.drawable.ionity),
     IBERDROLA(2247, R.drawable.iberdrola),
-    GENERIC(-1, R.drawable.generic);
+    OTROS(-1, R.drawable.generic);
 
-    public final static List<Integer> ALL = null;
+    public static final List<Integer> ALL = null;
 
     /** logo resource id */
     public final int logo;
@@ -37,7 +37,7 @@ public enum EOperator {
                 return operator;
             }
         }
-        return GENERIC;
+        return OTROS;
     }
 
 
