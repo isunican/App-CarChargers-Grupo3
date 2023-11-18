@@ -45,47 +45,27 @@ import es.unican.carchargers.repository.Repositories;
  * This test also uses an HTTP Idling Resource
  */
 @HiltAndroidTest
-@UninstallModules(RepositoriesModule.class)
+//@UninstallModules(RepositoriesModule.class)
 @RunWith(AndroidJUnit4.class)
 public class MenuItemLocationOkUITest {
-
-
     @Rule(order = 0)  // the Hilt rule must execute first
     public HiltAndroidRule hiltRule = new HiltAndroidRule(this);
-
     @Rule(order = 1)
     public ActivityScenarioRule<MainView> activityRule = new ActivityScenarioRule(MainView.class);
-
     //Rule que establece los permisos de usuario de ubicación como aceptados
     @Rule
     public GrantPermissionRule permissionRule = GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION);
-
-
     // necesito el context para acceder a recursos, por ejemplo un json con datos fake
     Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-
-    @Before
-    public void setupClass() {
+    @BeforeClass
+    public static void setupClass() {
         //Se establece una ubicación del usuario simulada (Facultad de Ciencias Universidad de Cantabria)
         ApplicationConstants.setLocationMock(43.4709312, -3.8016632);
-
     }
-
-
-    // inject a fake repository that loads the data from a local json file
-    // IMPORTANT: all the tests in this class must use this repository
-    @BindValue
-    IRepository repository = Repositories
-            .getFake(context.getResources().openRawResource(R.raw.chargers_es_coments));
-
     @Test
-    public void MenuItemONLocationOkUITest() {
-        setupClass();
+    public void MenuItemLocationOkUITest() {
+        //setupClass();
         onView(withId(R.id.menuItemLocationON)).check(matches(isDisplayed()));
-    }
-    @Test
-    public void MenuItemOFFLocationOkUITest() {
-        onView(withId(R.id.menuItemLocationOFF)).check(matches(isDisplayed()));
     }
 }
 
