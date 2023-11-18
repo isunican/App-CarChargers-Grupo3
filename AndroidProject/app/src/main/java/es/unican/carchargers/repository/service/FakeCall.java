@@ -61,9 +61,11 @@ public class FakeCall implements Call<List<Charger>> {
         return false;
     }
 
+    // Este método está vacío porque actualmente no se requiere ninguna lógica aquí.
+    // Se dejó intencionalmente vacío para facilitar la extensión futura.
     @Override
     public void cancel() {
-
+        // No hay código actualmente.
     }
 
     @Override

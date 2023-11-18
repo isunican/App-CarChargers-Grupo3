@@ -1,11 +1,17 @@
 package es.unican.carchargers.utils;
 
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+
+import es.unican.carchargers.R;
 
 public class Matchers {
 
@@ -47,7 +53,5 @@ public class Matchers {
             }
         };
     }
-
-
-
 }
+

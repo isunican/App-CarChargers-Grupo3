@@ -18,7 +18,7 @@ public enum EOperator {
     IBERDROLA(2247, R.drawable.iberdrola),
     OTROS(-1, R.drawable.generic);
 
-    public final static List<Integer> ALL = null;
+    public static final List<Integer> ALL = null;
 
     /** logo resource id */
     public final int logo;

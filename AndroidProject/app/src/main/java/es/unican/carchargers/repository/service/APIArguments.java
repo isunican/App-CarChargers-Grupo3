@@ -15,9 +15,9 @@ public class APIArguments {
 
     private Integer connectionTypeId;
     private List<Integer> operatorIds = new ArrayList<>();
-    private Double lat;
-    private Double lon;
-    private Double distance;
+    private double lat;
+    private double lon;
+    private double distance;
     private Integer maxResults;
 
     public static APIArguments builder() {
@@ -75,11 +75,11 @@ public class APIArguments {
         return countryCode;
     }
 
-    public Double getLocationLatitude() {
+    public double getLocationLatitude() {
         return lat;
     }
 
-    public Double getLocationLongitude() {
+    public double getLocationLongitude() {
         return lon;
     }
 
@@ -89,7 +89,7 @@ public class APIArguments {
 
     public Integer[] getOperatorIds() {
         if (operatorIds.size() == 0) {
-            return null;
+            return new Integer[0];
         }
         return operatorIds.toArray(new Integer[0]);
     }
