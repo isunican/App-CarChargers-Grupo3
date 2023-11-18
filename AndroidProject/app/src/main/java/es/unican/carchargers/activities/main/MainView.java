@@ -1,6 +1,7 @@
 package es.unican.carchargers.activities.main;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.ActionMenuItemView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -70,11 +72,13 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
 
     private FusedLocationProviderClient fusedLocationClient;
-    private double userLat, userLon;
+    private double userLat;
+    private double userLon;
     private boolean[] checked;
     private ActionBar actionBar;
     private  SharedPreferences sharedPreferences;
     private int idSelection;
+    private boolean locationActivated = false;
 
 
     @Override
@@ -85,6 +89,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
         loading = findViewById(R.id.imgLoading);
         loading.setVisibility(View.VISIBLE);
+        //PRUEBA: LLAMAR AL MENU EN EL ONCREATE
+        //invalidateOptionsMenu();
+
 
 
 
@@ -94,22 +101,18 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         presenter = new MainPresenter();
         presenter.init(this);
 
-        //SwipeRefreshLayout buttonRefresh = findViewById(R.id.swipeRefresh);
 
         fusedLocationClient = new FusedLocationProviderClient(this);
-
-
-
-
-        EOperator[] filtros = EOperator.values();
 
         actionBar = getSupportActionBar();
 
 
-        // Establece el nuevo nombre para la ActionBar
+
+
         if (actionBar != null) {
-            actionBar.setTitle("Ubicación ☒");
+            actionBar.setTitle(" ");
         }
+
 
         checked = new boolean[EOperator.values().length];
 
@@ -150,6 +153,18 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if(locationActivated){
+            menu.findItem(R.id.menuItemLocationON).setVisible(true);
+            menu.findItem(R.id.menuItemLocationOFF).setVisible(false);
+        } else {
+            menu.findItem(R.id.menuItemLocationON).setVisible(false);
+            menu.findItem(R.id.menuItemLocationOFF).setVisible(true);
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -241,8 +256,9 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     private boolean checkLocationPermission() {
         int result = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        if (result == PackageManager.PERMISSION_GRANTED) return true;
-        else return false;
+        boolean isTrue = false;
+        if (result == PackageManager.PERMISSION_GRANTED) isTrue = true;
+        return isTrue;
     }
 
     private void requestLocationPermission() {
@@ -270,12 +286,14 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
 
     public void obtenerUbicacion() {
 
-        //Toast.makeText(MainView.this, "Obtener ubicacion ejecutado", Toast.LENGTH_SHORT).show();
+
         if (ApplicationConstants.isLocationMocked()) { // implementacion necesaria para los tests, no se ejecuta de normal
             userLat = ApplicationConstants.getLatMock();
             userLon = ApplicationConstants.getLonMock();
             presenter.obtainUbi(ApplicationConstants.getLatMock(), ApplicationConstants.getLonMock());
-            //setLocation(userLat, userLon);
+
+            locationActivated = true;
+
             return;
         }
 
@@ -296,15 +314,16 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             };
             fusedLocationClient.getCurrentLocation(100, c)
                     .addOnSuccessListener(this, new OnSuccessListener<>() {
+                        @SuppressLint("RestrictedApi")
                         @Override
                         public void onSuccess(Location location) {
                             if (location != null) {
                                 userLat = location.getLatitude();
                                 userLon = location.getLongitude();
-                                //Log.d("[DEBUG]", "Latitud: " + userLat + "Longitud: " + userLon);
-                                if (actionBar != null) {
-                                    actionBar.setTitle("Ubicación ☑");
-                                }
+
+                                locationActivated = true;
+                                MainView.this.invalidateOptionsMenu();
+
                                 presenter.obtainUbi(userLat, userLon);
                             } else {
                                 // ubicación no disponible
@@ -318,6 +337,8 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
         }
 
     }
+
+
 
 
     private void mostrarDialogoFiltros() {
@@ -338,7 +359,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
                         EOperator filtro = EOperator.valueOf(filtrosStrings[index]);
 
                         if (isChecked) {
-                            if (!filtrosSeleccionados.contains(filtro) && checked[index] == true) {
+                            if (!filtrosSeleccionados.contains(filtro) && checked[index]) {
                                 // If the user checked the item, add it to the selected items
                                 filtrosSeleccionados.add(filtro);
                             }
@@ -389,6 +410,7 @@ public class MainView extends AppCompatActivity implements IMainContract.View {
             int exitCode = process.waitFor();
             return (exitCode == 0); // El valor de retorno 0 indica una respuesta exitosa
         } catch (IOException | InterruptedException e) {
+            Thread.currentThread().interrupt();
             e.printStackTrace();
         }
         return false; // Si ocurre una excepción, asumimos que no hay conectividad

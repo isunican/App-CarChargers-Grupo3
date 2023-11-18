@@ -40,22 +40,22 @@ public class CommentsArrayAdapter extends ArrayAdapter<UserComment> {
 
 
         // User
-        {
-            TextView tv = convertView.findViewById(R.id.tvCommentUser);
-            tv.setText(comment.userName);
-        }
+
+        TextView tv = convertView.findViewById(R.id.tvCommentUser);
+        tv.setText(comment.userName);
+
 
         // Date
-        {
-            TextView tv = convertView.findViewById(R.id.tvCommentDate);
-            tv.setText(comment.dateCreated);
-        }
+
+        TextView tv2 = convertView.findViewById(R.id.tvCommentDate);
+        tv2.setText(comment.dateCreated);
+
 
         // Comment
-        {
-            TextView tv = convertView.findViewById(R.id.tvCommentContent);
-            tv.setText(comment.comment);
-        }
+
+        TextView tv3 = convertView.findViewById(R.id.tvCommentContent);
+        tv3.setText(comment.comment);
+
 
         return convertView;
     }

@@ -10,8 +10,8 @@ public class UserComment implements Serializable {
     @SerializedName("DateCreated")      public String dateCreated;
     @SerializedName("Comment")          public String comment;
 
-    public UserComment(String ID, String userName, String comment, String dateCreated) {
-        this.id = ID;
+    public UserComment(String id, String userName, String comment, String dateCreated) {
+        this.id = id;
         this.userName = userName;
         this.comment = comment;
         this.dateCreated = dateCreated;

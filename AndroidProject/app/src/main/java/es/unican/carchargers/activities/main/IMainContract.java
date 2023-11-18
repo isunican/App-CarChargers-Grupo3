@@ -49,6 +49,8 @@ public interface IMainContract {
         void resetButton();
 
         void onMenuRefreshClicked();
+
+        void setKeys();
     }
 
     /**
