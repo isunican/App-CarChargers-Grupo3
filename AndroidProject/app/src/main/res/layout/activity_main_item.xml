@@ -3,13 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="128dp">
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvComment"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="2dp"
+        android:text="0"
+        android:textAlignment="center"
+        android:textColor="@android:color/primary_text_light"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cameraLogo"
+        app:layout_constraintStart_toEndOf="@+id/commentLogo" />
 
     <ImageView
         android:id="@+id/ivLogo"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -17,27 +31,70 @@
 
     <TextView
         android:id="@+id/tvInfo"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/ivLogo"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvTitle" />
 
     <TextView
         android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivLogo"
         app:layout_constraintTop_toTopOf="@+id/ivLogo" />
 
     <TextView
         android:id="@+id/tvAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="19dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/tvInfo"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvTitle"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+    <ImageView
+        android:id="@+id/cameraLogo"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo"
+        app:srcCompat="@drawable/camera" />
+
+    <ImageView
+        android:id="@+id/commentLogo"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cameraLogo"
+        app:layout_constraintStart_toEndOf="@+id/cameraLogo"
+        app:srcCompat="@drawable/comment" />
+
+    <TextView
+        android:id="@+id/tvPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="2dp"
+        android:text="0"
+        android:textAlignment="center"
+        android:textColor="@android:color/primary_text_light"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cameraLogo"
+        app:layout_constraintStart_toEndOf="@+id/cameraLogo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

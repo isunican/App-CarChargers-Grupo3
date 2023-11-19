@@ -19,7 +19,7 @@ public enum ECharger {
     CEE_3(16, "CEE 3 Pin");
 
 
-    public final static List<Integer> ALL = null;
+    public static final List<Integer> ALL = null;
 
 
     /** Connection type id */

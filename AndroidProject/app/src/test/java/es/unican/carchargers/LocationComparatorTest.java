@@ -57,22 +57,22 @@ public class LocationComparatorTest {
         c2.address.longitude = "-1.170632";
 
         // UGIC 2.a
-        assertTrue(comparador.compare(c1,c2) == 1);
+        assertEquals(comparador.compare(c1,c2),1);
 
         // UGIC 2.b
-        assertTrue(comparador.compare(c2,c1) == -1);
+        assertEquals(comparador.compare(c2,c1), -1);
 
         // UGIC 2.c
 
-        assertTrue(comparador.compare(c1,c1) == 0);
+        assertEquals(comparador.compare(c1,c1), 0);
 
         // UGIC 2.d
-        assertTrue(comparador.compare(null,c2) == -1);
+        assertEquals(comparador.compare(null,c2), -1);
 
         // UGIC 2.3
-        assertTrue(comparador.compare(c1,null) == 1);
+        assertEquals(comparador.compare(c1,null), 1);
 
         // UGIC 2.3
-        assertTrue(comparador.compare(null,null) == 0);
+        assertEquals(comparador.compare(null,null), 0);
     }
 }

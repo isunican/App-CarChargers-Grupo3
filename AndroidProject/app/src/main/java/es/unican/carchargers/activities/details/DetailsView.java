@@ -1,6 +1,7 @@
 package es.unican.carchargers.activities.details;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -10,17 +11,24 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
 
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import es.unican.carchargers.R;
+import es.unican.carchargers.activities.main.PhotosArrayAdapter;
+import es.unican.carchargers.common.NonScrollListView;
 import es.unican.carchargers.constants.EOperator;
+import es.unican.carchargers.model.Address;
 import es.unican.carchargers.model.Charger;
 import es.unican.carchargers.model.ConnectionType;
 import es.unican.carchargers.activities.main.CommentsArrayAdapter;
@@ -33,9 +41,10 @@ import es.unican.carchargers.activities.main.CommentsArrayAdapter;
 public class DetailsView extends AppCompatActivity  {
 
     public static final String INTENT_CHARGER = "INTENT_CHARGER";
-    public static final String UBICACION = "Ubicacion: ";
+    public static final String UBICACION = "Ubicación: ";
 
-    double lat, lon;
+    double lat;
+    double lon;
 
     Charger charger;
     @Override
@@ -55,14 +64,16 @@ public class DetailsView extends AppCompatActivity  {
         webview.getSettings().setJavaScriptEnabled(true);
         //Lista de comentarios
         TextView tvComment = findViewById(R.id.tvCommentsCount);
-        ListView lvComments = findViewById(R.id.lvComments);
 
+        NonScrollListView lvComments = findViewById(R.id.lvComments);
+        //Lista de fotos
+        TextView tvPhoto = findViewById(R.id.tvPhotosCount);
 
+        NonScrollListView lvPhotos = findViewById(R.id.lvPhotos);
 
         // Get Charger from the intent that triggered this activity
         charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
         if (charger != null) {
-            //Toast.makeText(getApplicationContext(), "Latitud: " + lat + " Longitud: " + lon, Toast.LENGTH_SHORT).show();
 
             lat = Double.parseDouble(charger.address.latitude);
             lon = Double.parseDouble(charger.address.longitude);
@@ -70,14 +81,6 @@ public class DetailsView extends AppCompatActivity  {
         } else {
             Toast.makeText(getApplicationContext(), "El cargador es null", Toast.LENGTH_SHORT).show();
         }
-        ViewGroup.LayoutParams params = lvComments.getLayoutParams();
-        if (charger.getChargerComments() == 0){
-            params.height = 132;
-        }else{
-            params.height = 352 * charger.getChargerComments(); // Cambia este valor al tamaño deseado en píxeles
-        }
-        lvComments.setLayoutParams(params);
-
 
 
         String html1 = "https://maps.google.com/maps?q=";
@@ -112,58 +115,26 @@ public class DetailsView extends AppCompatActivity  {
 
         //Metemos info en el campo info
         String informacion = "";
-
-        informacion = informacion + "Número de puntos de conexión: " + charger.numberOfPoints + "\n";
-
-
-        try {
-            if ((charger.address.town.isBlank()) && (charger.address.province.isBlank())) {
-                informacion = informacion + UBICACION + "Provincia y ciudad no disponible\n";
-            } else if (charger.address.town.isBlank()) {
-                informacion = informacion + UBICACION  + charger.address.province + "\n";
-            } else if (charger.address.province.isBlank()) {
-                informacion = informacion + UBICACION + charger.address.town + "\n";
-            } else {
-                informacion = informacion + UBICACION + charger.address.town + ", " + charger.address.province + "\n";
-            }
-        } catch (NullPointerException e) {
-            if (charger.address.province == null && charger.address.town == null) {
-                informacion = informacion + UBICACION + "Provincia y ciudad no disponible\n";
-            } else if (charger.address.town == null) {
-                informacion = informacion + UBICACION + charger.address.province + "\n";
-            } else if (charger.address.province == null) {
-                informacion = informacion + UBICACION + charger.address.town + "\n";
-            }
-
-        }
-
-        try {
-            if (charger.usageCost.isBlank()) {
-                informacion = informacion + "Precio por carga: Desconocido" + "\n";
-            } else {
-                informacion = informacion + "Precio por carga: " + charger.usageCost + "\n";
-            }
-        } catch (NullPointerException e) {
-            informacion = informacion + "Precio por carga: Desconocido" + "\n";
-        }
+        StringBuilder builder = new StringBuilder(informacion);
 
 
+        builder.append("Número de puntos de conexión: " + charger.numberOfPoints + "\n");
 
-        for (ConnectionType c: charger.getConnectionTypes()) {
-            try {
-                if (charger.getConnectionTypes().isEmpty()) {
-                    informacion = informacion + "Tipo de cargador: No encontrado" + "\n";
-                } else {
-                    informacion = informacion + "Tipo de cargador: " + c.title + "\n";
-                }
-            } catch (NullPointerException e) {
-                informacion = informacion + "Tipo de cargador: No encontrado" + "\n";
-            }
+        // Metemos ubicacion en el campo info
+        anhadirInfoUbicacion(charger.address, builder);
 
-        }
+        // Metemos coste en el campo info
+        anhadirInfoCoste(charger.usageCost,builder);
 
 
+        
 
+        // Metemos el tipo de cargador en el campo info
+        anhadirInfoTipoCargador(charger.getConnectionTypes(), builder);
+
+        informacion = builder.toString();
+
+        informacion = informacion.trim();
         tvInfo.setText(informacion);
 
         //Metemos la pagina web
@@ -176,29 +147,82 @@ public class DetailsView extends AppCompatActivity  {
         }
 
         //Cálculo de numero de comentarios
-        if (charger.getChargerComments() == 0) {
-            tvComment.setText("Comentarios (0)");
+        if (charger.userComments != null && charger.userComments.size() != 0) {
+            tvComment.setText("Comentarios (" + String.valueOf(charger.userComments.size()) + ")");
         } else {
-            tvComment.setText("Comentarios (" + String.valueOf(charger.getChargerComments()) + ")");
+            tvComment.setText("Comentarios (0)");
         }
 
         //Muestreo de comentarios
         if (charger.userComments != null){
         CommentsArrayAdapter commentArrayAdapter = new CommentsArrayAdapter(this, charger.userComments);
         lvComments.setAdapter(commentArrayAdapter);
+        //lvComments.setExpanded(true);
         } else {
             List<String> noComments = new ArrayList<>();
             noComments.add("No existen comentarios\nde este punto de carga.");
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, noComments);
             lvComments.setAdapter(adapter);
-
         }
 
+        //Cálculo de numero de fotos
+        if (charger.mediaItems != null && charger.mediaItems.size() != 0) {
+            tvPhoto.setText("Fotos (" + String.valueOf(charger.mediaItems.size()) + ")");
+        } else {
+            tvPhoto.setText("Fotos (0)");
+        }
 
+        //Muestreo de fotos
+        if (charger.mediaItems != null){
+            PhotosArrayAdapter photoArrayAdapter = new PhotosArrayAdapter(this, charger.mediaItems);
+            lvPhotos.setAdapter(photoArrayAdapter);
+            //lvPhotos.setExpanded(true);
+        } else {
+            List<String> noPhotos = new ArrayList<>();
+            noPhotos.add("No existen fotos\nde este punto de carga.");
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, noPhotos);
+            lvPhotos.setAdapter(adapter);
+        }
+        getWindow().getDecorView().invalidate();
+        getWindow().getDecorView().requestLayout();
+    }
+
+
+    private void anhadirInfoTipoCargador(Set<ConnectionType> connectionTypes, StringBuilder builder) {
+        if (connectionTypes == null || connectionTypes.isEmpty()) {
+            builder.append("Tipo de cargador: No encontrado" + "\n");
+        } else {
+            for (ConnectionType c: connectionTypes) {
+                builder.append("Tipo de cargador: " + c.title + "\n");
+            }
+        }
 
     }
 
-    public void pulsaWeb(View view){
+    private void anhadirInfoCoste(String coste, StringBuilder builder) {
+
+        if (coste == null) {
+            builder.append("Precio por carga: Desconocido" + "\n");
+        } else if (coste.isBlank()) {
+            builder.append("Precio por carga: Desconocido" + "\n");
+        } else {
+            builder.append("Precio por carga: " + charger.usageCost + "\n");
+        }
+    }
+    private void anhadirInfoUbicacion(Address address, StringBuilder builder) {
+
+        if (address == null || (address.town == null && address.province == null)) {
+            builder.append(UBICACION + "Provincia y ciudad no disponible\n");
+        } else if (address.town == null) {
+            builder.append(UBICACION + address.province + "\n");
+        } else if (address.province == null) {
+            builder.append(UBICACION + address.town + "\n");
+        } else {
+            builder.append(UBICACION + address.town + ", " + address.province + "\n");
+        }
+    }
+
+    public void pulsaWeb(){
         Uri uri = Uri.parse(charger.operator.website);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);

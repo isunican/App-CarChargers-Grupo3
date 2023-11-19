@@ -17,6 +17,430 @@
       "Title": "Open Charge Map Contributors"
     },
     "OperatorInfo": {
+      "WebsiteURL": "http://www.recargagic.com/",
+      "Comments": null,
+      "PhonePrimaryContact": "(+34) 902 103 498",
+      "PhoneSecondaryContact": null,
+      "IsPrivateIndividual": false,
+      "AddressInfo": null,
+      "BookingURL": null,
+      "ContactEmail": "info@recargagic.com",
+      "FaultReportEmail": null,
+      "IsRestrictedEdit": false,
+      "ID": 210,
+      "Title": "GIC"
+    },
+    "UsageType": {
+      "IsPayAtLocation": false,
+      "IsMembershipRequired": true,
+      "IsAccessKeyRequired": true,
+      "ID": 4,
+      "Title": "Public - Membership Required"
+    },
+    "StatusType": {
+      "IsOperational": true,
+      "IsUserSelectable": true,
+      "ID": 50,
+      "Title": "Operational"
+    },
+    "SubmissionStatus": {
+      "IsLive": true,
+      "ID": 200,
+      "Title": "Submission Published"
+    },
+    "UserComments": null,
+    "PercentageSimilarity": null,
+    "MediaItems": null,
+    "IsRecentlyVerified": true,
+    "DateLastVerified": "2023-01-29T16:37:00Z",
+    "ID": 213039,
+    "UUID": "D086AF8F-529D-458F-873B-48438E4CCB0F",
+    "ParentChargePointID": null,
+    "DataProviderID": 1,
+    "DataProvidersReference": null,
+    "OperatorID": 210,
+    "OperatorsReference": null,
+    "UsageTypeID": 4,
+    "UsageCost": "0,40€/kWh DC - 0,30€/kWh AC",
+    "AddressInfo": {
+      "ID": 213419,
+      "Title": "ECOVE Galp Sevilla",
+      "AddressLine1": "Calle Salado",
+      "AddressLine2": "Triana",
+      "Town": null,
+      "StateOrProvince": "Andalucía",
+      "Postcode": "41120",
+      "CountryID": 210,
+      "Country": {
+        "ISOCode": "ES",
+        "ContinentCode": "EU",
+        "ID": 210,
+        "Title": "Spain"
+      },
+      "Latitude": 37.37901993952313,
+      "Longitude": -6.001119164275423,
+      "ContactTelephone1": null,
+      "ContactTelephone2": null,
+      "ContactEmail": null,
+      "AccessComments": null,
+      "RelatedURL": null,
+      "Distance": null,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 354845,
+        "ConnectionTypeID": 25,
+        "ConnectionType": {
+          "FormalName": "IEC 62196-2 Type 2",
+          "IsDiscontinued": false,
+          "IsObsolete": false,
+          "ID": 25,
+          "Title": "Type 2 (Socket Only)"
+        },
+        "Reference": null,
+        "StatusTypeID": 50,
+        "StatusType": {
+          "IsOperational": true,
+          "IsUserSelectable": true,
+          "ID": 50,
+          "Title": "Operational"
+        },
+        "LevelID": 2,
+        "Level": {
+          "Comments": "Over 2 kW, usually non-domestic socket type",
+          "IsFastChargeCapable": false,
+          "ID": 2,
+          "Title": "Level 2 : Medium (Over 2kW)"
+        },
+        "Amps": null,
+        "Voltage": null,
+        "PowerKW": 22,
+        "CurrentTypeID": 20,
+        "CurrentType": {
+          "Description": "Alternating Current - Three Phase",
+          "ID": 20,
+          "Title": "AC (Three-Phase)"
+        },
+        "Quantity": 1,
+        "Comments": null
+      },
+      {
+        "ID": 354846,
+        "ConnectionTypeID": 33,
+        "ConnectionType": {
+          "FormalName": "IEC 62196-3 Configuration FF",
+          "IsDiscontinued": false,
+          "IsObsolete": false,
+          "ID": 33,
+          "Title": "CCS (Type 2)"
+        },
+        "Reference": null,
+        "StatusTypeID": 50,
+        "StatusType": {
+          "IsOperational": true,
+          "IsUserSelectable": true,
+          "ID": 50,
+          "Title": "Operational"
+        },
+        "LevelID": 3,
+        "Level": {
+          "Comments": "40KW and Higher",
+          "IsFastChargeCapable": true,
+          "ID": 3,
+          "Title": "Level 3:  High (Over 40kW)"
+        },
+        "Amps": null,
+        "Voltage": null,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "CurrentType": {
+          "Description": "Direct Current",
+          "ID": 30,
+          "Title": "DC"
+        },
+        "Quantity": 1,
+        "Comments": null
+      },
+      {
+        "ID": 354847,
+        "ConnectionTypeID": 2,
+        "ConnectionType": {
+          "FormalName": "IEC 62196-3 Configuration AA",
+          "IsDiscontinued": null,
+          "IsObsolete": null,
+          "ID": 2,
+          "Title": "CHAdeMO"
+        },
+        "Reference": null,
+        "StatusTypeID": 50,
+        "StatusType": {
+          "IsOperational": true,
+          "IsUserSelectable": true,
+          "ID": 50,
+          "Title": "Operational"
+        },
+        "LevelID": 3,
+        "Level": {
+          "Comments": "40KW and Higher",
+          "IsFastChargeCapable": true,
+          "ID": 3,
+          "Title": "Level 3:  High (Over 40kW)"
+        },
+        "Amps": null,
+        "Voltage": null,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "CurrentType": {
+          "Description": "Direct Current",
+          "ID": 30,
+          "Title": "DC"
+        },
+        "Quantity": 1,
+        "Comments": null
+      }
+    ],
+    "NumberOfPoints": 2,
+    "GeneralComments": null,
+    "DatePlanned": null,
+    "DateLastConfirmed": null,
+    "StatusTypeID": 50,
+    "DateLastStatusUpdate": "2023-01-29T16:37:00Z",
+    "MetadataValues": null,
+    "DataQualityLevel": 1,
+    "DateCreated": "2023-01-29T16:37:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "DataProvider": {
+      "WebsiteURL": "http://openchargemap.org",
+      "Comments": null,
+      "DataProviderStatusType": {
+        "IsProviderEnabled": true,
+        "ID": 1,
+        "Title": "Manual Data Entry"
+      },
+      "IsRestrictedEdit": false,
+      "IsOpenDataLicensed": true,
+      "IsApprovedImport": true,
+      "License": "Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0)",
+      "DateLastImported": null,
+      "ID": 1,
+      "Title": "Open Charge Map Contributors"
+    },
+    "OperatorInfo": {
+      "WebsiteURL": "https://www.repsol.es/particulares/vehiculos/movilidad-electrica/",
+      "Comments": null,
+      "PhonePrimaryContact": "902 540 810",
+      "PhoneSecondaryContact": null,
+      "IsPrivateIndividual": false,
+      "AddressInfo": null,
+      "BookingURL": null,
+      "ContactEmail": null,
+      "FaultReportEmail": null,
+      "IsRestrictedEdit": false,
+      "ID": 91,
+      "Title": "Repsol - Ibil (ES)"
+    },
+    "UsageType": {
+      "IsPayAtLocation": false,
+      "IsMembershipRequired": true,
+      "IsAccessKeyRequired": true,
+      "ID": 4,
+      "Title": "Public - Membership Required"
+    },
+    "StatusType": {
+      "IsOperational": false,
+      "IsUserSelectable": true,
+      "ID": 100,
+      "Title": "Not Operational"
+    },
+    "SubmissionStatus": {
+      "IsLive": true,
+      "ID": 200,
+      "Title": "Submission Published"
+    },
+    "UserComments": null,
+    "PercentageSimilarity": null,
+    "MediaItems": null,
+    "IsRecentlyVerified": true,
+    "DateLastVerified": "2023-01-28T21:00:00Z",
+    "ID": 213001,
+    "UUID": "A4D572E4-5044-4628-8AE2-E923459AE147",
+    "ParentChargePointID": null,
+    "DataProviderID": 1,
+    "DataProvidersReference": null,
+    "OperatorID": 91,
+    "OperatorsReference": null,
+    "UsageTypeID": 4,
+    "UsageCost": "0,39€/kWh DC - 0,29€/kWh AC",
+    "AddressInfo": {
+      "ID": 213381,
+      "Title": "Repsol Puertollano",
+      "AddressLine1": "Calle Asdrúbal",
+      "AddressLine2": null,
+      "Town": "Puertollano",
+      "StateOrProvince": "Castilla-La Mancha",
+      "Postcode": "13500",
+      "CountryID": 210,
+      "Country": {
+        "ISOCode": "ES",
+        "ContinentCode": "EU",
+        "ID": 210,
+        "Title": "Spain"
+      },
+      "Latitude": 38.67895608044057,
+      "Longitude": -4.109341542956258,
+      "ContactTelephone1": null,
+      "ContactTelephone2": null,
+      "ContactEmail": null,
+      "AccessComments": null,
+      "RelatedURL": null,
+      "Distance": null,
+      "DistanceUnit": 0
+    },
+    "Connections": [
+      {
+        "ID": 354783,
+        "ConnectionTypeID": 33,
+        "ConnectionType": {
+          "FormalName": "IEC 62196-3 Configuration FF",
+          "IsDiscontinued": false,
+          "IsObsolete": false,
+          "ID": 33,
+          "Title": "CCS (Type 2)"
+        },
+        "Reference": null,
+        "StatusTypeID": 50,
+        "StatusType": {
+          "IsOperational": true,
+          "IsUserSelectable": true,
+          "ID": 50,
+          "Title": "Operational"
+        },
+        "LevelID": 3,
+        "Level": {
+          "Comments": "40KW and Higher",
+          "IsFastChargeCapable": true,
+          "ID": 3,
+          "Title": "Level 3:  High (Over 40kW)"
+        },
+        "Amps": null,
+        "Voltage": null,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "CurrentType": {
+          "Description": "Direct Current",
+          "ID": 30,
+          "Title": "DC"
+        },
+        "Quantity": 1,
+        "Comments": null
+      },
+      {
+        "ID": 354784,
+        "ConnectionTypeID": 2,
+        "ConnectionType": {
+          "FormalName": "IEC 62196-3 Configuration AA",
+          "IsDiscontinued": null,
+          "IsObsolete": null,
+          "ID": 2,
+          "Title": "CHAdeMO"
+        },
+        "Reference": null,
+        "StatusTypeID": 50,
+        "StatusType": {
+          "IsOperational": true,
+          "IsUserSelectable": true,
+          "ID": 50,
+          "Title": "Operational"
+        },
+        "LevelID": 3,
+        "Level": {
+          "Comments": "40KW and Higher",
+          "IsFastChargeCapable": true,
+          "ID": 3,
+          "Title": "Level 3:  High (Over 40kW)"
+        },
+        "Amps": null,
+        "Voltage": null,
+        "PowerKW": 50,
+        "CurrentTypeID": 30,
+        "CurrentType": {
+          "Description": "Direct Current",
+          "ID": 30,
+          "Title": "DC"
+        },
+        "Quantity": 1,
+        "Comments": null
+      },
+      {
+        "ID": 354785,
+        "ConnectionTypeID": 1036,
+        "ConnectionType": {
+          "FormalName": "IEC 62196-2",
+          "IsDiscontinued": false,
+          "IsObsolete": false,
+          "ID": 1036,
+          "Title": "Type 2 (Tethered Connector) "
+        },
+        "Reference": null,
+        "StatusTypeID": 50,
+        "StatusType": {
+          "IsOperational": true,
+          "IsUserSelectable": true,
+          "ID": 50,
+          "Title": "Operational"
+        },
+        "LevelID": 3,
+        "Level": {
+          "Comments": "40KW and Higher",
+          "IsFastChargeCapable": true,
+          "ID": 3,
+          "Title": "Level 3:  High (Over 40kW)"
+        },
+        "Amps": null,
+        "Voltage": null,
+        "PowerKW": 43,
+        "CurrentTypeID": 20,
+        "CurrentType": {
+          "Description": "Alternating Current - Three Phase",
+          "ID": 20,
+          "Title": "AC (Three-Phase)"
+        },
+        "Quantity": 1,
+        "Comments": null
+      }
+    ],
+    "NumberOfPoints": 1,
+    "GeneralComments": null,
+    "DatePlanned": null,
+    "DateLastConfirmed": null,
+    "StatusTypeID": 100,
+    "DateLastStatusUpdate": "2023-01-28T21:00:00Z",
+    "MetadataValues": null,
+    "DataQualityLevel": 1,
+    "DateCreated": "2023-01-28T21:00:00Z",
+    "SubmissionStatusTypeID": 200
+  },
+  {
+    "DataProvider": {
+      "WebsiteURL": "http://openchargemap.org",
+      "Comments": null,
+      "DataProviderStatusType": {
+        "IsProviderEnabled": true,
+        "ID": 1,
+        "Title": "Manual Data Entry"
+      },
+      "IsRestrictedEdit": false,
+      "IsOpenDataLicensed": true,
+      "IsApprovedImport": true,
+      "License": "Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0)",
+      "DateLastImported": null,
+      "ID": 1,
+      "Title": "Open Charge Map Contributors"
+    },
+    "OperatorInfo": {
       "WebsiteURL": "https://www.zunder.com/en/",
       "Comments": "formerly known as EasyCharger",
       "PhonePrimaryContact": null,
@@ -626,218 +1050,6 @@
     "MetadataValues": null,
     "DataQualityLevel": 1,
     "DateCreated": "2023-01-29T16:38:00Z",
-    "SubmissionStatusTypeID": 200
-  },
-  {
-    "DataProvider": {
-      "WebsiteURL": "http://openchargemap.org",
-      "Comments": null,
-      "DataProviderStatusType": {
-        "IsProviderEnabled": true,
-        "ID": 1,
-        "Title": "Manual Data Entry"
-      },
-      "IsRestrictedEdit": false,
-      "IsOpenDataLicensed": true,
-      "IsApprovedImport": true,
-      "License": "Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0)",
-      "DateLastImported": null,
-      "ID": 1,
-      "Title": "Open Charge Map Contributors"
-    },
-    "OperatorInfo": {
-      "WebsiteURL": "http://www.recargagic.com/",
-      "Comments": null,
-      "PhonePrimaryContact": "(+34) 902 103 498",
-      "PhoneSecondaryContact": null,
-      "IsPrivateIndividual": false,
-      "AddressInfo": null,
-      "BookingURL": null,
-      "ContactEmail": "info@recargagic.com",
-      "FaultReportEmail": null,
-      "IsRestrictedEdit": false,
-      "ID": 210,
-      "Title": "GIC"
-    },
-    "UsageType": {
-      "IsPayAtLocation": false,
-      "IsMembershipRequired": true,
-      "IsAccessKeyRequired": true,
-      "ID": 4,
-      "Title": "Public - Membership Required"
-    },
-    "StatusType": {
-      "IsOperational": true,
-      "IsUserSelectable": true,
-      "ID": 50,
-      "Title": "Operational"
-    },
-    "SubmissionStatus": {
-      "IsLive": true,
-      "ID": 200,
-      "Title": "Submission Published"
-    },
-    "UserComments": null,
-    "PercentageSimilarity": null,
-    "MediaItems": null,
-    "IsRecentlyVerified": true,
-    "DateLastVerified": "2023-01-29T16:37:00Z",
-    "ID": 213039,
-    "UUID": "D086AF8F-529D-458F-873B-48438E4CCB0F",
-    "ParentChargePointID": null,
-    "DataProviderID": 1,
-    "DataProvidersReference": null,
-    "OperatorID": 210,
-    "OperatorsReference": null,
-    "UsageTypeID": 4,
-    "UsageCost": "0,40€/kWh DC - 0,30€/kWh AC",
-    "AddressInfo": {
-      "ID": 213419,
-      "Title": "ECOVE Galp Sevilla",
-      "AddressLine1": "Calle Salado",
-      "AddressLine2": "Triana",
-      "Town": null,
-      "StateOrProvince": "Andalucía",
-      "Postcode": "41120",
-      "CountryID": 210,
-      "Country": {
-        "ISOCode": "ES",
-        "ContinentCode": "EU",
-        "ID": 210,
-        "Title": "Spain"
-      },
-      "Latitude": 37.37901993952313,
-      "Longitude": -6.001119164275423,
-      "ContactTelephone1": null,
-      "ContactTelephone2": null,
-      "ContactEmail": null,
-      "AccessComments": null,
-      "RelatedURL": null,
-      "Distance": null,
-      "DistanceUnit": 0
-    },
-    "Connections": [
-      {
-        "ID": 354845,
-        "ConnectionTypeID": 25,
-        "ConnectionType": {
-          "FormalName": "IEC 62196-2 Type 2",
-          "IsDiscontinued": false,
-          "IsObsolete": false,
-          "ID": 25,
-          "Title": "Type 2 (Socket Only)"
-        },
-        "Reference": null,
-        "StatusTypeID": 50,
-        "StatusType": {
-          "IsOperational": true,
-          "IsUserSelectable": true,
-          "ID": 50,
-          "Title": "Operational"
-        },
-        "LevelID": 2,
-        "Level": {
-          "Comments": "Over 2 kW, usually non-domestic socket type",
-          "IsFastChargeCapable": false,
-          "ID": 2,
-          "Title": "Level 2 : Medium (Over 2kW)"
-        },
-        "Amps": null,
-        "Voltage": null,
-        "PowerKW": 22,
-        "CurrentTypeID": 20,
-        "CurrentType": {
-          "Description": "Alternating Current - Three Phase",
-          "ID": 20,
-          "Title": "AC (Three-Phase)"
-        },
-        "Quantity": 1,
-        "Comments": null
-      },
-      {
-        "ID": 354846,
-        "ConnectionTypeID": 33,
-        "ConnectionType": {
-          "FormalName": "IEC 62196-3 Configuration FF",
-          "IsDiscontinued": false,
-          "IsObsolete": false,
-          "ID": 33,
-          "Title": "CCS (Type 2)"
-        },
-        "Reference": null,
-        "StatusTypeID": 50,
-        "StatusType": {
-          "IsOperational": true,
-          "IsUserSelectable": true,
-          "ID": 50,
-          "Title": "Operational"
-        },
-        "LevelID": 3,
-        "Level": {
-          "Comments": "40KW and Higher",
-          "IsFastChargeCapable": true,
-          "ID": 3,
-          "Title": "Level 3:  High (Over 40kW)"
-        },
-        "Amps": null,
-        "Voltage": null,
-        "PowerKW": 50,
-        "CurrentTypeID": 30,
-        "CurrentType": {
-          "Description": "Direct Current",
-          "ID": 30,
-          "Title": "DC"
-        },
-        "Quantity": 1,
-        "Comments": null
-      },
-      {
-        "ID": 354847,
-        "ConnectionTypeID": 2,
-        "ConnectionType": {
-          "FormalName": "IEC 62196-3 Configuration AA",
-          "IsDiscontinued": null,
-          "IsObsolete": null,
-          "ID": 2,
-          "Title": "CHAdeMO"
-        },
-        "Reference": null,
-        "StatusTypeID": 50,
-        "StatusType": {
-          "IsOperational": true,
-          "IsUserSelectable": true,
-          "ID": 50,
-          "Title": "Operational"
-        },
-        "LevelID": 3,
-        "Level": {
-          "Comments": "40KW and Higher",
-          "IsFastChargeCapable": true,
-          "ID": 3,
-          "Title": "Level 3:  High (Over 40kW)"
-        },
-        "Amps": null,
-        "Voltage": null,
-        "PowerKW": 50,
-        "CurrentTypeID": 30,
-        "CurrentType": {
-          "Description": "Direct Current",
-          "ID": 30,
-          "Title": "DC"
-        },
-        "Quantity": 1,
-        "Comments": null
-      }
-    ],
-    "NumberOfPoints": 2,
-    "GeneralComments": null,
-    "DatePlanned": null,
-    "DateLastConfirmed": null,
-    "StatusTypeID": 50,
-    "DateLastStatusUpdate": "2023-01-29T16:37:00Z",
-    "MetadataValues": null,
-    "DataQualityLevel": 1,
-    "DateCreated": "2023-01-29T16:37:00Z",
     "SubmissionStatusTypeID": 200
   },
   {
@@ -5095,218 +5307,6 @@
     "MetadataValues": null,
     "DataQualityLevel": 1,
     "DateCreated": "2023-01-29T10:23:00Z",
-    "SubmissionStatusTypeID": 200
-  },
-  {
-    "DataProvider": {
-      "WebsiteURL": "http://openchargemap.org",
-      "Comments": null,
-      "DataProviderStatusType": {
-        "IsProviderEnabled": true,
-        "ID": 1,
-        "Title": "Manual Data Entry"
-      },
-      "IsRestrictedEdit": false,
-      "IsOpenDataLicensed": true,
-      "IsApprovedImport": true,
-      "License": "Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0)",
-      "DateLastImported": null,
-      "ID": 1,
-      "Title": "Open Charge Map Contributors"
-    },
-    "OperatorInfo": {
-      "WebsiteURL": "https://www.repsol.es/particulares/vehiculos/movilidad-electrica/",
-      "Comments": null,
-      "PhonePrimaryContact": "902 540 810",
-      "PhoneSecondaryContact": null,
-      "IsPrivateIndividual": false,
-      "AddressInfo": null,
-      "BookingURL": null,
-      "ContactEmail": null,
-      "FaultReportEmail": null,
-      "IsRestrictedEdit": false,
-      "ID": 91,
-      "Title": "Repsol - Ibil (ES)"
-    },
-    "UsageType": {
-      "IsPayAtLocation": false,
-      "IsMembershipRequired": true,
-      "IsAccessKeyRequired": true,
-      "ID": 4,
-      "Title": "Public - Membership Required"
-    },
-    "StatusType": {
-      "IsOperational": false,
-      "IsUserSelectable": true,
-      "ID": 100,
-      "Title": "Not Operational"
-    },
-    "SubmissionStatus": {
-      "IsLive": true,
-      "ID": 200,
-      "Title": "Submission Published"
-    },
-    "UserComments": null,
-    "PercentageSimilarity": null,
-    "MediaItems": null,
-    "IsRecentlyVerified": true,
-    "DateLastVerified": "2023-01-28T21:00:00Z",
-    "ID": 213001,
-    "UUID": "A4D572E4-5044-4628-8AE2-E923459AE147",
-    "ParentChargePointID": null,
-    "DataProviderID": 1,
-    "DataProvidersReference": null,
-    "OperatorID": 91,
-    "OperatorsReference": null,
-    "UsageTypeID": 4,
-    "UsageCost": "0,39€/kWh DC - 0,29€/kWh AC",
-    "AddressInfo": {
-      "ID": 213381,
-      "Title": "Repsol Puertollano",
-      "AddressLine1": "Calle Asdrúbal",
-      "AddressLine2": null,
-      "Town": "Puertollano",
-      "StateOrProvince": "Castilla-La Mancha",
-      "Postcode": "13500",
-      "CountryID": 210,
-      "Country": {
-        "ISOCode": "ES",
-        "ContinentCode": "EU",
-        "ID": 210,
-        "Title": "Spain"
-      },
-      "Latitude": 38.67895608044057,
-      "Longitude": -4.109341542956258,
-      "ContactTelephone1": null,
-      "ContactTelephone2": null,
-      "ContactEmail": null,
-      "AccessComments": null,
-      "RelatedURL": null,
-      "Distance": null,
-      "DistanceUnit": 0
-    },
-    "Connections": [
-      {
-        "ID": 354783,
-        "ConnectionTypeID": 33,
-        "ConnectionType": {
-          "FormalName": "IEC 62196-3 Configuration FF",
-          "IsDiscontinued": false,
-          "IsObsolete": false,
-          "ID": 33,
-          "Title": "CCS (Type 2)"
-        },
-        "Reference": null,
-        "StatusTypeID": 50,
-        "StatusType": {
-          "IsOperational": true,
-          "IsUserSelectable": true,
-          "ID": 50,
-          "Title": "Operational"
-        },
-        "LevelID": 3,
-        "Level": {
-          "Comments": "40KW and Higher",
-          "IsFastChargeCapable": true,
-          "ID": 3,
-          "Title": "Level 3:  High (Over 40kW)"
-        },
-        "Amps": null,
-        "Voltage": null,
-        "PowerKW": 50,
-        "CurrentTypeID": 30,
-        "CurrentType": {
-          "Description": "Direct Current",
-          "ID": 30,
-          "Title": "DC"
-        },
-        "Quantity": 1,
-        "Comments": null
-      },
-      {
-        "ID": 354784,
-        "ConnectionTypeID": 2,
-        "ConnectionType": {
-          "FormalName": "IEC 62196-3 Configuration AA",
-          "IsDiscontinued": null,
-          "IsObsolete": null,
-          "ID": 2,
-          "Title": "CHAdeMO"
-        },
-        "Reference": null,
-        "StatusTypeID": 50,
-        "StatusType": {
-          "IsOperational": true,
-          "IsUserSelectable": true,
-          "ID": 50,
-          "Title": "Operational"
-        },
-        "LevelID": 3,
-        "Level": {
-          "Comments": "40KW and Higher",
-          "IsFastChargeCapable": true,
-          "ID": 3,
-          "Title": "Level 3:  High (Over 40kW)"
-        },
-        "Amps": null,
-        "Voltage": null,
-        "PowerKW": 50,
-        "CurrentTypeID": 30,
-        "CurrentType": {
-          "Description": "Direct Current",
-          "ID": 30,
-          "Title": "DC"
-        },
-        "Quantity": 1,
-        "Comments": null
-      },
-      {
-        "ID": 354785,
-        "ConnectionTypeID": 1036,
-        "ConnectionType": {
-          "FormalName": "IEC 62196-2",
-          "IsDiscontinued": false,
-          "IsObsolete": false,
-          "ID": 1036,
-          "Title": "Type 2 (Tethered Connector) "
-        },
-        "Reference": null,
-        "StatusTypeID": 50,
-        "StatusType": {
-          "IsOperational": true,
-          "IsUserSelectable": true,
-          "ID": 50,
-          "Title": "Operational"
-        },
-        "LevelID": 3,
-        "Level": {
-          "Comments": "40KW and Higher",
-          "IsFastChargeCapable": true,
-          "ID": 3,
-          "Title": "Level 3:  High (Over 40kW)"
-        },
-        "Amps": null,
-        "Voltage": null,
-        "PowerKW": 43,
-        "CurrentTypeID": 20,
-        "CurrentType": {
-          "Description": "Alternating Current - Three Phase",
-          "ID": 20,
-          "Title": "AC (Three-Phase)"
-        },
-        "Quantity": 1,
-        "Comments": null
-      }
-    ],
-    "NumberOfPoints": 1,
-    "GeneralComments": null,
-    "DatePlanned": null,
-    "DateLastConfirmed": null,
-    "StatusTypeID": 100,
-    "DateLastStatusUpdate": "2023-01-28T21:00:00Z",
-    "MetadataValues": null,
-    "DataQualityLevel": 1,
-    "DateCreated": "2023-01-28T21:00:00Z",
     "SubmissionStatusTypeID": 200
   },
   {

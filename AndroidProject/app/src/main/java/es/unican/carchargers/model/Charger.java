@@ -9,6 +9,7 @@ import org.parceler.Parcel;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -27,15 +28,16 @@ public class Charger implements Comparable<Charger> {
     @SerializedName("AddressInfo")          public Address address;
     @SerializedName("UserComments")         public ArrayList<UserComment> userComments;
 
-    @SerializedName("Connections")           public ArrayList<Connection> connections;
+    @SerializedName("Connections")          public ArrayList<Connection> connections;
+    @SerializedName("MediaItems")           public ArrayList<MediaItem> mediaItems;
 
 
     public Charger() {
         this.operator = new Operator();
         this.address = new Address();
         this.connections = new ArrayList<>();
-
         this.userComments = new ArrayList<>();
+        this.mediaItems = new ArrayList<>();
     }
     @Override
     public int compareTo(Charger other) {
@@ -51,24 +53,21 @@ public class Charger implements Comparable<Charger> {
         return chargerTypes;
     }
 
-
-
-
-    public List<UserComment> getUserComments() {
-        return userComments;
-    }
-    public int getChargerComments () {
-        int counter = 0;
-        Set<UserComment> userCommentsCountList = new HashSet<>();
-        try {
-            userCommentsCountList.addAll(userComments);
-            for (UserComment uC : userCommentsCountList) {
-                counter++;
-            }
-            return counter;
-        } catch (Exception e){
-            return 0;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
         }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Charger other = (Charger) obj;
+        return this.id == other.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
 }

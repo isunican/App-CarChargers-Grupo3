@@ -8,8 +8,7 @@ MainView -right0)- MainPresenter : IMainContract.View
 MainView -up..-> InfoActivity : <<use>>
 MainView -down..> DetailsView : <<use>>
 MainView -down..> ConfigView : <<use>>
-ConfigView -right(0- ConfigPresenter : IMainContract.Presenter
-ConfigView -right0)- ConfigPresenter : IMainContract.View
+
 
 MainPresenter -right(0- Repository : IRepository
 
@@ -27,13 +26,22 @@ class MainPresenter {
    Double userLon
    List<EOperator> filtrosAplicar
    int typeCharger
-   boolean setInit
-   boolean setUbi
-   boolean setType
+   boolean init
+   boolean ubi
+   boolean type
    load()
    APIArguments onApiArgs(int [] idsFiltros, int typeCharger, Double userLat, Double userLon) 
    obtainUbi(double uLat, double uLon)
    resetButton()
+   setUbi(boolean a)
+   setInit(boolean a)
+   setType(boolean a)
+   setKeys()
+   List<Charger> getShownChargers()
+   setView(IMainContract.View view)
+   setUserLat(double userLat)
+   setUserLon(double userLon)
+   setTypeCharger(int typeCharger)
 }
 
 class MainView {
@@ -62,6 +70,8 @@ class ChargersArrayAdapter {
 
 class CommentsArrayAdapter {}
 
+class PhotosArrayAdapter {}
+
 class ConfigView {
    ActionBar actionBar
 }
@@ -70,6 +80,9 @@ class DetailsView {
    double lon
    Charger charger
    pulsaWeb(View view)
+   anhadirInfoTipoCargador(Set<ConnectionType> connectionTypes, StringBuilder builder)
+   anhadirInfoCoste(String coste, StringBuilder builder)
+   anhadirInfoUbicacion(Address address, StringBuilder builder)
 }
 
 interface IMainContract#View {
@@ -80,12 +93,22 @@ interface IMainContract#View {
     showLoadError()
     showChargerDetails(Charger charger)
     showInfoActivity()
+    showUserDetails()
+    showLoading()
+    obtenerUbicacion();
 }
 
 interface IMainContract#Presenter {
-   init(View view);
+   init(View view)
    onChargerClicked(int index)
-   onMenuInfoClicked();
+   onMenuInfoClicked()
+   onMenuUserClicked()
+   obtainUbi(double userLat, double userLon)
+   obtainType(int idCharger)
+   obtainFiltros(List<EOperator> filtrosSeleccionados)
+   resetButton()
+   onMenuRefreshClicked()  
+   setKeys()
 }
 
 interface IRepository {

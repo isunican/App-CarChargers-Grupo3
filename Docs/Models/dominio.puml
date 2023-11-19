@@ -36,10 +36,19 @@ class ConnectionType {
     + Title
 }
 
+class MediaItem {
+    + ID
+    + ItemURL
+    + ItemThumbnailURL
+    + IsEnabled
+    + IsVideo
+}
+
 Charger -down-> "1" AddressInfo : address
 Charger -down-> "1" OperatorInfo : operator
 Charger -down-> "*" UserComment : userComments
 Charger -down-> "*" Connection : connections
+Charger -down-> "*" MediaItem : mediaItems
 Connection -down-> "1" ConnectionType : connectionType
 
 
