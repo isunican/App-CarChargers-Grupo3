@@ -9,8 +9,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvInfo"
-        android:layout_width="300dp"
-        android:layout_height="600dp"
+        android:layout_width="350dp"
+        android:layout_height="630dp"
         app:cardCornerRadius="16dp"
         app:cardElevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -57,8 +57,9 @@
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:text="Tipo de cargador"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:inputType="textMultiLine" />
 
                     <Spinner
                         android:id="@+id/spnChargerType"

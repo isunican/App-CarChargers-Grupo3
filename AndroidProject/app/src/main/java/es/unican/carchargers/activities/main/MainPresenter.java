@@ -68,7 +68,9 @@ public class MainPresenter implements IMainContract.Presenter {
                 }
             }
         } catch (Exception e) {
+
             e.printStackTrace();
+
         }
         args = onAPIargs(filtrosAplicarIDs, typeCharger,userLat,userLon);
 

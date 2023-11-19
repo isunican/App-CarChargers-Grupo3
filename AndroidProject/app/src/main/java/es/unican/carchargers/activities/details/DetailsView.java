@@ -26,6 +26,7 @@ import java.util.Set;
 
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.main.PhotosArrayAdapter;
+import es.unican.carchargers.common.NonScrollListView;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Address;
 import es.unican.carchargers.model.Charger;
@@ -40,7 +41,7 @@ import es.unican.carchargers.activities.main.CommentsArrayAdapter;
 public class DetailsView extends AppCompatActivity  {
 
     public static final String INTENT_CHARGER = "INTENT_CHARGER";
-    public static final String UBICACION = "Ubicacion: ";
+    public static final String UBICACION = "Ubicación: ";
 
     double lat;
     double lon;
@@ -64,11 +65,11 @@ public class DetailsView extends AppCompatActivity  {
         //Lista de comentarios
         TextView tvComment = findViewById(R.id.tvCommentsCount);
 
-        ExpandableHeightListView lvComments = (ExpandableHeightListView) findViewById(R.id.lvComments);
+        NonScrollListView lvComments = findViewById(R.id.lvComments);
         //Lista de fotos
         TextView tvPhoto = findViewById(R.id.tvPhotosCount);
 
-        ExpandableHeightListView lvPhotos = (ExpandableHeightListView) findViewById(R.id.lvPhotos);
+        NonScrollListView lvPhotos = findViewById(R.id.lvPhotos);
 
         // Get Charger from the intent that triggered this activity
         charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
@@ -125,10 +126,15 @@ public class DetailsView extends AppCompatActivity  {
         // Metemos coste en el campo info
         anhadirInfoCoste(charger.usageCost,builder);
 
+
+        
+
         // Metemos el tipo de cargador en el campo info
         anhadirInfoTipoCargador(charger.getConnectionTypes(), builder);
 
         informacion = builder.toString();
+
+        informacion = informacion.trim();
         tvInfo.setText(informacion);
 
         //Metemos la pagina web
@@ -151,7 +157,7 @@ public class DetailsView extends AppCompatActivity  {
         if (charger.userComments != null){
         CommentsArrayAdapter commentArrayAdapter = new CommentsArrayAdapter(this, charger.userComments);
         lvComments.setAdapter(commentArrayAdapter);
-        lvComments.setExpanded(true);
+        //lvComments.setExpanded(true);
         } else {
             List<String> noComments = new ArrayList<>();
             noComments.add("No existen comentarios\nde este punto de carga.");
@@ -170,13 +176,15 @@ public class DetailsView extends AppCompatActivity  {
         if (charger.mediaItems != null){
             PhotosArrayAdapter photoArrayAdapter = new PhotosArrayAdapter(this, charger.mediaItems);
             lvPhotos.setAdapter(photoArrayAdapter);
-            lvPhotos.setExpanded(true);
+            //lvPhotos.setExpanded(true);
         } else {
             List<String> noPhotos = new ArrayList<>();
             noPhotos.add("No existen fotos\nde este punto de carga.");
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, noPhotos);
             lvPhotos.setAdapter(adapter);
         }
+        getWindow().getDecorView().invalidate();
+        getWindow().getDecorView().requestLayout();
     }
 
 
