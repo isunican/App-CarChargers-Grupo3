@@ -40,7 +40,7 @@ import es.unican.carchargers.activities.main.CommentsArrayAdapter;
 public class DetailsView extends AppCompatActivity  {
 
     public static final String INTENT_CHARGER = "INTENT_CHARGER";
-    public static final String UBICACION = "Ubicacion: ";
+    public static final String UBICACION = "Ubicación: ";
 
     double lat;
     double lon;
@@ -125,10 +125,15 @@ public class DetailsView extends AppCompatActivity  {
         // Metemos coste en el campo info
         anhadirInfoCoste(charger.usageCost,builder);
 
+
+        
+
         // Metemos el tipo de cargador en el campo info
         anhadirInfoTipoCargador(charger.getConnectionTypes(), builder);
 
         informacion = builder.toString();
+      
+        informacion.trim();
         tvInfo.setText(informacion);
 
         //Metemos la pagina web
