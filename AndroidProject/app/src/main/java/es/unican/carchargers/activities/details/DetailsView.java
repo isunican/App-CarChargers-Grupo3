@@ -183,9 +183,6 @@ public class DetailsView extends AppCompatActivity  {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, noPhotos);
             lvPhotos.setAdapter(adapter);
         }
-        getWindow().getDecorView().invalidate();
-        getWindow().getDecorView().requestLayout();
-
     }
 
 
