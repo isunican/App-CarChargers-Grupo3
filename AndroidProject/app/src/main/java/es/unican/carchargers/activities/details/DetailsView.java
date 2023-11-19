@@ -133,8 +133,8 @@ public class DetailsView extends AppCompatActivity  {
         anhadirInfoTipoCargador(charger.getConnectionTypes(), builder);
 
         informacion = builder.toString();
-      
-        informacion.trim();
+
+        informacion = informacion.trim();
         tvInfo.setText(informacion);
 
         //Metemos la pagina web
@@ -183,6 +183,8 @@ public class DetailsView extends AppCompatActivity  {
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, noPhotos);
             lvPhotos.setAdapter(adapter);
         }
+        getWindow().getDecorView().invalidate();
+        getWindow().getDecorView().requestLayout();
     }
 
 
