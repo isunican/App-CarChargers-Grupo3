@@ -89,6 +89,10 @@ public class OnLoadTest {
         presenter.load();
 
         assertEquals(null, presenter.getShownChargers());
+        verify(mainView, times(1)).getRepository();
+        verify(mainView, times(1)).showChargers(chargers);
+        verify(mainView, times(1)).showLoadCorrect(chargers.size());
+        verify(mainView, times(0)).showLoadError();
 
         // No se usa verify ya que no se ejecuta ningún método
 

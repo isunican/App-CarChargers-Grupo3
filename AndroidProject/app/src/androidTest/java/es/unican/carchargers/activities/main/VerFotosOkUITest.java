@@ -3,26 +3,28 @@ package es.unican.carchargers.activities.main;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.Espresso.openContextualActionModeOverflowMenu;
-import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
+import static androidx.test.espresso.matcher.ViewMatchers.withTagValue;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.anything;
+import static org.hamcrest.CoreMatchers.is;
 import static es.unican.carchargers.utils.Matchers.hasElements;
 import static es.unican.carchargers.utils.Matchers.isNotEmpty;
 
 import android.content.Context;
+import android.view.View;
+import android.widget.ImageView;
 
-import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -88,10 +90,15 @@ public class VerFotosOkUITest {
         // Seleccionamos el primer cargador de la lista
         onData(anything()).inAdapterView(withId(R.id.lvChargers)).atPosition(0).perform(click());
 
-        //Comprobar que hay 2 fotos
+        //Comprobar que hay una foto
         onView(withId(R.id.tvPhotosCount)).check(matches(withText("Fotos (1)")));
         onView(withId(R.id.lvPhotos)).check(matches(hasElements(1)));
 
+        // Comprueba que la foto es correcta
+        //String tagEsperada = "imagen1";
+        //onData(anything()).inAdapterView(withId(R.id.lvPhotos)).atPosition(0).perform(click());
+        //onView(withId(R.id.ivPhoto)).check(matches(isDisplayed()));
+       // onView(CoreMatchers.allOf(withId(R.id.ivPhoto), withTagValue(is((Object) tagEsperada)))).check(matches(isDisplayed()));
     }
 }
 
