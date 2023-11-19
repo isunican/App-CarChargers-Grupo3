@@ -133,8 +133,8 @@ public class DetailsView extends AppCompatActivity  {
         anhadirInfoTipoCargador(charger.getConnectionTypes(), builder);
 
         informacion = builder.toString();
-      
-        informacion.trim();
+
+        informacion = informacion.trim();
         tvInfo.setText(informacion);
 
         //Metemos la pagina web
