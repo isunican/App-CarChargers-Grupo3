@@ -26,6 +26,7 @@ import java.util.Set;
 
 import es.unican.carchargers.R;
 import es.unican.carchargers.activities.main.PhotosArrayAdapter;
+import es.unican.carchargers.common.NonScrollListView;
 import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Address;
 import es.unican.carchargers.model.Charger;
@@ -64,11 +65,11 @@ public class DetailsView extends AppCompatActivity  {
         //Lista de comentarios
         TextView tvComment = findViewById(R.id.tvCommentsCount);
 
-        ExpandableHeightListView lvComments = (ExpandableHeightListView) findViewById(R.id.lvComments);
+        NonScrollListView lvComments = findViewById(R.id.lvComments);
         //Lista de fotos
         TextView tvPhoto = findViewById(R.id.tvPhotosCount);
 
-        ExpandableHeightListView lvPhotos = (ExpandableHeightListView) findViewById(R.id.lvPhotos);
+        NonScrollListView lvPhotos = findViewById(R.id.lvPhotos);
 
         // Get Charger from the intent that triggered this activity
         charger = Parcels.unwrap(getIntent().getExtras().getParcelable(INTENT_CHARGER));
@@ -156,7 +157,7 @@ public class DetailsView extends AppCompatActivity  {
         if (charger.userComments != null){
         CommentsArrayAdapter commentArrayAdapter = new CommentsArrayAdapter(this, charger.userComments);
         lvComments.setAdapter(commentArrayAdapter);
-        lvComments.setExpanded(true);
+        //lvComments.setExpanded(true);
         } else {
             List<String> noComments = new ArrayList<>();
             noComments.add("No existen comentarios\nde este punto de carga.");
@@ -175,7 +176,7 @@ public class DetailsView extends AppCompatActivity  {
         if (charger.mediaItems != null){
             PhotosArrayAdapter photoArrayAdapter = new PhotosArrayAdapter(this, charger.mediaItems);
             lvPhotos.setAdapter(photoArrayAdapter);
-            lvPhotos.setExpanded(true);
+            //lvPhotos.setExpanded(true);
         } else {
             List<String> noPhotos = new ArrayList<>();
             noPhotos.add("No existen fotos\nde este punto de carga.");
