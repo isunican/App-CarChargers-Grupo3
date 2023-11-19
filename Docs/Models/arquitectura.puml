@@ -26,13 +26,22 @@ class MainPresenter {
    Double userLon
    List<EOperator> filtrosAplicar
    int typeCharger
-   boolean setInit
-   boolean setUbi
-   boolean setType
+   boolean init
+   boolean ubi
+   boolean type
    load()
    APIArguments onApiArgs(int [] idsFiltros, int typeCharger, Double userLat, Double userLon) 
    obtainUbi(double uLat, double uLon)
    resetButton()
+   setUbi(boolean a)
+   setInit(boolean a)
+   setType(boolean a)
+   setKeys()
+   List<Charger> getShownChargers()
+   setView(IMainContract.View view)
+   setUserLat(double userLat)
+   setUserLon(double userLon)
+   setTypeCharger(int typeCharger)
 }
 
 class MainView {
@@ -61,6 +70,8 @@ class ChargersArrayAdapter {
 
 class CommentsArrayAdapter {}
 
+class PhotosArrayAdapter {}
+
 class ConfigView {
    ActionBar actionBar
 }
@@ -69,6 +80,9 @@ class DetailsView {
    double lon
    Charger charger
    pulsaWeb(View view)
+   anhadirInfoTipoCargador(Set<ConnectionType> connectionTypes, StringBuilder builder)
+   anhadirInfoCoste(String coste, StringBuilder builder)
+   anhadirInfoUbicacion(Address address, StringBuilder builder)
 }
 
 interface IMainContract#View {
@@ -93,7 +107,8 @@ interface IMainContract#Presenter {
    obtainType(int idCharger)
    obtainFiltros(List<EOperator> filtrosSeleccionados)
    resetButton()
-   onMenuRefreshClicked()
+   onMenuRefreshClicked()  
+   setKeys()
 }
 
 interface IRepository {

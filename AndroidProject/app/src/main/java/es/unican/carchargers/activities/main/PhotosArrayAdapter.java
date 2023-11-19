@@ -25,6 +25,8 @@ import es.unican.carchargers.model.MediaItem;
 
 public class PhotosArrayAdapter extends ArrayAdapter<MediaItem> {
 
+    int numTag = 0;
+
     public PhotosArrayAdapter(@NonNull Context context, @NonNull List<MediaItem> objects) {
         super(context, 0, objects);
     }
@@ -48,6 +50,8 @@ public class PhotosArrayAdapter extends ArrayAdapter<MediaItem> {
         if (mediaItem.isEnabled && !mediaItem.isVideo) {
 
             ImageView iv = convertView.findViewById(R.id.ivPhoto);
+            iv.setTag("imagen" + numTag);
+            numTag++;
             String imageUrl = mediaItem.itemUrl;
             Picasso.get().load(imageUrl).resize(0 , 600).centerCrop().into(iv);
             iv.setOnClickListener(new View.OnClickListener() {

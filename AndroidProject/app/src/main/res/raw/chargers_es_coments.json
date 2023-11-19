@@ -98,9 +98,375 @@
           "IsAutomatedCheckin": true,
           "IsPositive": true
         }
-      }],
+      },
+        {
+          "ID": "2",
+          "ChargePointID": 0,
+          "CommentTypeID": 0,
+          "CommentType": {
+            "ID": 0,
+            "Title": "coment"
+          },
+          "UserName": "juan",
+          "Comment": "hola",
+          "RelatedURL": "string",
+          "DateCreated": "2019-08-24T14:15:22Z",
+          "User": {
+            "ID": 0,
+            "Username": "juan",
+            "ReputationPoints": 0,
+            "ProfileImageURL": "string"
+          },
+          "CheckinStatusTypeID": 0,
+          "CheckinStatusType": {
+            "ID": 0,
+            "Title": "general",
+            "IsAutomatedCheckin": true,
+            "IsPositive": true
+          }
+        },
+        {
+          "ID": "3",
+          "ChargePointID": 0,
+          "CommentTypeID": 0,
+          "CommentType": {
+            "ID": 0,
+            "Title": "coment"
+          },
+          "UserName": "juan",
+          "Comment": "hola",
+          "RelatedURL": "string",
+          "DateCreated": "2019-08-24T14:15:22Z",
+          "User": {
+            "ID": 0,
+            "Username": "juan",
+            "ReputationPoints": 0,
+            "ProfileImageURL": "string"
+          },
+          "CheckinStatusTypeID": 0,
+          "CheckinStatusType": {
+            "ID": 0,
+            "Title": "general",
+            "IsAutomatedCheckin": true,
+            "IsPositive": true
+          }
+        },
+        {
+          "ID": "4",
+          "ChargePointID": 0,
+          "CommentTypeID": 0,
+          "CommentType": {
+            "ID": 0,
+            "Title": "coment"
+          },
+          "UserName": "juan",
+          "Comment": "hola",
+          "RelatedURL": "string",
+          "DateCreated": "2019-08-24T14:15:22Z",
+          "User": {
+            "ID": 0,
+            "Username": "juan",
+            "ReputationPoints": 0,
+            "ProfileImageURL": "string"
+          },
+          "CheckinStatusTypeID": 0,
+          "CheckinStatusType": {
+            "ID": 0,
+            "Title": "general",
+            "IsAutomatedCheckin": true,
+            "IsPositive": true
+          }
+        },
+        {
+          "ID": "5",
+          "ChargePointID": 0,
+          "CommentTypeID": 0,
+          "CommentType": {
+            "ID": 0,
+            "Title": "coment"
+          },
+          "UserName": "juan",
+          "Comment": "hola",
+          "RelatedURL": "string",
+          "DateCreated": "2019-08-24T14:15:22Z",
+          "User": {
+            "ID": 0,
+            "Username": "juan",
+            "ReputationPoints": 0,
+            "ProfileImageURL": "string"
+          },
+          "CheckinStatusTypeID": 0,
+          "CheckinStatusType": {
+            "ID": 0,
+            "Title": "general",
+            "IsAutomatedCheckin": true,
+            "IsPositive": true
+          }
+        },
+        {
+          "ID": "6",
+          "ChargePointID": 0,
+          "CommentTypeID": 0,
+          "CommentType": {
+            "ID": 0,
+            "Title": "coment"
+          },
+          "UserName": "juan",
+          "Comment": "hola",
+          "RelatedURL": "string",
+          "DateCreated": "2019-08-24T14:15:22Z",
+          "User": {
+            "ID": 0,
+            "Username": "juan",
+            "ReputationPoints": 0,
+            "ProfileImageURL": "string"
+          },
+          "CheckinStatusTypeID": 0,
+          "CheckinStatusType": {
+            "ID": 0,
+            "Title": "general",
+            "IsAutomatedCheckin": true,
+            "IsPositive": true
+          }
+        },
+        {
+          "ID": "7",
+          "ChargePointID": 0,
+          "CommentTypeID": 0,
+          "CommentType": {
+            "ID": 0,
+            "Title": "coment"
+          },
+          "UserName": "juan",
+          "Comment": "hola",
+          "RelatedURL": "string",
+          "DateCreated": "2019-08-24T14:15:22Z",
+          "User": {
+            "ID": 0,
+            "Username": "juan",
+            "ReputationPoints": 0,
+            "ProfileImageURL": "string"
+          },
+          "CheckinStatusTypeID": 0,
+          "CheckinStatusType": {
+            "ID": 0,
+            "Title": "general",
+            "IsAutomatedCheckin": true,
+            "IsPositive": true
+          }
+        },
+        {
+          "ID": "8",
+          "ChargePointID": 0,
+          "CommentTypeID": 0,
+          "CommentType": {
+            "ID": 0,
+            "Title": "coment"
+          },
+          "UserName": "juan",
+          "Comment": "hola",
+          "RelatedURL": "string",
+          "DateCreated": "2019-08-24T14:15:22Z",
+          "User": {
+            "ID": 0,
+            "Username": "juan",
+            "ReputationPoints": 0,
+            "ProfileImageURL": "string"
+          },
+          "CheckinStatusTypeID": 0,
+          "CheckinStatusType": {
+            "ID": 0,
+            "Title": "general",
+            "IsAutomatedCheckin": true,
+            "IsPositive": true
+          }
+        },
+        {
+          "ID": "9",
+          "ChargePointID": 0,
+          "CommentTypeID": 0,
+          "CommentType": {
+            "ID": 0,
+            "Title": "coment"
+          },
+          "UserName": "juan",
+          "Comment": "hola",
+          "RelatedURL": "string",
+          "DateCreated": "2019-08-24T14:15:22Z",
+          "User": {
+            "ID": 0,
+            "Username": "juan",
+            "ReputationPoints": 0,
+            "ProfileImageURL": "string"
+          },
+          "CheckinStatusTypeID": 0,
+          "CheckinStatusType": {
+            "ID": 0,
+            "Title": "general",
+            "IsAutomatedCheckin": true,
+            "IsPositive": true
+          }
+        },{
+          "ID": "10",
+          "ChargePointID": 0,
+          "CommentTypeID": 0,
+          "CommentType": {
+            "ID": 0,
+            "Title": "coment"
+          },
+          "UserName": "juan",
+          "Comment": "hola",
+          "RelatedURL": "string",
+          "DateCreated": "2019-08-24T14:15:22Z",
+          "User": {
+            "ID": 0,
+            "Username": "juan",
+            "ReputationPoints": 0,
+            "ProfileImageURL": "string"
+          },
+          "CheckinStatusTypeID": 0,
+          "CheckinStatusType": {
+            "ID": 0,
+            "Title": "general",
+            "IsAutomatedCheckin": true,
+            "IsPositive": true
+          }
+        }],
       "PercentageSimilarity": null,
-      "MediaItems": null,
+      "MediaItems": [{
+        "ID": "1",
+        "ChargePointID": 0,
+        "ItemURL": null,
+        "ItemThumbnailURL": null,
+        "Comment": "Hola",
+        "IsEnabled": false,
+        "IsVideo": false,
+        "IsFeaturedItem": false,
+        "IsExternalResource": true,
+        "User": null,
+        "DateCreated": "17/11/2023"
+      },{
+        "ID": "2",
+        "ChargePointID": 0,
+        "ItemURL": null,
+        "ItemThumbnailURL": null,
+        "Comment": "Hola",
+        "IsEnabled": false,
+        "IsVideo": false,
+        "IsFeaturedItem": false,
+        "IsExternalResource": true,
+        "User": null,
+        "DateCreated": "17/11/2023"
+      },{
+        "ID": "3",
+        "ChargePointID": 0,
+        "ItemURL": null,
+        "ItemThumbnailURL": null,
+        "Comment": "Hola",
+        "IsEnabled": false,
+        "IsVideo": false,
+        "IsFeaturedItem": false,
+        "IsExternalResource": true,
+        "User": null,
+        "DateCreated": "17/11/2023"
+      },{
+        "ID": "4",
+        "ChargePointID": 0,
+        "ItemURL": null,
+        "ItemThumbnailURL": null,
+        "Comment": "Hola",
+        "IsEnabled": false,
+        "IsVideo": false,
+        "IsFeaturedItem": false,
+        "IsExternalResource": true,
+        "User": null,
+        "DateCreated": "17/11/2023"
+      },{
+        "ID": "5",
+        "ChargePointID": 0,
+        "ItemURL": null,
+        "ItemThumbnailURL": null,
+        "Comment": "Hola",
+        "IsEnabled": false,
+        "IsVideo": false,
+        "IsFeaturedItem": false,
+        "IsExternalResource": true,
+        "User": null,
+        "DateCreated": "17/11/2023"
+      },{
+        "ID": "6",
+        "ChargePointID": 0,
+        "ItemURL": null,
+        "ItemThumbnailURL": null,
+        "Comment": "Hola",
+        "IsEnabled": false,
+        "IsVideo": false,
+        "IsFeaturedItem": false,
+        "IsExternalResource": true,
+        "User": null,
+        "DateCreated": "17/11/2023"
+      },{
+        "ID": "7",
+        "ChargePointID": 0,
+        "ItemURL": null,
+        "ItemThumbnailURL": null,
+        "Comment": "Hola",
+        "IsEnabled": false,
+        "IsVideo": false,
+        "IsFeaturedItem": false,
+        "IsExternalResource": true,
+        "User": null,
+        "DateCreated": "17/11/2023"
+      },{
+        "ID": "8",
+        "ChargePointID": 0,
+        "ItemURL": null,
+        "ItemThumbnailURL": null,
+        "Comment": "Hola",
+        "IsEnabled": false,
+        "IsVideo": false,
+        "IsFeaturedItem": false,
+        "IsExternalResource": true,
+        "User": null,
+        "DateCreated": "17/11/2023"
+      },{
+        "ID": "9",
+        "ChargePointID": 0,
+        "ItemURL": null,
+        "ItemThumbnailURL": null,
+        "Comment": "Hola",
+        "IsEnabled": false,
+        "IsVideo": false,
+        "IsFeaturedItem": false,
+        "IsExternalResource": true,
+        "User": null,
+        "DateCreated": "17/11/2023"
+      },{
+        "ID": "10",
+        "ChargePointID": 0,
+        "ItemURL": null,
+        "ItemThumbnailURL": null,
+        "Comment": "Hola",
+        "IsEnabled": false,
+        "IsVideo": false,
+        "IsFeaturedItem": false,
+        "IsExternalResource": true,
+        "User": null,
+        "DateCreated": "17/11/2023"
+      },{
+        "ID": "11",
+        "ChargePointID": 0,
+        "ItemURL": null,
+        "ItemThumbnailURL": null,
+        "Comment": "Hola",
+        "IsEnabled": false,
+        "IsVideo": false,
+        "IsFeaturedItem": false,
+        "IsExternalResource": true,
+        "User": null,
+        "DateCreated": "17/11/2023"
+      }
+      ],
       "IsRecentlyVerified": false,
       "DateLastVerified": "2022-11-07T13:28:00Z",
       "ID": 203417,
