@@ -89,7 +89,7 @@ public class APIArguments {
 
     public Integer[] getOperatorIds() {
         if (operatorIds.size() == 0) {
-            return null;
+            return new Integer[0];
         }
         return operatorIds.toArray(new Integer[0]);
     }

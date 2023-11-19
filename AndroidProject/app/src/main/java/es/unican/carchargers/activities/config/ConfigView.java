@@ -24,8 +24,6 @@ public class ConfigView extends AppCompatActivity  {
 
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ActionBar actionBar;

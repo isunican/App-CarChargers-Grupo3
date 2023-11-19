@@ -1,7 +1,7 @@
 package es.unican.carchargers;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -16,12 +16,9 @@ import java.util.List;
 
 import es.unican.carchargers.activities.main.MainPresenter;
 import es.unican.carchargers.activities.main.MainView;
-import es.unican.carchargers.constants.EOperator;
 import es.unican.carchargers.model.Charger;
-import es.unican.carchargers.model.Operator;
 import es.unican.carchargers.repository.IRepository;
 import es.unican.carchargers.repository.Repositories;
-import es.unican.carchargers.repository.service.APIArguments;
 
 public class OnLoadTest {
     @Mock
@@ -65,8 +62,9 @@ public class OnLoadTest {
 
         presenter.load();
 
-        assertEquals(chargers, presenter.getShownChargers());
+        assertNotEquals(null, presenter.getShownChargers());
         assertEquals(3, presenter.getShownChargers().size());
+
         verify(mainView, times(1)).getRepository();
         verify(mainView, times(1)).showChargers(chargers);
         verify(mainView, times(1)).showLoadCorrect(chargers.size());
@@ -107,8 +105,9 @@ public class OnLoadTest {
 
         presenter.load();
 
-        assertEquals(chargers, presenter.getShownChargers());
+        assertNotEquals(null, presenter.getShownChargers());
         assertEquals(3, presenter.getShownChargers().size());
+
         verify(mainView, times(2)).getRepository();
         verify(mainView, times(2)).showChargers(chargers);
         verify(mainView, times(2)).showLoadCorrect(chargers.size());

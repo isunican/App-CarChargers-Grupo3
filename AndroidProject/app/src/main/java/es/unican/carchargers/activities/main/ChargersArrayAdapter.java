@@ -96,6 +96,13 @@ public class ChargersArrayAdapter extends ArrayAdapter<Charger> {
                 tv5.setText(String.valueOf(charger.mediaItems .size()));
             }
         }
+
+        // Pongo tags a los iconos
+        ImageView tv6 = convertView.findViewById(R.id.cameraLogo);
+        tv6.setTag("cameraLogo");
+        ImageView tv7 = convertView.findViewById(R.id.commentLogo);
+        tv6.setTag("commentLogo");
+
         return convertView;
     }
 
