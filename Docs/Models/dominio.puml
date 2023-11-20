@@ -6,17 +6,17 @@ class Charger {
     + UsageCost
 }
 
-class OperatorInfo {
+class Operator {
     + ID
     + Title
-    + WebsiteUrl
+    + Website
     + Comments
 }
 
-class AddressInfo {
+class Address {
     + Title
     + Town
-    + StateOrProvince
+    + Province
     + Latitude
     + Longitude
 }
@@ -44,8 +44,8 @@ class MediaItem {
     + IsVideo
 }
 
-Charger -down-> "1" AddressInfo : address
-Charger -down-> "1" OperatorInfo : operator
+Charger -down-> "1" Address : address
+Charger -down-> "1" Operator : operator
 Charger -down-> "*" UserComment : userComments
 Charger -down-> "*" Connection : connections
 Charger -down-> "*" MediaItem : mediaItems
